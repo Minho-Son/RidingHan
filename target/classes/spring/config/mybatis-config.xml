@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- doctype선언문은 반드시 위에 설정한 대로 되어있어야 함 -->
+<configuration>
+	<!-- 타입 별칭 지정=================== -->
+	<typeAliases>
+		<typeAlias type="com.tis.user.model.MemberVO" alias="Member"/>
+		<typeAlias type="com.tis.group.model.ChatVO" alias="Chat"/>
+		<typeAlias type="com.tis.group.model.PagingVO" alias="Paging"/>
+
+	</typeAliases>
+	<!-- 타입 별칭 지정=================== -->
+	<mappers>
+		<mapper resource="spring/mapper/UserMapper.xml"/>
+		<mapper resource="spring/mapper/ChatMapper.xml"/>
+	</mappers>
+</configuration>

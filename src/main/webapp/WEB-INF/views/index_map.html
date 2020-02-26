@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="format-detection" content="email=no">
+	<link rel="exerd icon" href="asset/images/favicon.ico">
+	<title>RunHangang Map</title>
+	<meta name="description" content="mypet">
+	<meta name="keywords" content="mypet">
+
+	<!--자바스크립트 / CSS-->
+	<link href="asset/css/style.css" rel="stylesheet">
+	<!--script src="asset/js/jquery.min.js"></script-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="asset/js/common.js"></script>
+	<script src="asset/js/custom.js"></script>
+
+	<!--부트스트랩-->
+	<link rel="stylesheet" href="asset/css/bootstrap.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<!-- ===== wrap ====== -->
+	<div id="wrap" class="section">
+		<!-- map 검색 -->
+		<div id="map_search">
+			<a class="logo" href="index.html">
+				<img src="./asset/images/RUN_LOGO.png"></a>
+			<img src="./asset/images/hangang_kor.png">
+			<p class="sub">마이 라이딩</p>
+			<div class="search-bar">
+				<input type="search" id="searchingPlace" placeholder="장소, 주소 검색" value="" />
+				<input id="map_submit" class="icon" type="image" src="./asset/images/search.png" value="" />
+			</div>
+		</div>
+		<div id="map_check">
+			<span class="departure">출발지</span>
+			<button type="button" class="mappick"><img src="asset/images/mappick.png" alt="chooseAdress"></button>
+			<br />
+			<button type="button" submit="" class="addpath"><img src="asset/images/plus2.png" alt="add" /></button>
+			<span class="addpathtxt"> 중간 경유지 추가</span>
+			<!--if 버튼이 눌릴 시 중간 경유지 추가창 하나 더 뜸-->
+			<br />
+			<span class="arrival">도착지</span>
+			<button type="button" submit="" class="mappick"><img src="asset/images/mappick.png" alt="chooseAdress"></button>
+			<br />
+			<div style="text-align:center;">
+				<input id="map_send" type="button" value="경로 찾기" />
+			</div>
+		</div>
+
+	</div><!-- ===== /indexwrap ====== -->
+</body>
+
+</html>
