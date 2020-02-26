@@ -124,7 +124,7 @@
 		</dependency>
 		<!-- Oracle Driver (중앙저장소에 ojdbc6.jar가 없음) 로컬로 지정하자 -->
 		<dependency>
-			<groupId>com.oracle</groupId>
+			<groupId>com.oracle</groupId> 
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.3</version>
 			<scope>system</scope>
