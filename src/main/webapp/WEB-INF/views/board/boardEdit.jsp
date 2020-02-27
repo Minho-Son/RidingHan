@@ -32,7 +32,7 @@
 			<tr>
 				<td width="20%">작성자</td>
 				<td width="30%">
-					${bi.board_user_no}
+					${bi.user_id}
 				</td>
 			</tr>
 			

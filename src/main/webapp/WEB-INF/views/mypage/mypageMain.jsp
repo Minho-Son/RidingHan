@@ -19,7 +19,7 @@
             <div class="inner4">
                <div class="group-left">
                   <p class="micon">마이페이지</p>
-                  <p style="color:#72787F">환영합니다 <b style="color:#337AF2">성정민</b>님</p>
+                  <p style="color:#72787F">환영합니다 <b style="color:#337AF2">{user.user_name}</b>님</p>
                   <!-- '성정민'에 회원 이름 나오도록 -->
                   <hr />
                   <p class="mtxt_blue">계정</p>
@@ -44,7 +44,7 @@
                            <p class="mtxt_black">다녀왔던 여행제목</p><br />
                            <p class="mtxt_gray3">다녀왔던 여행소개</p><br />
                            <p class="mtxt_small_blue">송파구 송파대로 맛있는 국밥집 </p>
-                           <img class="m-arrow" src="./asset/images/blt_open.png" />
+                           <img class="m-arrow" src="../asset/images/blt_open.png" />
                            <p class="mtxt_small_blue">송파구 송파대로 345</p><br />
                            <p class="mtxt_small_gray">2020-02-24</p>
                         </div>

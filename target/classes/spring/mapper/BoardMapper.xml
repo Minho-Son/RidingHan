@@ -16,7 +16,7 @@
       values (board_seq.nextval,#{board_title},#{board_user_no},#{board_pwd},#{board_content},sysdate,'default.jpg') 
    </insert>
    <select id="selectBoardView" parameterType="int" resultType="Board">
-      select board_idx,board_title,board_pwd,board_content from board where board_idx=#{value}
+      select board_idx,board_title,board_pwd,board_content,board_wdate,(select user_id from member where user_no=board_user_no) user_id from board where board_idx=#{value}
    </select>
    <update id="editBoard" parameterType="board">
       update board set board_title=#{board_title},board_content=#{board_content},board_pwd=#{board_pwd}
