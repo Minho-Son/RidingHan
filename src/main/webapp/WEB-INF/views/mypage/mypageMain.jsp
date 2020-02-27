@@ -7,7 +7,7 @@
 <c:import url="/top"/>
 <!-- ===== 로그인 ====== -->
 <script type="text/javascript">
-<script>
+
       function showFavorite() {
          window.open("favorite.html", "chatpop", "width=600, height=800, top=0, resizable=no")
       }
@@ -15,7 +15,7 @@
 
    <!-- 마이페이지 -->
       <div id="container">
-         <div class="inbx">
+         
             <div class="inner4">
                <div class="group-left">
                   <p class="micon">마이페이지</p>
@@ -143,6 +143,10 @@
                </div>
             </div>
          </div>
-      </div>
+
       
-<c:import url="/foot"/>
+<%-- <c:import url="/foot"/> --%>
+
+
+
+

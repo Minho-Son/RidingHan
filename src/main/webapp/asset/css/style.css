@@ -43,8 +43,7 @@ F7F8F9
 #container form input{margin-bottom:10px;}
 
 /*회원가입*/
-#container .emailbtn{margin-bottom:10px; width: 470px; }
-#container input{margin-bottom: 10px;}
+#container input{margin-bottom: 0}
 #container .checks{text-align:left; font-size: 0.9rem; margin-top: 1%;margin-bottom:30px;}
 #container label>a{color: #015EC7;}
 

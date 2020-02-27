@@ -198,38 +198,41 @@
 				<hr color="#659DEF" height="1px">
 				<span>또는</span>
 
-				<form name="f" id="f" action="signup" method="POST" >
-					<div class="form-group col-md-6 offset-md-3">
+				<form name="f" id="f" action="signup" method="POST">
+					<div class="form-group col-md-6 offset-md-3" style="padding: 0">
 						<div class="form-inline">
-							<div class="col-md-9" style="padding:0">	
-							<input type="text" name="user_id" id="user_id"
-								placeholder="이메일">
+							<div class="col-md-9" style="padding: 0;margin-bottom: 5px">
+								<input type="text" name="user_id" id="user_id" placeholder="이메일">
 							</div>
-							<div class=" col-md-2">	
-							<button type="button"
-								class="form-control btn btn-primary" style="margin-bottom:10px" id="user_idChk">중복체크</button>
+							<div class=" col-md-3">
+								<button type="button" class="form-control btn btn-primary"
+									style="margin-bottom: 15px" id="user_idChk">중복체크</button>
 							</div>
 						</div>
 						<div class="form-group">
-						<button type="button" class="emailbtn btn btn-primary"
-							submit="button">인증 메일 전송</button>
+							<button type="button" class="emailbtn btn btn-primary col-md-12"
+								submit="button">인증 메일 전송</button>
 						</div>
 						<div class="form-group">
-						<input type="password" name="pwd" id="pwd" class="form-control"
-							placeholder="비밀번호 (영문, 숫자, 특수문자 8-13자)"> <input
-							type="password" name="pwd2" id="pwd2" class="form-control"
-							placeholder="비밀번호 확인"> 
-						</div>
-						<div class="form-group">	
-							<input type="text"
-							name="user_name" id="user_name" class="form-control"
-							placeholder="이름 (2-15자)">
+							<input type="password" name="pwd" id="pwd" class="form-control"
+								placeholder="비밀번호 (영문, 숫자, 특수문자 8-13자)"
+								style="margin-bottom: 15px"> <input
+								type="password" name="pwd2" id="pwd2" class="form-control"
+								placeholder="비밀번호 확인">
 						</div>
 						<div class="form-group">
-							<input type=text name="nickName" id="nickName" class="col-md-9"
-								placeholder="닉네임">
-							<button type="button"
-								class="form-control btn btn-primary col-md-2" id="nickChk">중복체크</button>
+							<input type="text" name="user_name" id="user_name"
+								class="form-control" placeholder="이름 (2-15자)">
+						</div>
+
+						<div class="form-inline">
+							<div class="col-md-9" style="padding: 0">
+								<input type=text name="nickName" id="nickName" placeholder="닉네임">
+							</div>
+							<div class="col-md-2">
+								<button type="button" class="form-control btn btn-primary"
+									id="nickChk" style="margin-bottom: 10px">중복체크</button>
+							</div>
 						</div>
 
 						<div class="checks">

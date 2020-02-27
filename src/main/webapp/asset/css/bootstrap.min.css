@@ -2123,7 +2123,7 @@ pre code {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #659DEF;
+  color: #6c757d;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #659DEF;
@@ -2149,7 +2149,7 @@ pre code {
 }
 
 .form-control:focus {
-  color: #495057;
+  color: #6c757d;
   background-color: #fff;
   border-color: #80bdff;
   outline: 0;
@@ -2157,27 +2157,27 @@ pre code {
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #659DEF;
+  color: #6c757d;
   opacity: 1
 }
 
 .form-control::-moz-placeholder {
-  color: #659DEF;
+  color: #6c757d;
   opacity: 1
 }
 
 .form-control:-ms-input-placeholder {
-  color: #659DEF;
+  color: #6c757d;
   opacity: 1
 }
 
 .form-control::-ms-input-placeholder {
-  color: #659DEF;
+  color: #6c757d;
   opacity: 1
 }
 
 .form-control::placeholder {
-  color: #659DEF;
+  color: #6c757d;
   opacity: 1
 }
 
@@ -2187,7 +2187,7 @@ pre code {
 }
 
 select.form-control:focus::-ms-value {
-  color: #495057;
+  color: #015EC7;
   background-color: #fff
 }
 
