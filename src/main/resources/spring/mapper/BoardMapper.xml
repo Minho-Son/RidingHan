@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tis.board.mapper.BoardMapper">
+   <select id="getAllBoardListPaging" resultType="Board" parameterType="com.tis.board.model.PagingVO">
+      select * from(
+      select  board.*,row_number() over(order by board_idx desc) rn
+      from board) where rn between #{start} and #{end}
+   </select>
+   <select id="getTotalCount" resultType="int">
+      select count(*) from board
+   </select>
+   <insert id="insertBoard" parameterType="Board">
+      insert into board (board_idx,board_title,board_pwd,board_content,board_wdate,board_img)
+      values (board_seq.nextval,#{board_title},#{board_pwd},#{board_content},sysdate,'default.jpg') 
+   </insert>
+   <select id="selectBoardView" parameterType="int" resultType="Board">
+      select board_idx,board_title,board_pwd,board_content from board where board_idx=#{value}
+   </select>
+   <update id="editBoard" parameterType="board">
+      update board set board_title=#{board_title},board_content=#{board_content},board_pwd=#{board_pwd}
+      where board_idx= #{board_idx}
+   </update>
+   <update id="deleteBoard" parameterType="int">
+      delete from board where board_idx=#{board_idx}
+   </update>
+</mapper>
