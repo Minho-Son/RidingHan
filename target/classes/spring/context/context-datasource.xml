@@ -11,36 +11,36 @@
       (2) JNDI 사용하는 방법
    -->
    
-   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
    <property name="url" value="jdbc:oracle:thin:@localhost:1521/XE"/>
-   <property name="username" value="ridingHan"/>
+   <property name="username" value="ridinghan"/>
    <property name="password" value="tiger"/>
    </bean>
    
-   <!-- (2) JNDI등록하는 방법 -->
+   (2) JNDI등록하는 방법
    <bean id="jndiDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-   		<property name="jndiName" value="java:comp/env/myoracle/ridingHan"/>
-   </bean>
+   		<property name="jndiName" value="java:comp/env/myoracle/ridinghan"/>
+   </bean> -->
    
    <!-- (3)교재 83p, 176p HikariCP -->
-   <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-	   <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-	   <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521/XE"/>
-	   <property name="username" value="ridinghan"/>
-	   <property name="password" value="tiger"/>
+  <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+      <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+      <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521/XE"/>
+      <property name="username" value="ridinghan"/>
+      <property name="password" value="tiger"/>
    </bean>
    <bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-   		<constructor-arg ref="hikariConfig"/>
+      <constructor-arg ref="hikariConfig"/>
    </bean>
    
-   <!-- [2] SqlSessionFactoryBean등록 -->
+   <!-- [2] SqlSessionFactoryBean등록  -->
    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-   <property name="dataSource" ref="jndiDataSource"/>
-   <property name="configLocation" value="classpath:spring/config/mybatis-config.xml"></property>
+     <property name="dataSource"  ref="hikariDataSource" />
+     <property name="configLocation" value="classpath:spring/config/mybatis-config.xml"/>
    </bean>
    
-   <!-- [3] SqlSessionFactoryTemplate 등록 -->
+   <!-- [3] SqlSessionTemplate 등록 -->
    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
       <constructor-arg ref="sqlSessionFactory"/>
    </bean>
@@ -48,6 +48,7 @@
    <!-- [4] mybatis-spring:scan 설정 -->
    <mybatis-spring:scan base-package="com.tis.user.mapper"/>
    <mybatis-spring:scan base-package="com.tis.group.mapper"/>
+   <mybatis-spring:scan base-package="com.tis.board.mapper"/>
    
 </beans>
 

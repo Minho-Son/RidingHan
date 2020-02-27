@@ -25,34 +25,34 @@ public class LoginController {
 
 	@Autowired
 	private CommonUtil util;
-	
+
 	@Inject
 	private UserService userService;
-	
-	/////////////////////////·Î±×ÀÎ
-	@RequestMapping(value="/login",method=RequestMethod.GET)
+
+	///////////////////////// ë¡œê·¸ì¸
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginForm() {
 		return "login";
 	}
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String loginCheck(
-		@RequestParam(name="userId", defaultValue="") String user_id,
-		@RequestParam(defaultValue="") String pwd,
-		Model model, HttpSession ses, HttpServletResponse res
-		) throws NotUserException {
-			//name="userid" => htmlÀÇ input nameÀ» ±â¼ú
-		log.info("user_id="+user_id+", pwd="+pwd);
-			
-		MemberVO user=userService.isLoginOk(user_id, pwd);
-		log.info("user="+user);
-		if(user!=null) {
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String loginCheck(@RequestParam(name = "userId", defaultValue = "") String user_id,
+			@RequestParam(defaultValue = "") String pwd, Model model, HttpSession ses, HttpServletResponse res)
+			throws NotUserException {
+		// name="userid" => htmlì˜ input nameì„ ê¸°ìˆ 
+		log.info("user_id=" + user_id + ", pwd=" + pwd);
+
+		MemberVO user = userService.isLoginOk(user_id, pwd);
+		log.info("user=" + user);
+		if (user != null) {
 			ses.setAttribute("user", user);
 			ses.setAttribute("userMode", user.getState());
-		}//-------------------------	
-		
+		} // -------------------------
+
 		return "redirect:mypage/myInfo";
 
-	}//---------------------------
+	}// ---------------------------
+
 	@RequestMapping("/logout")
 	public String logout(HttpSession ses) {
 		ses.invalidate();

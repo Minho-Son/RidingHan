@@ -8,9 +8,9 @@
    <!-- 트랜잭션 빈을 자동으로 등록하도록 설정 -->
    <!-- <tx:annotation-driven/> -->
    
-   <!--  transactionManager 빈 등록 -->
-   <bean id="transactionManager" 
-   class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-   <property name="dataSource" ref="dataSource"/>
+   <!--  transcationManager빈 등록-->
+   <bean id="transactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+       <property name="dataSource" ref="hikariDataSource"/>
    </bean>
 </beans>
