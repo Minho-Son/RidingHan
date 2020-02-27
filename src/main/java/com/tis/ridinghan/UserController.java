@@ -76,7 +76,13 @@ public class UserController {
 		return map;
 	}
 	
-	
+	/////////////////////////마이페이지 창
+	@GetMapping("/mypage")
+	public String showMypageForm() {
+		return "/mypage/mypageMain";		
+	}
+		
+	/////////////////////////회원정보 수정
 	@GetMapping("/mypage/myInfo")
 	public String showMyInfo(Model m, HttpSession ses) {
 		return "mypage/memberInfo";

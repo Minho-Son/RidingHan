@@ -49,13 +49,13 @@ public class LoginController {
 			ses.setAttribute("userMode", user.getState());
 		} // -------------------------
 
-		return "redirect:mypage/myInfo";
+		return "redirect:mypage";
 
 	}// ---------------------------
 
 	@RequestMapping("/logout")
 	public String logout(HttpSession ses) {
 		ses.invalidate();
-		return "redirect:login";
+		return "redirect:index";
 	}
 }

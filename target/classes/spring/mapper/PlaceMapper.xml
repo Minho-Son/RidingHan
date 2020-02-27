@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 인터페이스명과 namespace를 동일하게 주어야 함  -->
+<mapper 
+   namespace="com.tis.place.mapper.PlaceMapper">
+   
+   <!-- id는 UserMapper인터페이스의 메소드명과 동일하게 준다  -->
+   <insert id="registerPlace" parameterType="Place">
+   		<selectKey keyProperty="place_no" order="BEFORE" resultType="int">
+   		 	select place_seq.nextval from dual
+   		</selectKey>
+   		insert into place values(#{place_no},#{title},#{latitude},
+   		#{longitude},#{road_address:VARCHAR},#{jibun_address:VARCHAR})
+   </insert>
+   
+   <select id="getTotalCount" resultType="int">
+   		select count(place_no) from place
+   </select>
+   
+   <select id="getAllPlaceListPaging" resultType="Place"
+   	parameterType="Paging">
+   		<!-- select * from place order by place_no desc -->
+   		 select * from(
+		  select row_number() over(order by place_no desc) rn, place.*
+		  from place ) where rn between #{start} and #{end}
+   </select>
+   
+   <select id="findPlaceByTitle" parameterType="string" resultType="Place">
+   		select * from place where title=#{title}
+   </select>
+   
+</mapper>
+   

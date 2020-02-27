@@ -41,12 +41,12 @@
 		<header id="header2">
 			<div class="inner2">
 				<h1 class="logo">
-					<a href="index.html"></a>
+					<a href="<%=myctx%>/index"></a>
 				</h1>
 				<div class="utill2">
 
-					<a href="#" target="_blank" class="doc">커뮤니티</a> <a href="#"
-						target="_blank" class="sup">나의 여행</a>
+					<a href="<%=myctx%>/chat" target="_blank" class="doc">커뮤니티</a>
+					<a href="<%=myctx%>/map"	target="_blank" class="sup">나의 여행</a>
 				</div>
 				<div class="lang2">
 					<c:if test="${user eq null}">
@@ -74,10 +74,10 @@
 				<ul class="menu">
 					<li><em>Menu</em>
 						<ul>
-							<li><a href="#">커뮤니티</a></li>
-							<li><a href="pricing01.html">마이 라이딩</a></li>
-							<li><a href="#" target="_blank">나의 여행</a></li>
-							<li><a href="#" target="_blank">마이페이지</a></li>
+							<li><a href="<%=myctx%>/board">게시판</a></li>
+							<li><a href="<%=myctx%>/map">마이 라이딩</a></li>
+							<li><a href="<%=myctx%>/map" target="_blank">나의 여행</a></li>
+							<li><a href="<%=myctx%>/mypage" target="_blank">마이페이지</a></li>
 							<li><a href="policy.html">개인 정보 정책 </a></li>
 							<li><a href="service.html">서비스 약관</a></li>
 						</ul></li>

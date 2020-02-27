@@ -3,6 +3,7 @@ package com.tis.ridinghan;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.tis.board.model.BoardVO;
 import com.tis.board.model.PagingVO;
 import com.tis.board.service.BoardService;
+import com.tis.user.model.MemberVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -27,18 +29,29 @@ public class BoardController {
 	private BoardService boardService;
 
 	@RequestMapping(value = "/boardInsert", method = RequestMethod.POST)
-	public String insertBoard(@ModelAttribute BoardVO board, Model model) {
-		int n = 0;
-		n = this.boardService.insertBoard(board);
+	   public String insertBoard(@ModelAttribute BoardVO board, Model model, HttpSession ses) {
+	   
+	      MemberVO user=(MemberVO)ses.getAttribute("user");
+	      if(user==null) {
+	         String str="로그인 해야 이용가능합니다.";
+	         String loc="login";
+	         model.addAttribute("msg", str);
+	         model.addAttribute("loc", loc);
+	         
+	         return "message";
+	      }
+	      board.setBoard_user_no(user.getUser_no());
+	      board.setUser_id(user.getUser_id());
+	      int n = 0;
+	      n = this.boardService.insertBoard(board);
 
-		String str = (n > 0) ? "글쓰기 성공" : "글쓰기 실패";
-		String loc = (n > 0) ? "board" : "javascript:history.back()";
-		model.addAttribute("msg", str);
-		model.addAttribute("loc", loc);
+	      String str = (n > 0) ? "글쓰기 성공" : "글쓰기 실패";
+	      String loc = (n > 0) ? "board" : "javascript:history.back()";
+	      model.addAttribute("msg", str);
+	      model.addAttribute("loc", loc);
 
-		return "message";
-	}
-
+	      return "message";
+	   }
 	@RequestMapping("/board")
 	public String boardList(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
 		int totalCount = boardService.getTotalCount();

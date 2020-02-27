@@ -12,8 +12,8 @@
       select count(*) from board
    </select>
    <insert id="insertBoard" parameterType="Board">
-      insert into board (board_idx,board_title,board_pwd,board_content,board_wdate,board_img)
-      values (board_seq.nextval,#{board_title},#{board_pwd},#{board_content},sysdate,'default.jpg') 
+      insert into board (board_idx,board_title,board_user_no,board_pwd,board_content,board_wdate,board_img)
+      values (board_seq.nextval,#{board_title},#{board_user_no},#{board_pwd},#{board_content},sysdate,'default.jpg') 
    </insert>
    <select id="selectBoardView" parameterType="int" resultType="Board">
       select board_idx,board_title,board_pwd,board_content from board where board_idx=#{value}

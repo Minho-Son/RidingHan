@@ -1,80 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Geocoder | 주소와 좌표 검색 API 사용하기</title>
-<script
-	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<!-- <script type="text/javascript" src="../../docs/js/examples-base.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Geocoder | 주소와 좌표 검색 API 사용하기</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="../../docs/js/examples-base.js"></script>
     <script type="text/javascript" src="../../docs/js/highlight.min.js"></script> -->
-<!-- clientId ==> ncpClientId로 변경해야 인증 됨 -->
-<script type="text/javascript"
-	src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
-<!--   <link rel="stylesheet" type="text/css" href="../../docs/css/examples-base.css" /> -->
-
+    <!-- clientId ==> ncpClientId로 변경해야 인증 됨 -->
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
+	<!--   <link rel="stylesheet" type="text/css" href="../../docs/css/examples-base.css" /> -->
+  
 </head>
 <body>
-	<%
-		System.out.println("여기는 들어오나요?");
-	%>
-	<!-- @category Geocoder -->
 
-	<style type="text/css">
-.search {
-	position: absolute;
-	z-index: 1000;
-	top: 20px;
-	left: 20px;
-}
+<!-- @category Geocoder -->
 
-.search #searchingPlace {
-	width: 150px;
-	height: 20px;
-	line-height: 20px;
-	border: solid 1px #555;
-	padding: 5px;
-	font-size: 12px;
-	box-sizing: content-box;
-}
-
-.search #submit {
-	height: 30px;
-	line-height: 30px;
-	padding: 0 10px;
-	font-size: 12px;
-	border: solid 1px #555;
-	border-radius: 3px;
-	cursor: pointer;
-	box-sizing: content-box;
-}
-
-.search #send {
-	height: 30px;
-	line-height: 30px;
-	padding: 0 10px;
-	font-size: 12px;
-	border: solid 1px #555;
-	border-radius: 3px;
-	cursor: pointer;
-	box-sizing: content-box;
-}
+<style type="text/css">
+.search { position:absolute;z-index:1000;top:20px;left:20px; }
+.search #searchingPlace { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
+.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+.search #send { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
 </style>
 
 <div id="wrap" class="section">
-	<!-- <h2>주소와 좌표 검색 API 사용하기</h2>
-   <p>Geocoder 서브 모듈의 Service 객체를 사용하여 주소로 좌표를 검색하거나(Geocode) 좌표로 주소를 검색하는(Reversegeocode) 예제입니다.<br />
-   입력 창에 주소를 입력하여 검색하면 해당 주소의 좌표로 이동하며, 지도를 클릭하면 해당 지점의 경위도 좌표로 주소를 검색합니다.</p> -->
-	<div id="map" style="width: 732px; height: 600px;">
+    <h2>주소와 좌표 검색 API 사용하기</h2>
+    <p>Geocoder 서브 모듈의 Service 객체를 사용하여 주소로 좌표를 검색하거나(Geocode) 좌표로 주소를 검색하는(Reversegeocode) 예제입니다.<br />
+    입력 창에 주소를 입력하여 검색하면 해당 주소의 좌표로 이동하며, 지도를 클릭하면 해당 지점의 경위도 좌표로 주소를 검색합니다.</p>
+	<div id="map" style="width: 100%; height: 600px;">
 		<div class="search" style="">
-			<input id="searchingPlace" type="text" placeholder="검색할 장소"
-				value="당산역" /> <input id="submit" type="button" value="검색" /> <input
-				id="send" type="button" value="경로찾기" />
+			<input id="searchingPlace" type="text" placeholder="검색할 장소" value="당산역" />
+			<input id="submit" type="button" value="검색" />
+			<input id="send" type="button" value="경로찾기" />
 		</div>
 	</div>
 	<div id="points"></div>
@@ -82,13 +43,13 @@
 </div>
 
 <script id="code">
-	var selectPoints = 0; //클릭한 지점
-	var selectedPoints = []; //클릭한 지점들 배열
+	var selectPoints = 0;
+	var selectedPoints = [];
 	var bicycleLayer = new naver.maps.BicycleLayer();
-	var mapCenter = new naver.maps.LatLng(37.5349277, 126.9027279);
-
+	var mapCenter = new naver.maps.LatLng(37.5349277,126.9027279);
+	
 	function setMapCenter(center) {
-		mapCenter = center;
+		mapCenter=center;
 	}
 
 	var mapOptions = {
@@ -127,98 +88,109 @@
 		anchorSkew : true,
 		anchorColor : "#eee",
 		pixelOffset : new naver.maps.Point(20, -20)
-	});//정보창 디자인
+	});
 
 	map.setCursor('pointer');
-
+	
 	function searchCoordinateToAddress(latlng) {
-		infoWindow.close();//정보창 닫기
+
+		infoWindow.close();
+
 		naver.maps.Service
-			.reverseGeocode(
-				{
-					coords : latlng,
-					orders : [ naver.maps.Service.OrderType.ADDR,
-							naver.maps.Service.OrderType.ROAD_ADDR ]
-							.join(',')
-				},
-				function(status, response) {
-					if (status === naver.maps.Service.Status.ERROR) {
-						return alert('Something Wrong!');
-					}
-					var items = response.v2.results, address = '', htmlAddresses = [];
-					var markerInfo = {
-						title : "",
-						x : "",
-						y : "",
-						road : "",
-						jibun : ""
-					};
-					markerInfo.title = "클릭한 지점";
-					markerInfo.x = latlng.x;
-					markerInfo.y = latlng.y;
+				.reverseGeocode(
+						{
+							coords : latlng,
+							orders : [ naver.maps.Service.OrderType.ADDR,
+									naver.maps.Service.OrderType.ROAD_ADDR ]
+									.join(',')
+						},
+						function(status, response) {
+							if (status === naver.maps.Service.Status.ERROR) {
+								return alert('Something Wrong!');
+							}
 
-					for (var i = 0, ii = items.length, item, addrType; i < ii; i++) {
-						item = items[i];
-						address = makeAddress(item) || '';
-						addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
-						htmlAddresses.push((i + 1) + '. '
-								+ addrType + ' ' + address);
-						if (addrType == '[도로명 주소]') {
-							markerInfo.road = address;
-						} else {
-							markerInfo.jibun = address;
-						}
-					}
-					markerInfos.push(markerInfo);
-					viewMarkers();
+							var items = response.v2.results, address = '', htmlAddresses = [];
+							var markerInfo = {
+									title : "",
+									x : "",
+									y : "",
+									road : "",
+									jibun : ""
+								};
+							markerInfo.title="클릭한 지점";
+							markerInfo.x = latlng.x;
+							markerInfo.y = latlng.y;
 
-					infoWindow.setContent([
-						'<div style="padding:10px;min-width:200px;line-height:150%;">',
-						'<h4 style="margin-top:5px;">검색 좌표</h4><br>',
-						latlng,
-						'<br>',
-						latlng.x,
-						",",
-						latlng.y,
-						'<br>',
-						htmlAddresses.join('<br />'),
-						'</div><button id="dptBtn" onclick="clickBtn()">출발지 지정</button> | <button id="arrBtn" onclick="clickBtn()">도착지 지정</button>'
-						].join('\n'));
+							for (var i = 0, ii = items.length, item, addrType; i < ii; i++) {
+								item = items[i];
+								address = makeAddress(item) || '';
+								addrType = item.name === 'roadaddr' ? '[도로명 주소]'
+										: '[지번 주소]';
 
-					infoWindow.open(map, latlng);//정보창 열기
-				});//reverseGeocode---------------------------
+								htmlAddresses.push((i + 1) + '. ' + addrType
+										+ ' ' + address);
+								
+								if(addrType=='[도로명 주소]'){
+									markerInfo.road = address;
+								} else {
+									markerInfo.jibun = address;
+								}
+							}
+							
+							markerInfos.push(markerInfo);
+							viewMarkers();
+							
+							infoWindow
+									.setContent([
+											'<div style="padding:10px;min-width:200px;line-height:150%;">',
+											'<h4 style="margin-top:5px;">검색 좌표</h4><br />',
+											latlng, '<br>',
+											latlng.x,",",latlng.y,'<br>',
+											htmlAddresses.join('<br />'),
+											'</div>' ].join('\n'));
+
+							infoWindow.open(map, latlng);
+						});
 	}
 	
-	//주소명 만드는 메소드------------------
 	function makeAddress(item) {
 		if (!item) {
 			return;
 		}
+
 		var name = item.name, region = item.region, land = item.land, isRoadAddress = name === 'roadaddr';
+
 		var sido = '', sigugun = '', dongmyun = '', ri = '', rest = '';
+
 		if (hasArea(region.area1)) {
 			sido = region.area1.name;
 		}
+
 		if (hasArea(region.area2)) {
 			sigugun = region.area2.name;
 		}
+
 		if (hasArea(region.area3)) {
 			dongmyun = region.area3.name;
 		}
+
 		if (hasArea(region.area4)) {
 			ri = region.area4.name;
 		}
+
 		if (land) {
 			if (hasData(land.number1)) {
 				if (hasData(land.type) && land.type === '2') {
 					rest += '산';
 				}
+
 				rest += land.number1;
 
 				if (hasData(land.number2)) {
 					rest += ('-' + land.number2);
 				}
 			}
+
 			if (isRoadAddress === true) {
 				if (checkLastString(dongmyun, '면')) {
 					ri = land.name;
@@ -226,91 +198,61 @@
 					dongmyun = land.name;
 					ri = '';
 				}
+
 				if (hasAddition(land.addition0)) {
 					rest += ' ' + land.addition0.value;
 				}
 			}
 		}
+
 		return [ sido, sigugun, dongmyun, ri, rest ].join(' ');
 	}
-	
+
 	function hasArea(area) {
 		return !!(area && area.name && area.name !== '');
 	}
+
 	function hasData(data) {
 		return !!(data && data !== '');
 	}
+
 	function checkLastString(word, lastString) {
 		return new RegExp(lastString + '$').test(word);
 	}
+
 	function hasAddition(addition) {
 		return !!(addition && addition.value);
 	}
 
 	function initGeocoder() {
-
+		
 		map.addListener('click', function(e) {
 			searchCoordinateToAddress(e.coord);
 		});
-		
-		//장소 찾기
+
 		$('#searchingPlace').on('keydown', function(e) {
 			var keyCode = e.which;
+
 			if (keyCode === 13) { // Enter Key
 				searchingPlace($('#searchingPlace').val());
 			}
 		});
-		
+
 		$('#submit').on('click', function(e) {
 			e.preventDefault();
 			searchingPlace($('#searchingPlace').val());
 		});
-		
+
 		$('#send').on('click', function(e) {
 			e.preventDefault();
 			// 여기에  경로찾기(direction API) function call
 			findDirection();
 		});
-		
+
 		bicycleLayer.setMap(map);
 	}
-	
-/* 	function clickBtn(){
-		//alert("클릭함");
-		selectPoints++;
-		alert(selectedPoints[0]);
-		if(selectedPoints.length()>=2){
-			$.ajax({
-				type : 'POST',
-				url : '../Directions',
-				data : {
-					startx : selectedPoints[0].x,
-					starty : selectedPoints[0].y,
-					endx : selectedPoints[1].x,
-					endy : selectedPoints[1].y,
-				},
-				dataType : 'json', //응답유형 text
-				cashe : 'false',
-				success : function(res) {
-					//alert(res.route.traavoidcaronly.constructor);
-					//alert(JSON.stringify(res.route.traavoidcaronly));
-					let path, summary;
-					$.each(res.route.traavoidcaronly, function(i, direc) {
-						path = direc.path;
-						summary = direc.summary;
-					})
-					makeDirectionMatrix(path);
-					distance = summary.distance;
-					alert(distance);
-					viewDirection();
-				},
-				error : function(e) {
-					alert('error: ' + e.status);
-				}
-			})
-		}
-	} */
-	 /* $('#direction').on('click', function(e) {
+
+	/* 	$('#direction').on('click', function(e) {
 	 e.preventDefault();
 	 // 여기에  경로찾기(direction API) function call
 	 findDirection();
@@ -428,7 +370,7 @@
 			markerInfos.push(markerInfo);
 		})
 	}
-
+	
 	function viewMarkers() {
 		infoWindow.close();
 		// markerInfos 비우기
@@ -444,8 +386,7 @@
 				anchor : new naver.maps.Point(12, 37),
 				origin : new naver.maps.Point(i * 29, 0)
 			}, marker = new naver.maps.Marker({
-				position : new naver.maps.LatLng(markerInfos[i].y,
-						markerInfos[i].x),
+				position : new naver.maps.LatLng(markerInfos[i].y,markerInfos[i].x),
 				title : markerInfos[i].toString(),
 				map : map,
 				icon : icon
@@ -456,6 +397,7 @@
 
 			marker.addListener('mouseover', onMouseOver);
 			marker.addListener('mouseout', onMouseOut);
+			marker.addListener('click', clickMouse);
 
 			icon = null;
 			marker = null;
@@ -466,12 +408,11 @@
 
 	function displayPointInfo(latlng, title, coordinate, road, jibun) {
 		infoWindow.close();
-		infoWindow
-				.setContent([
-						'<div style="padding:10px;min-width:200px;line-height:150%;">',
-						'<h3 style="text-align:center;" >:: 장소 정보::</h3>',
-						'명칭:', title, '<br>', coordinate, '<br>', road,
-						'<br>', jibun, '<br>', '</div>' ].join('\n'));
+		infoWindow.setContent([
+				'<div style="padding:10px;min-width:200px;line-height:150%;">',
+				'<h3 style="text-align:center;" >:: 장소 정보::</h3>', '명칭:', title, '<br>',
+				coordinate, '<br>', road, '<br>', jibun, '<br>', '</div>' ]
+				.join('\n'));
 		infoWindow.open(map, latlng);
 	}
 
@@ -490,8 +431,8 @@
 							str += "<tr><td>" + place.title + "</td>";
 							str += "<td>" + place.x + "</td>";
 							str += "<td>" + place.y + "</td>";
-							str += "<td>" + place.road + "<br>"
-									+ place.jibun + "</td>";
+							str += "<td>" + place.road + "<br>" + place.jibun
+									+ "</td>";
 							if (i == 0) {
 								str += "<td>출발</td>";
 								if (number == 2) {
@@ -535,8 +476,7 @@
 				+ markerInfos[seq].y;
 		var road = markerInfos[seq].road;
 		var jibun = markerInfos[seq].jibun;
-		displayPointInfo(markers[seq].position, title, coordinate, road,
-				jibun);
+		displayPointInfo(markers[seq].position, title, coordinate, road, jibun);
 	}
 
 	function onMouseOut(e) {

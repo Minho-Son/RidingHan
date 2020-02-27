@@ -25,6 +25,7 @@
    
    <resources mapping="/resources/**" location="/resources/" />
    <resources mapping="/asset/**" location="/asset/" />
+   <resources mapping="/gpx/**" location="/gpx/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory
    		ViewResolver 설정은 servlet-context.xml에 설정되어 있으므로 주석 처리
