@@ -23,68 +23,68 @@
 
 <!-- ===== wrap ====== -->
 <div id="container">
-<div id="wrap" class="section">
-	<!-- map 검색 -->
-	<div id="map" style="width: 90%; height: 600px;"></div>
-	<div id="map_search">
-		<a class="logo" href="index.html"> <img
-			src="asset/images/RUN_LOGO.png"></a> <img
-			src="asset/images/hangang_kor.png">
-		<p class="sub">마이 라이딩</p>
-		<div class="search-bar">
-			<input type="search" id="searchingPlace" placeholder="장소 검색"
-				value="당산역" /> <input id="map_submit" class="icon" type="image"
-				src="asset/images/search.png" value="" />
+	<div id="wrap" class="section">
+		<!-- map 검색 -->
+		<div id="map" style="width: 100%; height: 1080px;"></div>
+		<div id="map_search">
+			<a class="logo" href="index.html"> <img
+				src="asset/images/RUN_LOGO.png"></a> <img
+				src="asset/images/hangang_kor.png">
+			<p class="sub">마이 라이딩</p>
+			<div class="search-bar">
+				<input type="search" id="searchingPlace" placeholder="장소 검색"
+					value="당산역" /> <input id="map_submit" class="icon" type="image"
+					src="asset/images/search.png" value="" />
+			</div>
+		</div>
+		<div id="map_check">
+			<table>
+				<tr>
+					<td><span id="startPointInfo" class="departure">출발지</span></td>
+					<td>
+						<button id="startPoint" type="button" onclick="registerPoint1()"
+							class="mappick">
+							<img src="asset/images/mappick.png" alt="chooseAdress">
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td><span id="endPointInfo" class="arrival">도착지</span></td>
+					<td>
+						<button id="endPoint" type="button" onclick="registerPoint2()"
+							class="mappick">
+							<img src="asset/images/mappick.png" alt="chooseAdress">
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;"><input id="searchRoot"
+						submit="findDirection" type="button" value="경로 찾기" /></td>
+					<td style="text-align: center;"><input id="registerRoot"
+						submit="registerRoot" type="button" value="경로 추가" /></td>
+				</tr>
+			</table>
 		</div>
 	</div>
-	<div id="map_check">
-		<table>
-			<tr>
-				<td><span id="startPointInfo" class="departure">출발지</span></td>
-				<td>
-					<button id="startPoint" type="button" onclick="registerPoint1()"
-						class="mappick">
-						<img src="asset/images/mappick.png" alt="chooseAdress">
-					</button>
-				</td>
-			</tr>
-			<tr>
-				<td><span id="endPointInfo" class="arrival">도착지</span></td>
-				<td>
-					<button id="endPoint" type="button" onclick="registerPoint2()"
-						class="mappick">
-						<img src="asset/images/mappick.png" alt="chooseAdress">
-					</button>
-				</td>
-			</tr>
-			<tr>
-				<td style="text-align: center;"><input id="searchRoot"
-					submit="findDirection" type="button" value="경로 찾기" /></td>
-				<td style="text-align: center;"><input id="registerRoot"
-					submit="registerRoot" type="button" value="경로 추가" /></td>
-			</tr>
-		</table>
-	</div>
-</div>
 
-<!-- 1지점 등록관련 form start--------------------------------------------------- -->
-<form name="point1" id="point1" method="POST" action="registerPlace">
-	<input type="text" name="title" id="title"> <input type="text"
-		name="latitude" id="latitude"> <input type="text"
-		name="longitude" id="longitude"> <input type="text"
-		name="road_address" id="road_address"> <input type="text"
-		name="jibun_address" id="jibun_address">
-</form>
-<!-- ----------------------------------------------------------------------- -->
-<!-- 2지점 등록관련 form start--------------------------------------------------- -->
-<form name="point2" id="point2" method="POST" action="registerPlace">
-	<input type="text" name="title" id="title2"> <input
-		type="text" name="latitude" id="latitude2"> <input
-		type="text" name="longitude" id="longitude2"> <input
-		type="text" name="road_address" id="road_address2"> <input
-		type="text" name="jibun_address" id="jibun_address2">
-</form>
-<!-- ----------------------------------------------------------------------- -->
+	<!-- 1지점 등록관련 form start--------------------------------------------------- -->
+	<form name="point1" id="point1" method="POST" action="registerPlace">
+		<input type="text" name="title" id="title"> <input type="text"
+			name="latitude" id="latitude"> <input type="text"
+			name="longitude" id="longitude"> <input type="text"
+			name="road_address" id="road_address"> <input type="text"
+			name="jibun_address" id="jibun_address">
+	</form>
+	<!-- ----------------------------------------------------------------------- -->
+	<!-- 2지점 등록관련 form start--------------------------------------------------- -->
+	<form name="point2" id="point2" method="POST" action="registerPlace">
+		<input type="text" name="title" id="title2"> <input
+			type="text" name="latitude" id="latitude2"> <input
+			type="text" name="longitude" id="longitude2"> <input
+			type="text" name="road_address" id="road_address2"> <input
+			type="text" name="jibun_address" id="jibun_address2">
+	</form>
+	<!-- ----------------------------------------------------------------------- -->
 </div>
 
 <!-- ===== /indexwrap ====== -->
@@ -161,7 +161,7 @@
 		zoomControl : true,
 		zoomControlOptions : {
 			style : naver.maps.ZoomControlStyle.LARGE,
-			position : naver.maps.Position.LEFT_CENTER
+			position : naver.maps.Position.RIGHT_CENTER
 		},
 		scaleControl : true,
 		scaleControlOptions : {
@@ -226,8 +226,8 @@
 								addrType = item.name === 'roadaddr' ? '[도로명 주소]'
 										: '[지번 주소]';
 
-								htmlAddresses.push((i + 1) + '. '
-										+ addrType + ' ' + address);
+								htmlAddresses.push((i + 1) + '. ' + addrType
+										+ ' ' + address);
 
 								if (addrType == '[도로명 주소]') {
 									markerInfo.road = address;
@@ -499,12 +499,11 @@
 
 	function displayPointInfo(latlng, title, coordinate, road, jibun) {
 		infoWindow.close();
-		infoWindow
-				.setContent([
-						'<div style="padding:10px;min-width:200px;line-height:150%;">',
-						'<h3 style="text-align:center;" >:: 장소 정보::</h3>',
-						'명칭:', title, '<br>', coordinate, '<br>', road,
-						'<br>', jibun, '<br>', '</div>' ].join('\n'));
+		infoWindow.setContent([
+				'<div style="padding:10px;min-width:200px;line-height:150%;">',
+				'<h3 style="text-align:center;" >:: 장소 정보::</h3>', '명칭:',
+				title, '<br>', coordinate, '<br>', road, '<br>', jibun, '<br>',
+				'</div>' ].join('\n'));
 		infoWindow.open(map, latlng);
 	}
 
@@ -568,8 +567,7 @@
 				+ markerInfos[seq].y;
 		var road = markerInfos[seq].road;
 		var jibun = markerInfos[seq].jibun;
-		displayPointInfo(markers[seq].position, title, coordinate, road,
-				jibun);
+		displayPointInfo(markers[seq].position, title, coordinate, road, jibun);
 	}
 
 	function onMouseOut(e) {
@@ -626,5 +624,3 @@
 
 	naver.maps.onJSContentLoaded = initGeocoder;
 </script>
-
-<c:import url="/foot" />

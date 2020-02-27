@@ -26,7 +26,7 @@
    <!-- (3)교재 83p, 176p HikariCP -->
   <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
       <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-      <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521/XE"/>
+      <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.0.93:1521/XE"/>
       <property name="username" value="ridinghan"/>
       <property name="password" value="tiger"/>
    </bean>
