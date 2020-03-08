@@ -19,7 +19,7 @@
             <div class="inner4">
                <div class="group-left">
                   <p class="micon">마이페이지</p>
-                  <p style="color:#72787F">환영합니다 <b style="color:#337AF2">{user.user_name}</b>님</p>
+                  <p style="color:#72787F">환영합니다 <b style="color:#337AF2">${user.user_name}</b>님</p>
                   <!-- '성정민'에 회원 이름 나오도록 -->
                   <hr />
                   <p class="mtxt_blue">계정</p>
@@ -38,7 +38,7 @@
                   <div class="group-box2">
                      <a href="해당 그룹 화면으로 jsp이동 새창으로뜸" target="_blank">
                         <div class="profile2" href="a">
-                           <img src="chat/images/${chat.chat_image}">
+                           <img src="asset/images/chat/${chat.chat_image}">
                         </div>
                         <div class="group-txt2">
                            <p class="mtxt_black">다녀왔던 여행제목</p><br />
@@ -57,7 +57,7 @@
                   <div class="group-box3>
                      <a href="해당 그룹 화면으로 jsp이동 새창으로뜸" target="_blank">
                         <div class="profile2" href="${chat.chat_url}">
-                           <img src="chat/images/${chat.chat_image}">
+                           <img src="asset/images/chat/${chat.chat_image}">
                         </div>
                         <div class="group-txt2">
                            <p class="mtxt_black">진행중인 여행제목</p><br />
@@ -81,7 +81,7 @@
                   <div class="group-box3">
                      <a onclick="showFavorite()">
                         <div class="profile2" href="${chat.chat_url}">
-                           <img src="chat/images/${chat.chat_image}">
+                           <img src="asset/images/chat/${chat.chat_image}">
                         </div>
                         <div class="group-txt2">
                            <p class="mtxt_black">즐겨찾기한 경로</p><br />

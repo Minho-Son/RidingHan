@@ -43,9 +43,10 @@ $(function(){
 				<form id="lf" action="login" method="POST">
 					<div class="form-group col-md-6 offset-md-3">
 						<input type="email" name="userId" id="userId" class="form-control"
-							placeholder="이메일"> <input type="pwd" name="pwd" id="pwd"
-							class="form-control" placeholder="비밀번호"> <a href=""><span
-							style="margin-bottom: 40px;">비밀번호 재설정</span></a>
+							placeholder="이메일">
+						<input type="password" name="pwd" id="pwd"
+							class="form-control" placeholder="비밀번호">
+							<a href=""><span style="margin-bottom: 40px;">비밀번호 재설정</span></a>
 					</div>
 					<label id="msg" style="fontSize:8pt;color:red;"></label><br>
 					<button type="button" id="btnLi" class="loginbtn btn btn-success col-sm-6">로그인</button>
