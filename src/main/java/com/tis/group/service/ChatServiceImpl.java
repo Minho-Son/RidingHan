@@ -2,6 +2,7 @@ package com.tis.group.service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -42,8 +43,8 @@ public class ChatServiceImpl implements ChatService {
 		return n;
 	}
 	@Override
-	public int addChatMember(int user_no) {
-		return this.chatMapper.addChatMember(room_code);
+	public int addChatMember(Map<String, Object> map) {
+		return this.chatMapper.addChatMember(map);
 	}
 	@Override
 	public ChatVO chatRoomInfo(String room_code) {
@@ -53,5 +54,6 @@ public class ChatServiceImpl implements ChatService {
 	public List<ChatVO> showChat(String room_code){
 		return this.chatMapper.showChat(room_code);
 	}
+	
 
 }

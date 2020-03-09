@@ -66,6 +66,9 @@ public class ChatController {
 		log.info("cv = "+cv);
 		
 		MemberVO user=(MemberVO)ses.getAttribute("user");
+		if(cv.getChat_img()==null||cv.getChat_img().trim().isEmpty()) {
+			cv.setChat_img("noimage.jpg");
+		}
 		cv.setChat_text("|start|");
 		cv.setChat_user_no(user.getUser_no());	
 
@@ -111,14 +114,14 @@ public class ChatController {
 		
 		
 		if(room_code!=""|room_code.trim()!="") {
-				int n=chatService.addChatMember(map);
+				int n=chatService.addChatMember(map); 
 				if(n>0) {
 					ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보
 					List<ChatVO> chatList=chatService.showChat(room_code); //채팅방 대화 내용
 					ses.setAttribute("chatInfo", chatInfo);
 					ses.setAttribute("chatList", chatList);
 					
-					return "";
+					return "group/chat";
 				}else {
 					String msg="멤버 추가 실패";
 					String loc="javascript:history().back";

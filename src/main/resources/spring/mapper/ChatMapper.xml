@@ -19,7 +19,7 @@
 		select * from chat where room_code=#{room_code} and chat_text='|start|'
 	</select>
 	<select id="showChat" parameterType="String" resultType="Chat">
-		select * from chat where room_code=#{room_code} order by chat_wdate desc
+		select * from chat where room_code=#{room_code} order by chat_wtime desc
 	</select>
 	<insert id="createChat" parameterType="Chat">
 		insert into chat(chat_no, chat_title, chat_text, chat_wtime, chat_img, chat_user_no, room_code, chat_info)

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.tis.group.model.ChatVO;
 import com.tis.group.model.PagingVO;
-import com.tis.ridinghan.Int;
 import com.tis.user.model.MemberVO;
 
 public interface ChatService {
@@ -14,8 +13,7 @@ public interface ChatService {
 	int getTotalCount();
 	int createChat(ChatVO cvo, MemberVO mvo);
 	int createChatMember(MemberVO vo);
-	int addChatMember(Map<String, Object> map);
 	ChatVO chatRoomInfo(String room_code);
 	List<ChatVO> showChat(String room_code);
-	
+	int addChatMember(Map<String, Object> map);
 }
