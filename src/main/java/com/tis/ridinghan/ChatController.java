@@ -1,6 +1,8 @@
 package com.tis.ridinghan;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -9,12 +11,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tis.common.CommonUtil;
+import com.tis.common.CreateRandomCode;
 import com.tis.group.model.ChatVO;
 import com.tis.group.model.PagingVO;
 import com.tis.group.service.ChatService;
@@ -36,7 +39,7 @@ public class ChatController {
 	public String showChatList(@ModelAttribute PagingVO paging,
 			HttpServletRequest req, Model m) {
 			
-		//ÆäÀÌÂ¡ Ã³¸®////////////////////////
+		//ì±„íŒ…ë¦¬ìŠ¤íŠ¸ í˜ì´ì§•////////////////////////
 		int totalCount=chatService.getTotalCount();
 		paging.setTotalCount(totalCount);
 		paging.setPageSize(10);
@@ -63,15 +66,19 @@ public class ChatController {
 		log.info("cv = "+cv);
 		
 		MemberVO user=(MemberVO)ses.getAttribute("user");
-		cv.setChat_text("|chat start|");
+		cv.setChat_text("|start|");
 		cv.setChat_user_no(user.getUser_no());	
+
+		String room_code=new CreateRandomCode().createRandomCode();
+		cv.setRoom_code(room_code);
+		
 		log.info("cv = "+cv);
 		
 		int n=0;
-			n=this.chatService.createChat(cv);
+			n=this.chatService.createChat(cv, user);
 			
 		if(n<0) {
-			String msg="¹æ ¸¸µé±â¿¡ ½ÇÆĞÇß½À´Ï´Ù.";
+			String msg="ì±„íŒ…ë°© ë§Œë“¤ê¸°ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤..";
 			String loc="javascript:history.back()";
 			
 			m.addAttribute("msg", msg);
@@ -79,7 +86,7 @@ public class ChatController {
 			
 			return "message";
 		}else {
-			String msg="¹æ ¸¸µé±â¿¡ ¼º°øÇß½À´Ï´Ù.";
+			String msg="í™˜ì˜í•©ë‹ˆë‹¤."+user.getNickName()+"ë‹˜";
 			String loc="../chat/chatRoom";
 			
 			m.addAttribute("msg", msg);
@@ -89,8 +96,42 @@ public class ChatController {
 		}
 	}
 	
-	@GetMapping("../chat/chatRoom")
-	public String showChatRoom(@ModelAttribute ChatVO cv, Model m, HttpSession ses) {
-		return "group/chat";
+	@RequestMapping(value="/chat/chatRoom", method=RequestMethod.GET)
+	public String enterChatRoom(
+			@RequestParam(value="room_code", defaultValue="", required=false) String room_code,
+			 Model m, HttpSession ses) {
+		
+		//System.out.println("room_code = "+room_code);
+		MemberVO vo=(MemberVO)ses.getAttribute("user");
+		int user_no=vo.getUser_no();
+		
+		Map<String,Object> map=new HashMap<>();
+		map.put("user_no", user_no);
+		map.put("room_code", room_code);
+		
+		
+		if(room_code!=""|room_code.trim()!="") {
+				int n=chatService.addChatMember(map);
+				if(n>0) {
+					ChatVO chatInfo=chatService.chatRoomInfo(room_code); //ì±„íŒ…ë°© ì •ë³´
+					List<ChatVO> chatList=chatService.showChat(room_code); //ì±„íŒ…ë°© ëŒ€í™” ë‚´ìš©
+					ses.setAttribute("chatInfo", chatInfo);
+					ses.setAttribute("chatList", chatList);
+					
+					return "";
+				}else {
+					String msg="ë©¤ë²„ ì¶”ê°€ ì‹¤íŒ¨";
+					String loc="javascript:history().back";
+					m.addAttribute("msg", msg);
+					m.addAttribute("loc", loc);
+					return "message";
+				}
+		}else {
+			String msg="ë°© ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤";
+			String loc="javascript:history().back";
+			m.addAttribute("msg", msg);
+			m.addAttribute("loc", loc);
+			return "message";
+		}
 	}
 }

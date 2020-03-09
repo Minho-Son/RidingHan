@@ -1,7 +1,6 @@
 package com.tis.ridinghan;
 
 import javax.inject.Inject;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -13,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tis.common.CommonUtil;
-import com.tis.user.model.NotUserException;
 import com.tis.user.model.MemberVO;
+import com.tis.user.model.NotUserException;
 import com.tis.user.service.UserService;
 
 import lombok.extern.log4j.Log4j;

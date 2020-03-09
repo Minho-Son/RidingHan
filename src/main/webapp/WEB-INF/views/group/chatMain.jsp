@@ -13,30 +13,56 @@
 <title>채팅</title>
 <!--채팅방---------------------------------->
 <script>
-var mynick;
 var socket;
+var nick="${user.nickName}";
 $(document).ready(function() { 
     $('#makeChat').click(function(){
        $("#chatModal").modal();
     })
  });
 
-function showPopup() {
-   var url="http://localhost:3333/";
-    window.open(url, "chatpop", "width=600, height=500, left=0, top=0");
- } 
- 
+//채팅방 만들기 눌렀을 때 유효성 체크
+function message(str) {
+		var obj = document.getElementById("msg");
+		obj.innerHTML = str;
+	}
 $(function(){	
-
 	$('#makeChatEnd').click(function(){
-		alert($('#chat_title').val());
+		if (!($('#chat_title').val())) {
+			var str = '※ 방 제목을 입력해주세요';
+			message(str);
+			return;
+		}
+		if (!($('#chat_info').val())) {
+			var str = '※ 방 공지사항을 입력해주세요';
+			message(str);
+			return;
+		}
+		//alert($('#chat_title').val());
 		f.submit();
 	})
 })
 
-function showPopup() {
-    window.open("chat/chat.jsp", "chatpop", "width=600, height=500, left=0, top=0");
- } 
+//채팅방으로 현재 방 코드 보내기
+function joinChat(tmp){
+	var val=tmp.name;
+	//alert(val);
+	//var val=$('#joinChat').attr('name');
+	var w=window.open("about:blank","_blank","width=600, height=500, left=0, top=0");
+	$.ajax({
+		type:'get',
+		url:'chat/chatRoom',
+		data:{"room_code":val},
+		dataType:'html',
+		success:function(res){
+			//alert(res);
+			w.location.href="/RidingHan/chat/chatRoom?room_code="+val;
+		},
+		error:function(e){
+			alert('error: '+e.status);
+		}	
+	})
+}
 
 </script>
 
@@ -82,8 +108,7 @@ function showPopup() {
 										${chat.chat_wtime} </span>
 
 								</div>
-								<input type="button" class="enter" onclick="showPopup()"
-									value="참여" />
+								<input type="button" name="${chat.room_code}" id="joinChat" class="enter" onclick="joinChat(this)" value="참여" />
 
 							</div>
 						</c:forEach>
@@ -125,7 +150,8 @@ function showPopup() {
                   <h6 class="title">채팅방 이름 입력</h6>
                   <input type="roomname" name="chat_title" id="chat_title" class="form-control">
                   <h6 class="title">공지사항</h6>
-                  <textarea type="Gcomment" class="form-control" rows="3" id="Gcomment"></textarea>
+                  <textarea type="Gcomment" class="form-control" name="chat_info" id="chat_info" rows="3" id="Gcomment"></textarea>
+                  <label id="msg" style="fontSize: 8pt; color: red;"></label>
                </div>
                <!-- Modal footer -->
                <div class="modal-footer">

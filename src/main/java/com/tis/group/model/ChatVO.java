@@ -10,4 +10,6 @@ public class ChatVO {
 	private java.sql.Timestamp chat_wtime;
 	private String chat_img;
 	private Integer chat_user_no;
+	private String room_code;
+	private String chat_info;
 }

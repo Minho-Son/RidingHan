@@ -7,7 +7,7 @@
 	src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
 
 <!--자바스크립트 / CSS-->
-<link href="css/style.css" rel="stylesheet">
+<link href="asset/css/style.css" rel="stylesheet">
 
 <style type="text/css">
 #startPointInfo {

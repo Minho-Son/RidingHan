@@ -13,7 +13,7 @@
 		<org.springframework-version>5.0.7.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
-	</properties>
+	</properties> 
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -129,7 +129,7 @@
 			<version>11.2.0.3</version>
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc6.jar</systemPath>
-		</dependency>
+		</dependency> 
 
 		<!-- DBCP Module -->
 		<dependency>
@@ -237,6 +237,12 @@
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-spec</artifactId>
 			<version>1.2.5</version>
+		</dependency>
+		<!-- 웹소켓을 스프링에서 사용 -->
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${org.springframework-version}</version>
 		</dependency>
 
 	</dependencies>
