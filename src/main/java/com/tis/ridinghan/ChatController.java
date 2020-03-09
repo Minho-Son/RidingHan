@@ -103,17 +103,18 @@ public class ChatController {
 	public String enterChatRoom(
 			@RequestParam(value="room_code", defaultValue="", required=false) String room_code,
 			 Model m, HttpSession ses) {
-		
-		//System.out.println("room_code = "+room_code);
+		log.info("room_code="+room_code);
 		MemberVO vo=(MemberVO)ses.getAttribute("user");
 		int user_no=vo.getUser_no();
 		
 		Map<String,Object> map=new HashMap<>();
 		map.put("user_no", user_no);
 		map.put("room_code", room_code);
+		ses.setAttribute("room_code", room_code);
 		
+		//채팅방에 멤버가 없을 때에만 목록에 추가하기 -> 아직 구현안함
 		
-		if(room_code!=""|room_code.trim()!="") {
+		if(!room_code.equals("")|!(room_code.trim().equals(""))) {
 				int n=chatService.addChatMember(map); 
 				if(n>0) {
 					ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보

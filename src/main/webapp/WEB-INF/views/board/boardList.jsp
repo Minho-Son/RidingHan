@@ -45,7 +45,7 @@
 					class="btn btn-success col-12">게시글 쓰기 +</button>
 				<p class="txt_blue">최근 게시글</p>
 				<br>
-				<c:forEach var="board" items="${boardArr }">
+				<c:forEach var="board" items="${boardArr }" begin="0" end="4">
 					<a href="boardView?board_idx=${board.board_idx}" class="txt_black">${board.board_title}</a>
 					<br>
 				</c:forEach>

@@ -46,7 +46,7 @@ $(function(){
 //채팅방으로 현재 방 코드 보내기
 function joinChat(tmp){
 	var val=tmp.name;
-	alert(val);
+	//alert(val);
 	//var val=$('#joinChat').attr('name');
 	var w=window.open("about:blank","_blank","width=600, height=500, left=0, top=0");
 	$.ajax({

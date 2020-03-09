@@ -28,11 +28,13 @@
 	var socket=null;
 	var nick="${user.nickName}";
 	$(document).ready(function(){
-		ws=new WebSocket("ws://localhost:9090/RidingHan/echo")
+		ws=new WebSocket("ws://localhost:9090/RidingHan/echo");
+		
 		$("#textInput").focus();
 		
 		//메세지 보내기
 		ws.onopen=function(){
+			ws.send(100+"|${room_code}"+200+"|"+nick);
 			$("#textArea").append("<b>"+nick+"님이 채팅방에 참여했습니다.</b>")
 			$("#sendText").click(function(){
 				var msg=$('input[name=textInput]').val().trim("@!|");
@@ -40,46 +42,55 @@
 				
 				if(msg!=""){
 					ws.send(msg+"@!|"+""+"@!|"+room);
-					$("#textArea").append("<div class='message text-only'><div class='response'><p class='text'>"+msg+"</p></div></div><br><p class='response-time time'> 15h04</p>");
+					var sentMsg="<div class='response'><p class='text'>"
+								+msg+"</p></div><br><p class='response-time time'>"
+								"15h04</p>";
+					$("#sent").append(sentMsg);
 					$("#textArea").scrollTop(99999999);
 					$("#textInput").val("");
 					$("#textInput").focus();
 				}
 			})
-			$("textInput").keypress(function(event){
-				if(event.which=="13"){
+			$("#textInput").keypress(function(event){
+				console.log(event.keyCode)
+				if(event.keyCode==13){
 					event.preventDefault();
 					var msg=$('input[name=textInput]').val().trim("@!|");
 					var room=$("#chatTitle");
 
 					if(msg!=""){
 						ws.send(msg+"@!|"+""+"@!|"+room);
-						$("#textArea").append("<div class='message text-only'><div class='response'><p class='text'>"+msg+"</p></div></div><br><p class='response-time time'> 15h04</p>");
+						var sentMsg="<div class='response'><p class='text'>"
+							+msg+"</p></div><br><p class='response-time time'>"
+							"15h04</p>";
+						$("#sent").append(sentMsg);
 						$("#textArea").scrollTop(99999999);
 						$("#textInput").val("");
 						$("#textInput").focus();
 						}
 				}
 			})
+		}
 			//서버로부터 받은 메시지
 			ws.onmessage=function(msg){
-				var jsonData=JSON.parse(msg.data);
-				if(jsonData.msg!=null){
-					$("#textArea").append("<div class='message text-only'><p class='text'>"+jsonData.msg+"</p></div>");
-					$("#textArea").scrollTop(99999999);
+				var data=msg.data;
+				var receivedMsg="<div class='photo' style='background-image:/asset/images/face.png;'><div class='online'>"
+								+data+"</div></div><p class='response-time time'> 15h04</p>";
+				$("#received").append(receivedMsg);
+				$("#textArea").scrollTop(99999999);
+			
+				var jsonData2=JSON.parse(msg.data)
+				if(jsonData2.list!=null){
+					$("#listPeople").html(jsonData2.list)
 				}
-				if(jsonData.list!=null){
-					
-				}
-				if(jsonData.room!=null){
-					
+				var jsonData3=JSON.parse(msg.data);
+				if(jsonData3.room!=null){
 				}
 				
 			}
 			ws.onclose=function(event){
 				
 			}
-		}
 	})
 	
 </script>
@@ -91,21 +102,15 @@
             <input type="button" style="align:right;" class="btn btn-primary" id="exitChat" name="exitChat" value="나가기">
           </div>
           <div class="messages-chat" id="textArea">
-            <div class="message">
-              <div class="photo" style="background-image:/asset/images/face.png;">
-                <div class="online"></div>
-              </div>
-              <p class="text">${user.nickName} Hi, how are you ? </p> 
-            </div>
-            <div class="message text-only">
-              <p class="text"> What are you doing tonight ? Want to go take a drink ?</p>
-            </div>
-            <p class="time"> 14h58</p>               
-            <div class="message">
-          </div>
+          
+            <div class="message" name="received" id="received">
+            </div>     
+                  
+            <div class="message" name="sent" id="sent">
+			</div>
           <div class="footer-chat">
             <i class="icon1 fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
-            <input type="text" class="write-message" name="textInput" id="textInput" placeholder="Type your message here"></input>
+            <input type="text" class="write-message" name="textInput" id="textInput" placeholder="메시지를 입력하세요"></input>
             <i class="icon2 send fa fa-paper-plane-o clickable" id="sendText" aria-hidden="true"></i>
             </div>
           </div>
