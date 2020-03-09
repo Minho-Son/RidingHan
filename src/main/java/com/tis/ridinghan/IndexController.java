@@ -13,6 +13,11 @@ public class IndexController {
 		
 	}
 	
+	@RequestMapping("/mypageTop")
+	public void showMypageTop() {
+		
+	}
+	
 	@RequestMapping("/foot")
 	public void showFoot() {
 		

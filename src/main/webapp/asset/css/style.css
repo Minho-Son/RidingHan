@@ -54,7 +54,7 @@ F7F8F9
 .mtxt_blue{text-align:left; font-size: 1rem; color:#337AF2; font-weight:700; margin-bottom: 10px; display: block;}
 .mtxt_black{text-align:left; font-size: 1rem; color:#1B1B1F; font-weight:400; display: inline-block;}
 .mtxt_black2{text-align:left; font-size: 18px; color:#1B1B1F; font-weight:400; display: inline-block;}
-.mtxt_gray{text-align:left; font-size: 1rem; color:#72787F; font-weight:400; margin:0 44px 10px 0; display: inline-block;}
+.mtxt_gray{text-align:left; font-size: 1rem; color:#72787F; font-weight:400; display: inline-block; }
 .mtxt_gray2{text-align:left; font-size: 1rem; color:#72787F; font-weight:400; margin:0 32px 10px 0; display: inline-block;}
 .mtxt_gray3{text-align:left; font-size: 14px; color:#72787F; font-weight:300; display: inline-block;}
 .mtxt_small_gray{text-align:left; font-size: 12px; color:#72787F; font-weight:300; display: inline-block;}
@@ -76,7 +76,7 @@ F7F8F9
 #modify-name{margin-left: 20px;}
 #modify-email, #modify-nickname{margin-left: 4px;}
 #container .modifyform {margin-bottom: 20px}
-#container .modifybtn {font-size: 12px; display:inline-block; width:50px; height: 36px; border:rgba(51,122,242,0.8) 1px solid; border-radius: 4px; text-align: center; color: #fff; background: rgba(51,122,242,0.6); margin-left: 20px}
+#container .modifybtn {font-size: 12px; display:inline-block; width:85px; height: 36px; border:rgba(51,122,242,0.8) 1px solid; border-radius: 4px; text-align: center; color: #fff; background: rgba(51,122,242,0.6); margin-left: 10px}
 #container .modifybtn:hover{ border-color:#337AF2; background-color:#337AF2; color: #fff;}
 #modifybtn2,#cancelbtn{margin:40px 0;}
 
