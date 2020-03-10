@@ -63,10 +63,10 @@ public class ChatServiceImpl implements ChatService {
 	public ChatVO chatRoomInfo(String room_code) {
 		return this.chatMapper.chatRoomInfo(room_code);
 	}
-	@Override
-	public List<ChatVO> showChat(String room_code){
-		return this.chatMapper.showChat(room_code);
-	}
+//	@Override
+//	public List<ChatVO> showChat(String room_code){
+//		return this.chatMapper.showChat(room_code);
+//	}
 	@Override
 	public List<Chat_MemberVO> chatMemberList(String room_code){
 		return this.chatMapper.chatMemberList(room_code);

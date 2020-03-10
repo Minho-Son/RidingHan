@@ -114,12 +114,13 @@ public class ChatController {
 		
 		//채팅방에 멤버가 없을 때에만 목록에 추가하기 -> 아직 구현안함
 		
+		log.info(map);
 		int n=chatService.chkMemberinRoom(map);
 		if(n>0) {
 			ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보
-			List<ChatVO> chatList=chatService.showChat(room_code); //채팅방 대화 내용
+			//List<ChatVO> chatList=chatService.showChat(room_code); //채팅방 대화 내용
 			ses.setAttribute("chatInfo", chatInfo);
-			ses.setAttribute("chatList", chatList);
+			//ses.setAttribute("chatList", chatList);
 			return "group/chat";
 		}else {
 			String msg="멤버 추가 실패";
