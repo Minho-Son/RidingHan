@@ -24,8 +24,8 @@
 			</div>
 			<div class="bt-area opacity" data-animation-effect="fadeInUp"
 				data-effect-delay="2000">
-				<a href="#" class="down">라이딩 시작하기</a> <a href="#" class="buy">나의
-					여행</a>
+				<a href="#" class="down" style="color:white">라이딩 시작하기</a> 
+				<a href="#" class="buy" style="color:white">나의여행</a>
 			</div>
 		</div>
 		<div class="video-bg">
