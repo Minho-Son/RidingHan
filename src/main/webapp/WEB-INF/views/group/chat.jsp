@@ -69,18 +69,18 @@
 			ws.onmessage=function(msg){
 				//alert(msg);
 				var data=msg.data;
-				alert(data);
+				//alert(data);
 				var receivedMsg="<div class='message text-only' style='margin:0;'><p class='text'>"+data+"</p></div></div><br>";
 				$("#textArea").append(receivedMsg);
 				$("#textArea").scrollTop(99999999);
 			
-				var jsonData2=JSON.parse(msg.data)
+				/* var jsonData2=JSON.parse(msg.data)
 				if(jsonData2.list!=null){
 					$("#listPeople").html(jsonData2.list)
 				}
 				var jsonData3=JSON.parse(msg.data);
 				if(jsonData3.room!=null){
-				}
+				} */
 				
 			}
 			

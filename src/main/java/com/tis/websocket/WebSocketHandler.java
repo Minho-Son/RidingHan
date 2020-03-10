@@ -56,7 +56,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		 */
 		
 	}
-	
+
 	@Override
 	protected void handleTextMessage(WebSocketSession ses, TextMessage msg) throws Exception{
 		log.info(ses.getId()+"로부터 "+msg.getPayload()+"받음");
@@ -82,7 +82,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				if(!text.equals("")&&!(text.trim().isEmpty())) {
 					for(WebSocketSession webSocketSession:sesList) {
 						String rcode=((ChatVO)(roomList.get(webSocketSession))).getRoom_code();
-						log.info("rcode>>"+rcode);					
+						//log.info("rcode>>"+rcode);					
 						if(((ChatVO)roomList.get(ses)).getRoom_code().equals(rcode)){
 							if(!ses.getId().equals(webSocketSession.getId())) {
 								if(webSocketSession.isOpen())
