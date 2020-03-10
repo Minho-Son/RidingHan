@@ -48,7 +48,7 @@ function joinChat(tmp){
 	var val=tmp.name;
 	//alert(val);
 	//var val=$('#joinChat').attr('name');
-	var w=window.open("about:blank","_blank","width=600, height=500, left=0, top=0");
+	var w=window.open("about:blank","_blank","width=540, height=800, left=0, top=0");
 	$.ajax({
 		type:'get',
 		url:'chat/chatRoom',

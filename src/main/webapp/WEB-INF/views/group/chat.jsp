@@ -34,49 +34,44 @@
 		
 		//메세지 보내기
 		ws.onopen=function(){
-			ws.send(100+"|${room_code}"+200+"|"+nick);
+			ws.send(100+"@!|${room_code}@!|"+nick);
 			$("#textArea").append("<b>"+nick+"님이 채팅방에 참여했습니다.</b>")
 			$("#sendText").click(function(){
-				var msg=$('input[name=textInput]').val().trim("@!|");
-				var room=$("#chatTitle");
-				
+				var msg=$('input[name=textInput]').val();
+				var room=$("#chatTitle").text();
 				if(msg!=""){
-					ws.send(msg+"@!|"+""+"@!|"+room);
-					var sentMsg="<div class='response'><p class='text'>"
-								+msg+"</p></div><br><p class='response-time time'>"
-								"15h04</p>";
-					$("#sent").append(sentMsg);
+					ws.send(200+"@!|"+msg+"@!|"+room);
+					var sentMsg="<div class='message'><div class='response'><p class='text'>"+msg+"</p></div></div><br>";
+
+					$("#textArea").append(sentMsg);
 					$("#textArea").scrollTop(99999999);
 					$("#textInput").val("");
 					$("#textInput").focus();
 				}
 			})
 			$("#textInput").keypress(function(event){
-				console.log(event.keyCode)
 				if(event.keyCode==13){
 					event.preventDefault();
-					var msg=$('input[name=textInput]').val().trim("@!|");
-					var room=$("#chatTitle");
-
+					var msg=$('input[name=textInput]').val();
+					var room=$("#chatTitle").text();;
 					if(msg!=""){
-						ws.send(msg+"@!|"+""+"@!|"+room);
-						var sentMsg="<div class='response'><p class='text'>"
-							+msg+"</p></div><br><p class='response-time time'>"
-							"15h04</p>";
-						$("#sent").append(sentMsg);
+						ws.send(200+"@!|"+msg+"@!|"+room);
+						var sentMsg="<div class='message'><div class='response'><p class='text'>"+msg+"</p></div></div><br>";
+						$("#textArea").append(sentMsg);
 						$("#textArea").scrollTop(99999999);
 						$("#textInput").val("");
 						$("#textInput").focus();
-						}
+					}
 				}
 			})
 		}
 			//서버로부터 받은 메시지
 			ws.onmessage=function(msg){
+				//alert(msg);
 				var data=msg.data;
-				var receivedMsg="<div class='photo' style='background-image:/asset/images/face.png;'><div class='online'>"
-								+data+"</div></div><p class='response-time time'> 15h04</p>";
-				$("#received").append(receivedMsg);
+				alert(data);
+				var receivedMsg="<div class='message text-only' style='margin:0;'><p class='text'>"+data+"</p></div></div><br>";
+				$("#textArea").append(receivedMsg);
 				$("#textArea").scrollTop(99999999);
 			
 				var jsonData2=JSON.parse(msg.data)
@@ -88,6 +83,7 @@
 				}
 				
 			}
+			
 			ws.onclose=function(event){
 				
 			}
@@ -102,17 +98,11 @@
             <input type="button" style="align:right;" class="btn btn-primary" id="exitChat" name="exitChat" value="나가기">
           </div>
           <div class="messages-chat" id="textArea">
-          
-            <div class="message" name="received" id="received">
-            </div>     
-                  
-            <div class="message" name="sent" id="sent">
-			</div>
-          <div class="footer-chat">
+		  </div>
+          <div class="footer-chat" style="position:fixed; background-color:white">
             <i class="icon1 fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
             <input type="text" class="write-message" name="textInput" id="textInput" placeholder="메시지를 입력하세요"></input>
             <i class="icon2 send fa fa-paper-plane-o clickable" id="sendText" aria-hidden="true"></i>
-            </div>
           </div>
         </section>     
         </body>

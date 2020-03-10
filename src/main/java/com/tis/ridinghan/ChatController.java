@@ -90,7 +90,7 @@ public class ChatController {
 			return "message";
 		}else {
 			String msg="환영합니다."+user.getNickName()+"님";
-			String loc="../chat/chatRoom";
+			String loc="../chat/chatRoom?room_code="+cv.getRoom_code();
 			
 			m.addAttribute("msg", msg);
 			m.addAttribute("loc", loc);
@@ -114,28 +114,20 @@ public class ChatController {
 		
 		//채팅방에 멤버가 없을 때에만 목록에 추가하기 -> 아직 구현안함
 		
-		if(!room_code.equals("")|!(room_code.trim().equals(""))) {
-				int n=chatService.addChatMember(map); 
-				if(n>0) {
-					ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보
-					List<ChatVO> chatList=chatService.showChat(room_code); //채팅방 대화 내용
-					ses.setAttribute("chatInfo", chatInfo);
-					ses.setAttribute("chatList", chatList);
-					
-					return "group/chat";
-				}else {
-					String msg="멤버 추가 실패";
-					String loc="javascript:history().back";
-					m.addAttribute("msg", msg);
-					m.addAttribute("loc", loc);
-					return "message";
-				}
+		int n=chatService.chkMemberinRoom(map);
+		if(n>0) {
+			ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보
+			List<ChatVO> chatList=chatService.showChat(room_code); //채팅방 대화 내용
+			ses.setAttribute("chatInfo", chatInfo);
+			ses.setAttribute("chatList", chatList);
+			return "group/chat";
 		}else {
-			String msg="방 정보가 없습니다";
+			String msg="멤버 추가 실패";
 			String loc="javascript:history().back";
 			m.addAttribute("msg", msg);
 			m.addAttribute("loc", loc);
 			return "message";
 		}
+
 	}
 }

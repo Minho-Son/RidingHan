@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<typeAlias type="com.tis.user.model.MemberVO" alias="Member"/>
 		<typeAlias type="com.tis.group.model.ChatVO" alias="Chat"/>
+		<typeAlias type="com.tis.group.model.Chat_MemberVO" alias="Chat_Member"/>
 		<typeAlias type="com.tis.group.model.PagingVO" alias="Paging"/>
 		<typeAlias type="com.tis.board.model.BoardVO" alias="Board"/>
 		<typeAlias type="com.tis.board.model.PagingVO" alias="Paging2"/>
@@ -21,5 +22,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="spring/mapper/UserMapper.xml"/>
 		<mapper resource="spring/mapper/ChatMapper.xml"/>
 		<mapper resource="spring/mapper/BoardMapper.xml"/>
+		<mapper resource="spring/mapper/DirectionMapper.xml"/>
+		<mapper resource="spring/mapper/PlaceMapper.xml"/>
 	</mappers>
 </configuration>
