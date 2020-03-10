@@ -479,9 +479,9 @@ body.ovf_hdn, .ovf_hdn{ overflow:hidden; height:100%;}
 #indexwrap .intro .desc .tx03 span{ display: block; font-size: 20px; color: #337AF2; opacity: 0.8; margin-top: 15px;}
 #indexwrap .intro .desc .tx03 strong{color: #337AF2;}
 #indexwrap .intro .desc .bt-area{ margin-top:100px;}
-#indexwrap .intro .desc .bt-area a{text-decoration:none; display: inline-block; width:200px; height: 55px; line-height: 53px;  margin-right: 12px; border:rgba(51,122,242,0.8) 1px solid; border-radius: 5px; text-align: center; color: #fff; background: rgba(51,122,242,0.5);}
+#indexwrap .intro .desc .bt-area a{text-decoration:none; display: inline-block; width:200px; height: 55px; line-height: 53px;  margin-right: 12px; border:rgba(51,122,242,0.8) 1px solid; border-radius: 5px; text-align: center; color: #337AF2; background: rgba(51,122,242,0.5);}
 #indexwrap .intro .desc .bt-area a:hover,
-#indexwrap .intro .desc .bt-area a.active{ border-color:#337AF2; background-color:#337AF2; color: #fff;}
+#indexwrap .intro .desc .bt-area a.active{ border-color:#337AF2; background-color:#337AF2; color: #337AF2;}
 #indexwrap .intro .video-bg{ position:absolute; overflow:hidden; top:50%; left:0; margin-top:-540px; width:1920px; height:1080px; }
 #indexwrap .intro .video-bg video{ position:absolute; left:0;  min-width:100%; min-height:100%; object-fit: cover;}
 #indexwrap .intro .fp-tableCell{ overflow:hidden;}

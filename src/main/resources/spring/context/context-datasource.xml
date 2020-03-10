@@ -50,6 +50,7 @@
    <mybatis-spring:scan base-package="com.tis.group.mapper"/>
    <mybatis-spring:scan base-package="com.tis.board.mapper"/>
    <mybatis-spring:scan base-package="com.tis.place.mapper"/>
+   <mybatis-spring:scan base-package="com.tis.campaign.mapper"/>
    
 </beans>
 

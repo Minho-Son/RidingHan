@@ -14,12 +14,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.tis.place.domain.PagingVO" alias="Paging3"/>
 		<typeAlias type="com.tis.place.domain.PlaceVO" alias="Place"/>
 		<typeAlias type="com.tis.place.domain.DirectionVO" alias="Direction"/>
-
+		<typeAlias type="com.tis.campaign.model.CampaignVO" alias="Campaign"/>
 	</typeAliases>
 	<!-- 타입 별칭 지정=================== -->
 	<mappers>
 		<mapper resource="spring/mapper/UserMapper.xml"/>
 		<mapper resource="spring/mapper/ChatMapper.xml"/>
 		<mapper resource="spring/mapper/BoardMapper.xml"/>
+		<mapper resource="spring/mapper/CampaignMapper.xml"/>
 	</mappers>
 </configuration>

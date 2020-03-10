@@ -88,6 +88,11 @@ public class UserController {
 		return "mypage/memberInfo";
 	}
 	
+	@GetMapping("/mypage/myFavorite")
+	public String showMyFavorite(Model m, HttpSession ses) {
+		return "mypage/favorite";
+	}
+	
 	@RequestMapping(value="/mypage/myInfoEdit",method=RequestMethod.POST)
 	public String myInfoEdit(
 			@RequestParam(defaultValue="false") String newPwd,

@@ -188,54 +188,25 @@
 						<div class="swiper-wrapper">
 
 							<div class="swiper-slide item">
-								<ul>
-									<!--db작성후 li, img반복문으로 얻어올것. 추후 하나의 샘플만 남기고 삭제할예정-->
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름 </span></li>
-
-									<li class="copr"><span class="logo"> </span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-									<li class="copr"><span class="logo"></span> <span
-										class="name">캠페인 이름</span></li>
-
-								</ul>
+								<c:if test="${campaignArr==null || empty campaignArr }">
+									<tr>
+										<td colspan="5"><b>현재 게시된 캠페인이 없습니다.</b></td>
+									</tr>
+								</c:if>
+								<c:if test="${campaignArr !=null and not empty campaignArr }">
+									<ul>
+										<c:forEach var="campaign" items="${campaignArr}" begin='0'
+											end='11'>
+											<li class="copr"><img
+												style="width: 100px; height: 100px; z-index: -1; display: inline-block; border-radius: 55px; float: left;"
+												src="resources/images/campaign/${campaign.campaign_image}">
+												<span style="float: right">
+													${campaign.campaign_start_date} <br> ~ <br>
+													${campaign.campaign_finish_date}
+											</span></li>
+										</c:forEach>
+									</ul>
+								</c:if>
 							</div>
 
 							<div class="swiper-slide item">
