@@ -63,4 +63,16 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.deleteBoard(board_idx);
 	}
 
+	@Override
+	public int getTotalCount(PagingVO paging) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<BoardVO> getSearchList(PagingVO paging) {
+		
+		return boardMapper.searchBoard(paging);
+	}
+
 }

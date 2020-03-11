@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8" import="com.tis.ridinghan.*"%>
- 
+ <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="ko">
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -28,58 +28,65 @@
 	var socket=null;
 	var nick="${user.nickName}";
 	$(document).ready(function(){
-		ws=new WebSocket("ws://localhost:9090/RidingHan/echo")
+		ws=new WebSocket("ws://localhost:9090/RidingHan/echo");
+		
 		$("#textInput").focus();
 		
 		//메세지 보내기
 		ws.onopen=function(){
-			$("#textArea").append("<b>"+nick+"님이 채팅방에 참여했습니다.</b>")
+			ws.send(100+"@!|${room_code}@!|"+nick);
+			$("#chat").append("<b>"+nick+"님이 채팅방에 참여했습니다.</b>")
 			$("#sendText").click(function(){
-				var msg=$('input[name=textInput]').val().trim("@!|");
-				var room=$("#chatTitle");
-				
+				var msg=$('input[name=textInput]').val();
+				var room=$("#chatTitle").text();
 				if(msg!=""){
-					ws.send(msg+"@!|"+""+"@!|"+room);
-					$("#textArea").append("<div class='message text-only'><div class='response'><p class='text'>"+msg+"</p></div></div><br><p class='response-time time'> 15h04</p>");
-					$("#textArea").scrollTop(99999999);
+					ws.send(200+"@!|"+msg+"@!|"+room);
+					var sentMsg="<div class='message'><div class='response'><p class='text'>"+msg+"</p></div></div><br>";
+
+					$("#chat").append(sentMsg);
+					$("#chat").scrollTop(99999999);
 					$("#textInput").val("");
 					$("#textInput").focus();
 				}
 			})
-			$("textInput").keypress(function(event){
-				if(event.which=="13"){
+			$("#textInput").keypress(function(event){
+				if(event.keyCode==13){
 					event.preventDefault();
-					var msg=$('input[name=textInput]').val().trim("@!|");
-					var room=$("#chatTitle");
-
+					var msg=$('input[name=textInput]').val();
+					var room=$("#chatTitle").text();;
 					if(msg!=""){
-						ws.send(msg+"@!|"+""+"@!|"+room);
-						$("#textArea").append("<div class='message text-only'><div class='response'><p class='text'>"+msg+"</p></div></div><br><p class='response-time time'> 15h04</p>");
-						$("#textArea").scrollTop(99999999);
+						ws.send(200+"@!|"+msg+"@!|"+room);
+						var sentMsg="<div class='message'><div class='response'><p class='text'>"+msg+"</p></div></div><br>";
+						$("#chat").append(sentMsg);
+						$("#chat").scrollTop(99999999);
 						$("#textInput").val("");
 						$("#textInput").focus();
-						}
+					}
 				}
 			})
+		}
 			//서버로부터 받은 메시지
 			ws.onmessage=function(msg){
-				var jsonData=JSON.parse(msg.data);
-				if(jsonData.msg!=null){
-					$("#textArea").append("<div class='message text-only'><p class='text'>"+jsonData.msg+"</p></div>");
-					$("#textArea").scrollTop(99999999);
+				//alert(msg);
+				var data=msg.data;
+				//alert(data);
+				var receivedMsg="<div class='message text-only' style='margin:0;'><p class='text'>"+data+"</p></div></div><br>";
+				$("#chat").append(receivedMsg);
+				$("#chat").scrollTop(99999999);
+			
+				/* var jsonData2=JSON.parse(msg.data)
+				if(jsonData2.list!=null){
+					$("#listPeople").html(jsonData2.list)
 				}
-				if(jsonData.list!=null){
-					
-				}
-				if(jsonData.room!=null){
-					
-				}
+				var jsonData3=JSON.parse(msg.data);
+				if(jsonData3.room!=null){
+				} */
 				
 			}
+			
 			ws.onclose=function(event){
 				
 			}
-		}
 	})
 	
 </script>
@@ -90,24 +97,24 @@
             <p class="name" id="chatTitle">${chatInfo.chat_title} 채팅방</p>
             <input type="button" style="align:right;" class="btn btn-primary" id="exitChat" name="exitChat" value="나가기">
           </div>
-          <div class="messages-chat" id="textArea">
-            <div class="message">
-              <div class="photo" style="background-image:/asset/images/face.png;">
-                <div class="online"></div>
-              </div>
-              <p class="text">${user.nickName} Hi, how are you ? </p> 
-            </div>
-            <div class="message text-only">
-              <p class="text"> What are you doing tonight ? Want to go take a drink ?</p>
-            </div>
-            <p class="time"> 14h58</p>               
-            <div class="message">
-          </div>
-          <div class="footer-chat">
+          <div id="chatArea">
+          	<c:if test="${allChat==null||empty allChat}">
+          		<tr>
+					<td colspan="5"><b>그룹원들과 자유롭게 채팅을 나눠보세요.</b></td>
+				</tr>
+			</c:if>
+	          <div class="messages-chat" id="chat">
+	          	<c:if test="${allChat!=null||not empty allChat}">
+	          		<c:forEach var="chat" items="${allChat}">
+	          			<div class='message'><div class='response'><p class='text'>${allChat.chat_text}</p></div></div><br>
+	          		</c:forEach>
+	          	</c:if>	
+	          </div>
+		  </div>
+          <div class="footer-chat" style="position:fixed; background-color:white">
             <i class="icon1 fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
-            <input type="text" class="write-message" name="textInput" id="textInput" placeholder="Type your message here"></input>
+            <input type="text" class="write-message" name="textInput" id="textInput" placeholder="메시지를 입력하세요"></input>
             <i class="icon2 send fa fa-paper-plane-o clickable" id="sendText" aria-hidden="true"></i>
-            </div>
           </div>
         </section>     
         </body>

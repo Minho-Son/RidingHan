@@ -1,10 +1,13 @@
 package com.tis.ridinghan;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tis.common.CommonUtil;
 import com.tis.common.CreateRandomCode;
@@ -61,11 +65,25 @@ public class ChatController {
 	}
 	
 	@RequestMapping(value="/chat/newChat",method=RequestMethod.POST)
-	public String createChat(@ModelAttribute ChatVO cv, Model m, HttpSession ses) {
+	public String createChat(@RequestParam("myfile") MultipartFile myfile,
+			@ModelAttribute ChatVO cv, Model m, HttpSession ses) {
 		
-		log.info("cv = "+cv);
-		
+		ServletContext sc=ses.getServletContext();
+		String upDir=sc.getRealPath("/asset/images/chat");
+		log.info("upDir="+upDir);
 		MemberVO user=(MemberVO)ses.getAttribute("user");
+		
+		String chat_img=myfile.getOriginalFilename();
+		if(myfile.isEmpty()) {
+			cv.setChat_img("noimage.jpg");
+		}else {
+			try {
+				myfile.transferTo(new File(upDir, chat_img));
+				cv.setChat_img(chat_img);
+			}catch(IOException e) {
+				log.error("파일 업로드 중 에러 : "+e.getMessage());
+			}
+		}
 		cv.setChat_text("|start|");
 		cv.setChat_user_no(user.getUser_no());	
 
@@ -74,8 +92,7 @@ public class ChatController {
 		
 		log.info("cv = "+cv);
 		
-		int n=0;
-			n=this.chatService.createChat(cv, user);
+		int n=this.chatService.createChat(cv, user);
 			
 		if(n<0) {
 			String msg="채팅방 만들기에 실패하였습니다..";
@@ -87,7 +104,7 @@ public class ChatController {
 			return "message";
 		}else {
 			String msg="환영합니다."+user.getNickName()+"님";
-			String loc="../chat/chatRoom";
+			String loc="../chat/chatRoom?room_code="+cv.getRoom_code();
 			
 			m.addAttribute("msg", msg);
 			m.addAttribute("loc", loc);
@@ -100,38 +117,30 @@ public class ChatController {
 	public String enterChatRoom(
 			@RequestParam(value="room_code", defaultValue="", required=false) String room_code,
 			 Model m, HttpSession ses) {
-		
-		//System.out.println("room_code = "+room_code);
+		log.info("room_code="+room_code);
 		MemberVO vo=(MemberVO)ses.getAttribute("user");
 		int user_no=vo.getUser_no();
 		
 		Map<String,Object> map=new HashMap<>();
 		map.put("user_no", user_no);
 		map.put("room_code", room_code);
+		ses.setAttribute("room_code", room_code);
 		
-		
-		if(room_code!=""|room_code.trim()!="") {
-				int n=chatService.addChatMember(map);
-				if(n>0) {
-					ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보
-					List<ChatVO> chatList=chatService.showChat(room_code); //채팅방 대화 내용
-					ses.setAttribute("chatInfo", chatInfo);
-					ses.setAttribute("chatList", chatList);
-					
-					return "";
-				}else {
-					String msg="멤버 추가 실패";
-					String loc="javascript:history().back";
-					m.addAttribute("msg", msg);
-					m.addAttribute("loc", loc);
-					return "message";
-				}
+		log.info(map);
+		int n=chatService.chkMemberinRoom(map);//멤버가 방에 없을 때에만 목록에 추가
+		if(n>0) {
+			ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보
+			List<ChatVO> allChat=chatService.showAllChat(room_code); //채팅방 대화 내용
+			m.addAttribute("chatInfo", chatInfo);
+			m.addAttribute("chatList", allChat);
+			return "group/chat";
 		}else {
-			String msg="방 정보가 없습니다";
+			String msg="멤버 추가 실패";
 			String loc="javascript:history().back";
 			m.addAttribute("msg", msg);
 			m.addAttribute("loc", loc);
 			return "message";
 		}
+
 	}
 }

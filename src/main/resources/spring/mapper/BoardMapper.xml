@@ -25,4 +25,7 @@
    <update id="deleteBoard" parameterType="int">
       delete from board where board_idx=#{board_idx}
    </update>
+   <select id="searchBoard" parameterType="com.tis.board.model.PagingVO" resultType="Board">
+         select * from board where board_title like '%'||#{findKeyword}||'%'
+   </select>
 </mapper>

@@ -1,5 +1,6 @@
-package com.tis.group.mapper;
+package com.tis.group.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -8,12 +9,12 @@ import com.tis.group.model.Chat_MemberVO;
 import com.tis.group.model.PagingVO;
 import com.tis.user.model.MemberVO;
 
-public interface ChatMapper{
+public interface ChatService {
 	List<ChatVO> showChatList (PagingVO paging);
 	int getTotalCount();
-	int createChat(ChatVO cvo);
+	int createChat(ChatVO cvo, MemberVO mvo);
 	int createChatMember(MemberVO vo);
-	Chat_MemberVO chkMemberinRoom(Map<String, Object> map);
+	int chkMemberinRoom(Map<String, Object> map);
 	int addChatMember(Map<String, Object> map);
 	ChatVO chatRoomInfo(String room_code);
 	List<ChatVO> showAllChat(String room_code);

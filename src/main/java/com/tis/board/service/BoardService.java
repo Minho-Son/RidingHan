@@ -19,5 +19,7 @@ public interface BoardService {
 	BoardVO findBoardByUserid(int board_user_no);
 	int editBoard(BoardVO boardVo);
 	int deleteBoard(int board_idx);
+	int getTotalCount(PagingVO paging);
+	List<BoardVO> getSearchList(PagingVO paging);
 	
 }

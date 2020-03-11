@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.tis.hangang">
+	<logger name="com.tis">
 		<level value="info" />
 	</logger>
 	

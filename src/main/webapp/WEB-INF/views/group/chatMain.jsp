@@ -13,8 +13,6 @@
 <title>채팅</title>
 <!--채팅방---------------------------------->
 <script>
-var socket;
-var nick="${user.nickName}";
 $(document).ready(function() { 
     $('#makeChat').click(function(){
        $("#chatModal").modal();
@@ -38,7 +36,7 @@ $(function(){
 			message(str);
 			return;
 		}
-		//alert($('#chat_title').val());
+		alert($('#chat_title').val());
 		f.submit();
 	})
 })
@@ -48,7 +46,7 @@ function joinChat(tmp){
 	var val=tmp.name;
 	//alert(val);
 	//var val=$('#joinChat').attr('name');
-	var w=window.open("about:blank","_blank","width=600, height=500, left=0, top=0");
+	var w=window.open("about:blank","_blank","width=540, height=800, left=0, top=0");
 	$.ajax({
 		type:'get',
 		url:'chat/chatRoom',
@@ -89,7 +87,7 @@ function joinChat(tmp){
 				</c:if>
 				<c:if test="${chatArr !=null || not empty chatArr }">
 					<div class="group-right">
-						<c:forEach var="chat" items="${chatArr}">
+						<c:forEach var="chatList" items="${chatArr}">
 							<div class="group-box">
 								<a href="#"> <img
 									style="width: 70px; height: 70px; z-index: -1; display: inline-block; border-radius: 35px; float: left;"
@@ -127,7 +125,7 @@ function joinChat(tmp){
 </div>
 
 <!--채팅 추가 모달+------------ enctype="multipart/form-data"--------------->
-	<form id="f" method="post" action="chat/newChat">
+	<form id="f" method="POST" enctype="multipart/form-data" action="chat/newChat">
       <div class="modal fade" id="chatModal">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -143,7 +141,7 @@ function joinChat(tmp){
 
                   <div style="text-align:center">
                      <h6 class="title">채팅방 대표 이미지 등록</h6>
-                     <input type="file" name="chat_img" id="chat_img" class="form-control">
+                     <input type="file" name="myfile" id="myfile" class="form-control">
                   </div>
 
                   <hr />

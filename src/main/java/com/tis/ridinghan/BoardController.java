@@ -74,6 +74,33 @@ public class BoardController {
 
 		return "board/boardList";
 	}
+	
+	@RequestMapping("/searchBoard")
+	   public String searchBoard(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
+	      log.info(paging);
+	      int totalCount = boardService.getTotalCount(paging);
+
+	      paging.setTotalCount(totalCount);
+	      paging.setPageSize(10);  
+	      paging.setPagingBlock(5); 
+	      paging.init(); 
+
+	      List<BoardVO> bList = boardService.getSearchList(paging);
+
+	      log.info(totalCount);
+	      log.info(bList);
+	      String myctx = req.getContextPath();
+	      // 페이지 네비 문자열 받아오기
+	      String pageNavi = paging.getPageNavi(myctx, "board");
+
+	      model.addAttribute("totalCount", totalCount);
+	      model.addAttribute("boardArr", bList);
+	      model.addAttribute("paging", paging);
+	      model.addAttribute("pageNavi", pageNavi);
+	      model.addAttribute("findKeyword",req.getParameter("findKeyword"));
+
+	      return "board/boardList";
+	   }
 
 	@GetMapping("/boardView")
 	public String boardView(Model model, @RequestParam(defaultValue = "0") int board_idx) {

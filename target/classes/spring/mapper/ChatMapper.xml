@@ -18,9 +18,6 @@
 	<select id="chatRoomInfo" parameterType="String" resultType="Chat">
 		select * from chat where room_code=#{room_code} and chat_text='|start|'
 	</select>
-	<select id="showChat" parameterType="String" resultType="Chat">
-		select * from chat where room_code=#{room_code} order by chat_wdate desc
-	</select>
 	<insert id="createChat" parameterType="Chat">
 		insert into chat(chat_no, chat_title, chat_text, chat_wtime, chat_img, chat_user_no, room_code, chat_info)
 		values(chat_seq.nextval,#{chat_title},#{chat_text},sysdate,#{chat_img},#{chat_user_no},#{room_code},#{chat_info})
@@ -31,8 +28,19 @@
     	(select room_code from (select * from chat where chat_user_no=#{user_no} and chat_text='|start|' order by chat_wtime desc) where rownum=1)
     	,#{user_no},sysdate,null)
 	</insert>
-	<insert id="addChatMember" parameterType="Map">
+	<select id="chkMemberinRoom" parameterType="Map" resultType="Chat_Member">
+		select * from chat_member where room_code=#{room_code} and user_no=#{user_no}
+	</select>
+ 	<insert id="addChatMember" parameterType="Map">
 		insert into chat_member(chat_member_no,room_code,user_no,chat_jtime,plan_no)
 		values(chat_member_seq.nextval,#{room_code},#{user_no},sysdate,null)
 	</insert>
+		<insert id="addChatText" parameterType="Chat">
+		insert into chat(chat_no, chat_title, chat_text, chat_wtime, chat_user_no, room_code)
+		values(#{chat_no},#{chat_title},#{chat_text},sysdate, #{chat_user_no},#{room_code})
+	</insert>
+	
+	<select id="showAllChat" parameterType="String" resultType="Chat">
+		select * from chat where room_code=#{room_code} order by chat_wtime desc
+	</select>
 </mapper>

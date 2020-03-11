@@ -18,4 +18,5 @@ public interface BoardMapper {
 	BoardVO selectBoardView(int bidx);
 	int editBoard(BoardVO boardVo);
 	int deleteBoard(int board_idx);
+	List<BoardVO> searchBoard(PagingVO paging);
 }
