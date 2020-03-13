@@ -84,12 +84,16 @@ public class ChatServiceImpl implements ChatService {
 		return this.chatMapper.addChatText(cvo);
 	}
 	@Override
-	public void deleteChat(Map<String, Object> map) {
-		this.chatMapper.deleteChat(map);
+	public int quitChatMember(Map<String, Object> map) {
+		return 1;
 	}
 	@Override
-	public void quitChatMember(Map<String, Object> map) {
-		this.chatMapper.quitChatMember(map);
+	public Chat_MemberVO chkMemberIs(Map<String, Object> map) {
+		return this.chatMapper.chkMemberIs(map);
+	}
+	@Override
+	public int deleteChatRoom(String room_code) {
+		return 1;
 	}
 
 }

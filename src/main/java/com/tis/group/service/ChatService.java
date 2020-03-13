@@ -21,6 +21,7 @@ public interface ChatService {
 	List<ChatVO> showAllChat(String room_code);
 	List<Chat_MemberVO> chatMemberList(String room_code);
 	int addChatText(ChatVO cvo);
-	void deleteChat(Map<String, Object> map);
-	void quitChatMember(Map<String, Object> map);
+	int quitChatMember(Map<String, Object> map);
+	Chat_MemberVO chkMemberIs(Map<String, Object> map);
+	int deleteChatRoom(String room_code);
 }

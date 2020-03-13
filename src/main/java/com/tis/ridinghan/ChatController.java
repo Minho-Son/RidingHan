@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tis.common.CommonUtil;
 import com.tis.common.CreateRandomCode;
 import com.tis.group.model.ChatVO;
+import com.tis.group.model.Chat_MemberVO;
 import com.tis.group.model.PagingVO;
 import com.tis.group.service.ChatService;
 import com.tis.user.model.MemberVO;
@@ -142,15 +142,39 @@ public class ChatController {
 		}
 	}
 	
-	@PostMapping(value="/chat/quitChat", produces="application/json; charset=UTF-8")
-	public void quitChat(@RequestParam ("room_code") String room_code,
-						@RequestParam ("user_no") int user_no){
+	@RequestMapping(value="/chat/quitChat")
+	@ResponseBody
+	public Map<String,Integer> quitChat(@RequestParam ("room_code") String room_code,
+						@RequestParam ("user_no") int user_no) throws Exception{
 		Map<String,Object> map=new HashMap<>();
+		
+		//log.info("룸코드, 유저넘버 : "+room_code+" , "+user_no);
+		
 		map.put("user_no", user_no);
 		map.put("room_code", room_code);
+		Map<String,Integer> result=new HashMap<>();
 		
-		chatService.deleteChat(map);
-		chatService.quitChatMember(map);
+		int n=chatService.quitChatMember(map);
+		log.info("삭제 됨? n = "+n);
+		
+		if(n>0) {
+			Chat_MemberVO cmvo=chatService.chkMemberIs(map);
+			if(cmvo==null) {//멤버가 없을 경우 모든 채팅과 방을 삭제
+				n=chatService.deleteChatRoom(room_code);
+				if(n>0) {
+					result.put("result",1);
+					return result;
+				}
+			}else {
+				result.put("result",0);
+				return result; 
+			}
+			result.put("result",1);
+			return result;
+		}else {
+			result.put("result",0);
+			return result; 
+		}
 	}
 	
 	

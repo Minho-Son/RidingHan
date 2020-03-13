@@ -20,6 +20,7 @@ public interface ChatMapper{
 	List<ChatVO> showAllChat(String room_code);
 	List<Chat_MemberVO> chatMemberList(String room_code);
 	int addChatText(ChatVO cvo);
-	Object deleteChat(Map<String, Object> map);
-	Object quitChatMember(Map<String, Object> map);
+	int quitChatMember(Map<String, Object> map);
+	Chat_MemberVO chkMemberIs(Map<String, Object> map);
+	int deleteChatRoom(String room_code);
 }

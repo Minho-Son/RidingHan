@@ -10,7 +10,7 @@
 		<div class="group-left">
 			<a class="micon" style="display:block" href="<%=myctx%>/mypage">마이페이지</a>
 			<p style="color: #72787F">
-				환영합니다 <b style="color: #337AF2">${user.user_name}</b>님
+				환영합니다 <b style="color: #337AF2">${user.nickName}</b>님
 			</p>
 			<!-- '성정민'에 회원 이름 나오도록 -->
 			<hr />
