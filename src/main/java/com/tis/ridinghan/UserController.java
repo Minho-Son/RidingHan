@@ -27,97 +27,117 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class UserController {
-	
+
 	@Autowired
 	private CommonUtil util;
-	
+
 	@Inject
 	private UserService userService;
-	
-	/////////////////////////회원가입
-	@RequestMapping(value="/signup",method=RequestMethod.GET)
-	public String showUserForm() {
-		return "signup";		
-	}
-	@RequestMapping(value="/signup",method=RequestMethod.POST)
-	public String userJoin(@ModelAttribute MemberVO mv, Model m) {
-		log.info("user=="+mv+", user.getName() : "+mv.getUser_name());
-		log.info("userService=="+this.userService);
-		int n=0;
-			n=this.userService.createMember(mv);
 
-		String msg=(n>0)?"회원가입 완료":"회원가입 실패";
-		String loc=(n>0)?"login":"javascript:history.back()";
-		
-		m.addAttribute("msg",msg);
-		m.addAttribute("loc",loc);	
-		
+	///////////////////////// 회원가입
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String showUserForm() {
+		return "signup";
+	}
+
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public String userJoin(@ModelAttribute MemberVO mv, Model m) {
+		log.info("user==" + mv + ", user.getName() : " + mv.getUser_name());
+		log.info("userService==" + this.userService);
+		int n = 0;
+		n = this.userService.createMember(mv);
+
+		String msg = (n > 0) ? "회원가입 완료" : "회원가입 실패";
+		String loc = (n > 0) ? "login" : "javascript:history.back()";
+
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+
 		return "message";
 	}
-	
-	/////////////////////////중복체크
-	@GetMapping(value="/idcheck", produces="application/json; charset=UTF-8;")
-	public @ResponseBody Map<String, Integer> idCheck(
-			@RequestParam("user_id") String user_id){
-		MemberVO idOkay=this.userService.memberChkByEmail(user_id);
-		int n=(idOkay!=null)? -1:1;
-		Map<String, Integer>map=new HashMap<>();
+
+	///////////////////////// 중복체크
+	@GetMapping(value = "/idcheck", produces = "application/json; charset=UTF-8;")
+	public @ResponseBody Map<String, Integer> idCheck(@RequestParam("user_id") String user_id) {
+		MemberVO idOkay = this.userService.memberChkByEmail(user_id);
+		int n = (idOkay != null) ? -1 : 1;
+		Map<String, Integer> map = new HashMap<>();
 		map.put("idOkay", n);
 		return map;
 	}
-	
-	@GetMapping(value="/nickcheck", produces="application/json; charset=UTF-8;")
-	public @ResponseBody Map<String, Integer> nickCheck(
-			@RequestParam("nickName") String nickName){
-		MemberVO nickOkay=this.userService.memberChkByNick(nickName);
-		int n=(nickOkay!=null)? -1:1;
-		Map<String, Integer>map=new HashMap<>();
+
+	@GetMapping(value = "/nickcheck", produces = "application/json; charset=UTF-8;")
+	public @ResponseBody Map<String, Integer> nickCheck(@RequestParam("nickName") String nickName) {
+		MemberVO nickOkay = this.userService.memberChkByNick(nickName);
+		int n = (nickOkay != null) ? -1 : 1;
+		Map<String, Integer> map = new HashMap<>();
 		map.put("nickOkay", n);
 		return map;
 	}
-	
-	/////////////////////////마이페이지 창
+
+/////////////////////////마이페이지 창
 	@GetMapping("/mypage")
 	public String showMypageForm() {
-		return "/mypage/mypageMain";		
+		return "/mypage/mypageMain";
 	}
-		
-	/////////////////////////회원정보 수정
+
+////////////////////////마이페이지 레프트 바
+	@RequestMapping("/mypageTop")
+	public void showMypageTop() {
+
+	}
+
+////////////////////////진행중인 여행
+	@GetMapping("/mypage/travelingList")
+	public String showTravelingList(Model m, HttpSession ses) {
+		return "mypage/travelingList";
+	}
+
+////////////////////////여행 히스토리
+	@GetMapping("/mypage/travelingHistory")
+	public String showTravelingHistory(Model m, HttpSession ses) {
+		return "mypage/travelingHistory";
+	}
+
+////////////////////////즐겨찾기
+	@GetMapping("/mypage/favorite")
+	public String showMyFavorite(Model m, HttpSession ses) {
+		return "mypage/favorite";
+	}
+
+/////////////////////////회원정보 수정
 	@GetMapping("/mypage/myInfo")
 	public String showMyInfo(Model m, HttpSession ses) {
 		return "mypage/memberInfo";
 	}
-	
-	@RequestMapping(value="/mypage/myInfoEdit",method=RequestMethod.POST)
-	public String myInfoEdit(
-			@RequestParam(defaultValue="false") String newPwd,
-			@ModelAttribute MemberVO mv, Model m, HttpSession ses, HttpServletResponse res
-			) throws NotUserException {
-			
-		////////비밀번호 체크
-		MemberVO user=(MemberVO) ses.getAttribute("user");
-		boolean input=user.getPwd().equals(mv.getPwd());
 
-		if(input==false) {
+	@RequestMapping(value = "/mypage/myInfoEdit", method = RequestMethod.POST)
+	public String myInfoEdit(@RequestParam(defaultValue = "false") String newPwd, @ModelAttribute MemberVO mv, Model m,
+			HttpSession ses, HttpServletResponse res) throws NotUserException {
+
+		//////// 비밀번호 체크
+		MemberVO user = (MemberVO) ses.getAttribute("user");
+		boolean input = user.getPwd().equals(mv.getPwd());
+
+		if (input == false) {
 			throw new NotUserException("비밀번호가 일치하지 않습니다.");
-		}else {
+		} else {
 			System.out.println("일치함");
-			if(newPwd!=null) {
+			if (newPwd != null) {
 				mv.setPwd(newPwd);
 			}
 			mv.setUser_id(user.getUser_id());
-			int n=0;
-			n=userService.editMember(mv);
-			System.out.println("mv = "+mv);
-			
-			String msg=(n>0)?"회원정보 수정 완료":"회원정보 수정 실패";
-			String loc=(n>0)?"myInfo":"javascript:history.back()";
-			
-			m.addAttribute("msg",msg);
-			m.addAttribute("loc",loc);	
-			
+			int n = 0;
+			n = userService.editMember(mv);
+			System.out.println("mv = " + mv);
+
+			String msg = (n > 0) ? "회원정보 수정 완료" : "회원정보 수정 실패";
+			String loc = (n > 0) ? "myInfo" : "javascript:history.back()";
+
+			m.addAttribute("msg", msg);
+			m.addAttribute("loc", loc);
+
 			return "message";
-		}	
+		}
 	}
 }
-	

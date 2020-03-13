@@ -1,6 +1,5 @@
 package com.tis.group.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +13,9 @@ import com.tis.group.model.Chat_MemberVO;
 import com.tis.group.model.PagingVO;
 import com.tis.user.model.MemberVO;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 @Service(value="chatServiceImpl")
 public class ChatServiceImpl implements ChatService {
 	
@@ -49,11 +51,13 @@ public class ChatServiceImpl implements ChatService {
 		if(cm==null) {
 			int n=addChatMember(map);
 			if(n>0) {
-				return n;
+				//log.info("채팅방에 멤버추가");
+				return n;//채팅방에 멤버 추가
 			}
 			return n;//채팅방 멤버추가 실패
 		}
-		return 1;
+		//log.info("채팅방에 이미 멤버 있음");
+		return 1;//이미 멤버가 있음
 	}
 	@Override
 	public int addChatMember(Map<String, Object> map) {
@@ -64,6 +68,10 @@ public class ChatServiceImpl implements ChatService {
 		return this.chatMapper.chatRoomInfo(room_code);
 	}
 	@Override
+	public String userNotoNick(int user_no) {
+		return this.userNotoNick(user_no);
+	}
+	@Override
 	public List<ChatVO> showAllChat(String room_code){
 		return this.chatMapper.showAllChat(room_code);
 	}
@@ -71,10 +79,17 @@ public class ChatServiceImpl implements ChatService {
 	public List<Chat_MemberVO> chatMemberList(String room_code){
 		return this.chatMapper.chatMemberList(room_code);
 	}
-	
 	@Override
 	public int addChatText(ChatVO cvo) {
 		return this.chatMapper.addChatText(cvo);
+	}
+	@Override
+	public void deleteChat(Map<String, Object> map) {
+		this.chatMapper.deleteChat(map);
+	}
+	@Override
+	public void quitChatMember(Map<String, Object> map) {
+		this.chatMapper.quitChatMember(map);
 	}
 
 }

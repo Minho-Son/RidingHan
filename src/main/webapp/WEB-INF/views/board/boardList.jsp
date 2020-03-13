@@ -97,7 +97,7 @@
       <div class="modal-content">
 
          <!-- Modal Header -->
-         <form action="boardInsert" method="post">
+         <form action="boardInsert" method="post" enctype="multipart/form-data">
             <div class="modal-header">
                <h6 class="modal-title">게시글 쓰기+</h6>
                <button type="button" class="close" data-dismiss="modal">×</button>
@@ -121,6 +121,11 @@
                <h6 class="title">게시판 내용</h6>
                <textarea type="Gcomment" class="form-control" rows="3"
                   id="board_content" name="board_content"></textarea>
+                <div style="text-align:left">
+                     <h6 class="title">파일 등록[1]</h6>
+                     <input type="file" name="myfile" id="myfile" class="form-control">
+                  </div>
+                 
             </div>
 
             <!-- Modal footer -->

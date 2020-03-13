@@ -24,8 +24,8 @@
 			</div>
 			<div class="bt-area opacity" data-animation-effect="fadeInUp"
 				data-effect-delay="2000">
-				<a href="#" class="down" style="color:white">라이딩 시작하기</a> 
-				<a href="#" class="buy" style="color:white">나의여행</a>
+				<a href="#" class="down" style="color: white">라이딩 시작하기</a> <a
+					href="#" class="buy" style="color: white">나의여행</a>
 			</div>
 		</div>
 		<div class="video-bg">
@@ -164,17 +164,11 @@
 
 				</div>
 			</div>
-			<!--div class="fea-lst opacity" data-animation-effect="fadeInUp" data-effect-delay="800">
-						<div class="slide-bx">
-							<div class="swiper-wrapper wrp">
-							</div>
-						</div>
-						<div class="pager"></div>
-					</div-->
-			<!-- /fea-lst-->
 		</div>
 	</div>
 	<!-- /index02-->
+
+
 
 	<div class="section index05">
 		<div class="inner">
@@ -197,13 +191,13 @@
 									<ul>
 										<c:forEach var="campaign" items="${campaignArr}" begin='0'
 											end='11'>
-											<li class="copr"><img
-												style="width: 100px; height: 100px; z-index: -1; display: inline-block; border-radius: 55px; float: left;"
-												src="resources/images/campaign/${campaign.campaign_image}">
+											<li class="copr">
+												<img src="resources/images/campaign/${campaign.campaign_image}">
 												<span style="float: right">
 													${campaign.campaign_start_date} <br> ~ <br>
 													${campaign.campaign_finish_date}
-											</span></li>
+												</span>
+											</li>
 										</c:forEach>
 									</ul>
 								</c:if>

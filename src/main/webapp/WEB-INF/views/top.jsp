@@ -49,7 +49,7 @@
 				</h1>
 				<div class="utill2">
 
-					<a href="<%=myctx%>/chat" target="_self" class="doc">커뮤니티</a> <a
+					<a href="<%=myctx%>/chat" target="_self" class="doc">채팅</a> <a
 						href="<%=myctx%>/map" target="_self" class="sup">나의 여행</a>
 				</div>
 				<div class="lang2">

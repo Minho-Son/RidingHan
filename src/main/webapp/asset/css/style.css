@@ -24,10 +24,10 @@ F7F8F9
 #container .txt_gray{text-align:center; font-size: 1rem; color:#72787F; font-weight:400; margin-top:15px; display: block; text-align: 1.5;}
 
 /*continer 버튼*/
-#container .serchbtn-bl {font-size: 15px; display:inline-block; width:50px; height: 36px; border-radius: 4px; text-align: center; color: #fff; background: #337AF2;}
+#container .serchbtn-bl {font-size: 15px; display:inline-block; width:50px; height: 36px; border-radius: 4px; text-align: center; color: #fff; background: #337AF2; margin-bottom:10px}
 #container .serchbtn-bl:hover{background-color:rgba(51,122,242,0.6); color: #fff;}
 
-#container .serchbtn-wh {font-size: 15px; display:inline-block; width:50px; height: 36px; border-radius: 4px; text-align: center; border:1px #337AF2 solid; color: #337AF2; background: #fff; margin-left: 6px}
+#container .serchbtn-wh {font-size: 15px; display:inline-block; width:50px; height: 36px; border-radius: 4px; text-align: center; border:1px #337AF2 solid; color: #337AF2; background: #fff;  margin-bottom:10px; margin-left: 6px}
 #container .serchbtn-wh:hover{background-color:rgba(51,122,242,0.6); color: #fff;}
 
 /*로그인*/
@@ -221,7 +221,7 @@ F7F8F9
 #map_search .search-bar input.icon{border: none; width: 48px;  opacity: 0.6; margin-left: -40px; cursor:pointer; padding:13px;}
 #map_search .search-bar:hover input.icon, #map_search.search-bar:active input.icon, #map_search.search-bar:focus input.icon{outline: none; border:none; opacity: 1;}
 
-#map_check {padding:20px; width: 300px; height:190px; background: white; position: fixed; left:0; top:200px; z-index:998; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);}
+#map_check {padding:20px; width: 300px; height:240px; background: white; position: fixed; left:0; top:200px; z-index:998; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);}
 #map_check .departure::before
 {content: ''; width: 35px; height: 25px; display: inline-block; background:url('../images/start.png') 50% 50% no-repeat; vertical-align:-8px; margin-right:5px;}
 #map_check .arrival::before
@@ -538,9 +538,12 @@ body.ovf_hdn, .ovf_hdn{ overflow:hidden; height:100%;}
 .index05 .part-bx::after{ content: ''; clear: both; display: block; font-size: 0;}
 .index05 .part-bx .side-bx{ overflow: hidden;}
 .index05 .part-bx .side-bx ul{ margin-left:-20px; overflow: hidden;}
-.index05 .part-bx .side-bx ul li img{ transition:all 0.2s ease-in-out;}
+.index05 .part-bx .side-bx ul li img{ transition:all 0.2s ease-in-out; width: 100%; height:auto; max-width: 224px; vertical-align: center; z-index:-2}
 .index05 .part-bx .side-bx ul li:hover img{transform:scale(1.1); opacity: .8; }
-.index05 .part-bx .copr{ width:224px; height: 224px; float: left; margin:10px 0 10px 20px; background-color:#fff; padding:40px 0 0 0;}
+.index05 .part-bx .copr{ width:224px; height: 224px; float: left; 
+margin:10px 0 10px 20px; background-color:#fff; overflow:hidden;
+z-index:-99;
+}
 .index05 .part-bx .copr span{ display: block; text-align: center; color:#111;}
 .index05 .part-bx .copr .logo{ display: inline;}
 .index05 .part-bx .pager{ position: relative; bottom:auto; margin-top:40px; text-align: center;}

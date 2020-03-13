@@ -1,7 +1,11 @@
 package com.tis.ridinghan;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tis.board.model.BoardVO;
 import com.tis.board.model.PagingVO;
@@ -25,160 +30,200 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class BoardController {
-	@Autowired
-	private BoardService boardService;
+   @Autowired
+   private BoardService boardService;
 
-	@RequestMapping(value = "/boardInsert", method = RequestMethod.POST)
-	   public String insertBoard(@ModelAttribute BoardVO board, Model model, HttpSession ses) {
-	   
-	      MemberVO user=(MemberVO)ses.getAttribute("user");
-	      if(user==null) {
-	         String str="로그인 해야 이용가능합니다.";
-	         String loc="login";
-	         model.addAttribute("msg", str);
-	         model.addAttribute("loc", loc);
-	         
-	         return "message";
-	      }
-	      board.setBoard_user_no(user.getUser_no());
-	      board.setUser_id(user.getUser_id());
-	      int n = 0;
-	      n = this.boardService.insertBoard(board);
+   @RequestMapping(value = "/boardInsert", method = RequestMethod.POST)
+      public String insertBoard(@RequestParam("myfile") MultipartFile myfile, 
+            @ModelAttribute BoardVO board, Model model, HttpSession ses) {
+         MemberVO user=(MemberVO)ses.getAttribute("user");
+         if(user==null) {
+            String str="로그인 해야 이용가능합니다.";
+            String loc="login";
+            model.addAttribute("msg", str);
+            model.addAttribute("loc", loc);
+            
+            return "message";
+         }
+         board.setBoard_user_no(user.getUser_no());
+         board.setUser_id(user.getUser_id());
+         log.info("user_no : "+board.getBoard_user_no()+", user_id : "+board.getUser_id());
+         
+         
+         ServletContext sc=ses.getServletContext();
+        String upDir=sc.getRealPath("/asset/images/board");
+        
+        log.info("upDir=="+upDir);
+        
+        File dir=new File(upDir);
+        if(!dir.exists()) {
+           dir.mkdirs(); //업로드 디렉토리 생성 
+        }
+        //파일을 업로드 했다면
+        if(!myfile.isEmpty()) {
+           //먼저 첨부파일, 파일크기를 알아내자
+           String originfname=myfile.getOriginalFilename(); //원본파일명
+           long fsize=myfile.getSize(); //파일크기
+           
+           //동일한 파일명일 경우 덮어쓰기를 방지하기 위해 랜덤한 값과 결합하자
+           UUID uuid=UUID.randomUUID();
+           String fname=uuid.toString()+"_"+originfname; //물리적 파일명
+           log.info("fname=="+fname);
+           
+           board.setOriginFilename(originfname);
+           board.setFilename(fname);
+           board.setFilesize(fsize);
+           
+           log.info(board);
+           
+           //업로드 처리 
+           try {
+              myfile.transferTo(new File(upDir,fname));
+           }catch(Exception e) {
+              log.error("게시글 업로드 중 예외: "+e.getMessage());
+           }
+           
+        }//------------------------------------------------------if
+         
+        //DB에 게시글 insert
+        
+        int n = 0;
+         n = this.boardService.insertBoard(board);
+        
+         String str = (n > 0) ? "글쓰기 성공" : "글쓰기 실패";
+         String loc = (n > 0) ? "board" : "javascript:history.back()";
+         model.addAttribute("msg", str);
+         model.addAttribute("loc", loc);
 
-	      String str = (n > 0) ? "글쓰기 성공" : "글쓰기 실패";
-	      String loc = (n > 0) ? "board" : "javascript:history.back()";
-	      model.addAttribute("msg", str);
-	      model.addAttribute("loc", loc);
+         return "message";
+      }
+   @RequestMapping("/board")
+   public String boardList(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
+      int totalCount = boardService.getTotalCount();
 
-	      return "message";
-	   }
-	@RequestMapping("/board")
-	public String boardList(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
-		int totalCount = boardService.getTotalCount();
+      paging.setTotalCount(totalCount); // 총 게시글 수 세팅
+      paging.setPageSize(10); // 한 페이지당 보여줄 회원목록 갯수
+      paging.setPagingBlock(5); // 페이징 블럭
+      paging.init(); // 페이징 처리 관련 연산수행
 
-		paging.setTotalCount(totalCount); // 총 게시글 수 세팅
-		paging.setPageSize(10); // 한 페이지당 보여줄 회원목록 갯수
-		paging.setPagingBlock(5); // 페이징 블럭
-		paging.init(); // 페이징 처리 관련 연산수행
+      List<BoardVO> bList = boardService.getAllBoardList(paging);
 
-		List<BoardVO> bList = boardService.getAllBoardList(paging);
+      String myctx = req.getContextPath();
+      // 페이지 네비 문자열 받아오기
+      String pageNavi = paging.getPageNavi(myctx, "board");
 
-		String myctx = req.getContextPath();
-		// 페이지 네비 문자열 받아오기
-		String pageNavi = paging.getPageNavi(myctx, "board");
+      model.addAttribute("totalCount", totalCount);
+      model.addAttribute("boardArr", bList);
+      model.addAttribute("paging", paging);
+      model.addAttribute("pageNavi", pageNavi);
 
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("boardArr", bList);
-		model.addAttribute("paging", paging);
-		model.addAttribute("pageNavi", pageNavi);
+      return "board/boardList";
+   }
+   
+   @RequestMapping("/searchBoard")
+      public String searchBoard(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
+         log.info(paging);
+         int totalCount = boardService.getTotalCount(paging);
 
-		return "board/boardList";
-	}
-	
-	@RequestMapping("/searchBoard")
-	   public String searchBoard(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
-	      log.info(paging);
-	      int totalCount = boardService.getTotalCount(paging);
+         paging.setTotalCount(totalCount);
+         paging.setPageSize(10);  
+         paging.setPagingBlock(5); 
+         paging.init(); 
 
-	      paging.setTotalCount(totalCount);
-	      paging.setPageSize(10);  
-	      paging.setPagingBlock(5); 
-	      paging.init(); 
+         List<BoardVO> bList = boardService.getSearchList(paging);
 
-	      List<BoardVO> bList = boardService.getSearchList(paging);
+         log.info(totalCount);
+         log.info(bList);
+         String myctx = req.getContextPath();
+         // 페이지 네비 문자열 받아오기
+         String pageNavi = paging.getPageNavi(myctx, "board");
 
-	      log.info(totalCount);
-	      log.info(bList);
-	      String myctx = req.getContextPath();
-	      // 페이지 네비 문자열 받아오기
-	      String pageNavi = paging.getPageNavi(myctx, "board");
+         model.addAttribute("totalCount", totalCount);
+         model.addAttribute("boardArr", bList);
+         model.addAttribute("paging", paging);
+         model.addAttribute("pageNavi", pageNavi);
+         model.addAttribute("findKeyword",req.getParameter("findKeyword"));
 
-	      model.addAttribute("totalCount", totalCount);
-	      model.addAttribute("boardArr", bList);
-	      model.addAttribute("paging", paging);
-	      model.addAttribute("pageNavi", pageNavi);
-	      model.addAttribute("findKeyword",req.getParameter("findKeyword"));
+         return "board/boardList";
+      }
 
-	      return "board/boardList";
-	   }
+   @GetMapping("/boardView")
+   public String boardView(Model model, @RequestParam(defaultValue = "0") int board_idx) {
+      // UserVO loginUser=(UserVO)ses.getAttribute("loginUser");
+      // int idx_fk=loginUser.getIdx();
 
-	@GetMapping("/boardView")
-	public String boardView(Model model, @RequestParam(defaultValue = "0") int board_idx) {
-		// UserVO loginUser=(UserVO)ses.getAttribute("loginUser");
-		// int idx_fk=loginUser.getIdx();
+      BoardVO board = (BoardVO) boardService.selectBoardView(board_idx);
+      log.info(board);
+      model.addAttribute("bi", board);
+      return "board/boardView";
+   }
 
-		BoardVO board = (BoardVO) boardService.selectBoardView(board_idx);
-//		log.info(board);
-		model.addAttribute("bi", board);
-		return "board/boardView";
-	}
+   @PostMapping("/boardEditForm")
+   public String boardEdit(Model model, @RequestParam(defaultValue = "0") int board_idx,
+         @RequestParam(defaultValue = "0") String board_pwd) {
+      BoardVO vo = (BoardVO) boardService.selectBoardView(board_idx);
+      model.addAttribute("bi", vo);
+      if (vo.getBoard_pwd().equals(board_pwd)) {
+         return "board/boardEdit";
+      }else {
+         String str = "비밀번호가 틀렸습니다.";
+         String loc = "javascript:history.back()";
+         model.addAttribute("msg", str);
+         model.addAttribute("loc", loc);
+         return "message";
+      }
+      
+   }
 
-	@PostMapping("/boardEditForm")
-	public String boardEdit(Model model, @RequestParam(defaultValue = "0") int board_idx,
-			@RequestParam(defaultValue = "0") String board_pwd) {
-		BoardVO vo = (BoardVO) boardService.selectBoardView(board_idx);
-		model.addAttribute("bi", vo);
-		if (vo.getBoard_pwd().equals(board_pwd)) {
-			return "board/boardEdit";
-		}else {
-			String str = "비밀번호가 틀렸습니다.";
-			String loc = "javascript:history.back()";
-			model.addAttribute("msg", str);
-			model.addAttribute("loc", loc);
-			return "message";
-		}
-		
-	}
+   @PostMapping("/boardEdit")
+   public String boardEditEnd(Model model, @ModelAttribute BoardVO board) {
+      
+      int n = 0;
+      n = this.boardService.editBoard(board);
 
-	@PostMapping("/boardEdit")
-	public String boardEditEnd(Model model, @ModelAttribute BoardVO board) {
-		
-		int n = 0;
-		n = this.boardService.editBoard(board);
+      String str = (n > 0) ? "수정 성공" : "수정 실패";
+      String loc = (n > 0) ? "board" : "javascript:history.back()";
+      model.addAttribute("msg", str);
+      model.addAttribute("loc", loc);
 
-		String str = (n > 0) ? "수정 성공" : "수정 실패";
-		String loc = (n > 0) ? "board" : "javascript:history.back()";
-		model.addAttribute("msg", str);
-		model.addAttribute("loc", loc);
+      return "message";
+   }
 
-		return "message";
-	}
+   @PostMapping("/boardDel")
+   public String boardDel(Model model, @RequestParam(defaultValue = "0") int board_idx,
+         @RequestParam(defaultValue = "0") String board_pwd) {
+      BoardVO vo = boardService.selectBoardView(board_idx);
+      if (vo == null) {
+         String str = "존재하지 않는 게시글 입니다.";
+         String loc = "board";
+         model.addAttribute("msg", str);
+         model.addAttribute("loc", loc);
+         return "message";
+      }
+      if (vo.getBoard_pwd().equals(board_pwd)) {
 
-	@PostMapping("/boardDel")
-	public String boardDel(Model model, @RequestParam(defaultValue = "0") int board_idx,
-			@RequestParam(defaultValue = "0") String board_pwd) {
-		BoardVO vo = boardService.selectBoardView(board_idx);
-		if (vo == null) {
-			String str = "존재하지 않는 게시글 입니다.";
-			String loc = "board";
-			model.addAttribute("msg", str);
-			model.addAttribute("loc", loc);
-			return "message";
-		}
-		if (vo.getBoard_pwd().equals(board_pwd)) {
+         int n = boardService.deleteBoard(board_idx);
+         if (n > 0) {
+            String str = "삭제 성공";
+            String loc = "board";
+            model.addAttribute("msg", str);
+            model.addAttribute("loc", loc);
+            return "message";
+         }else {
+            String str = "삭제 실패";
+            String loc = "board";
+            model.addAttribute("msg", str);
+            model.addAttribute("loc", loc);
+            return "message";
+         }
+      } else {
+         String str = "비밀번호가 틀렸습니다.";
+         String loc = "javascript:history.back()";
+         model.addAttribute("msg", str);
+         model.addAttribute("loc", loc);
+         return "message";
 
-			int n = boardService.deleteBoard(board_idx);
-			if (n > 0) {
-				String str = "삭제 성공";
-				String loc = "board";
-				model.addAttribute("msg", str);
-				model.addAttribute("loc", loc);
-				return "message";
-			}else {
-				String str = "삭제 실패";
-				String loc = "board";
-				model.addAttribute("msg", str);
-				model.addAttribute("loc", loc);
-				return "message";
-			}
-		} else {
-			String str = "비밀번호가 틀렸습니다.";
-			String loc = "javascript:history.back()";
-			model.addAttribute("msg", str);
-			model.addAttribute("loc", loc);
-			return "message";
+      }
 
-		}
-
-	}
+   }
 }

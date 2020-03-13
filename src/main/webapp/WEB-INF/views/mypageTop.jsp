@@ -8,7 +8,7 @@
 
 	<div class="inner4">
 		<div class="group-left">
-			<p class="micon">마이페이지</p>
+			<a class="micon" style="display:block" href="<%=myctx%>/mypage">마이페이지</a>
 			<p style="color: #72787F">
 				환영합니다 <b style="color: #337AF2">${user.user_name}</b>님
 			</p>
@@ -17,6 +17,7 @@
 			<p class="mtxt_blue">계정</p>
 			<a href="<%=myctx%>/mypage/myInfo" class="txt_black">회원정보수정</a>
 			<p class="txt_blue">나의 여행</p>
-			<a class="txt_black">즐겨찾기</a> <a class="txt_black">진행중인 여행</a> 
-			<a class="txt_black">여행 히스토리</a>
+			<a href="<%=myctx%>/mypage/favorite" class="txt_black">즐겨찾기</a> 
+			<a href="<%=myctx%>/mypage/travelingList" class="txt_black">진행중인 여행</a> 
+			<a href="<%=myctx%>/mypage/travelingHistory" class="txt_black">여행 히스토리</a>
 		</div>

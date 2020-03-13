@@ -15,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tis.common.CommonUtil;
@@ -50,7 +52,6 @@ public class ChatController {
 		paging.setPagingBlock(5);
 		paging.init();
 		
-		ChatVO cv=new ChatVO();
 		List<ChatVO> arr=chatService.showChatList(paging);
 		
 		String myctx=req.getContextPath();
@@ -104,7 +105,7 @@ public class ChatController {
 			return "message";
 		}else {
 			String msg="환영합니다."+user.getNickName()+"님";
-			String loc="../chat/chatRoom?room_code="+cv.getRoom_code();
+			String loc="redirect:/chat";
 			
 			m.addAttribute("msg", msg);
 			m.addAttribute("loc", loc);
@@ -113,11 +114,10 @@ public class ChatController {
 		}
 	}
 	
-	@RequestMapping(value="/chat/chatRoom", method=RequestMethod.GET)
-	public String enterChatRoom(
+	@RequestMapping(value="/chat/enterChat", method=RequestMethod.GET)
+	public String enterChat(
 			@RequestParam(value="room_code", defaultValue="", required=false) String room_code,
 			 Model m, HttpSession ses) {
-		log.info("room_code="+room_code);
 		MemberVO vo=(MemberVO)ses.getAttribute("user");
 		int user_no=vo.getUser_no();
 		
@@ -126,13 +126,12 @@ public class ChatController {
 		map.put("room_code", room_code);
 		ses.setAttribute("room_code", room_code);
 		
-		log.info(map);
-		int n=chatService.chkMemberinRoom(map);//멤버가 방에 없을 때에만 목록에 추가
+		int n=chatService.chkMemberinRoom(map);//멤버가 방에 있는지 없는지 확인 후 목록 추가
 		if(n>0) {
 			ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보
 			List<ChatVO> allChat=chatService.showAllChat(room_code); //채팅방 대화 내용
 			m.addAttribute("chatInfo", chatInfo);
-			m.addAttribute("chatList", allChat);
+			m.addAttribute("allChat", allChat);
 			return "group/chat";
 		}else {
 			String msg="멤버 추가 실패";
@@ -141,6 +140,19 @@ public class ChatController {
 			m.addAttribute("loc", loc);
 			return "message";
 		}
-
 	}
+	
+	@PostMapping(value="/chat/quitChat", produces="application/json; charset=UTF-8")
+	public void quitChat(@RequestParam ("room_code") String room_code,
+						@RequestParam ("user_no") int user_no){
+		Map<String,Object> map=new HashMap<>();
+		map.put("user_no", user_no);
+		map.put("room_code", room_code);
+		
+		chatService.deleteChat(map);
+		chatService.quitChatMember(map);
+	}
+	
+	
+	
 }

@@ -22,7 +22,7 @@
 			type="button" class="serchbtn-wh btn-sm-1" value="경로" /> <input
 			type="button" class="serchbtn-wh btn-sm-1" value="장소" />
 	</div>
-	<div class="group-box3">
+	<div class="group-box2">
 		<a onclick="showFavorite()">
 			<div class="profile2" href="${chat.chat_url}">
 				<img src="asset/images/chat/${chat.chat_image}">

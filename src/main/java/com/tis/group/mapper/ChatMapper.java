@@ -16,7 +16,10 @@ public interface ChatMapper{
 	Chat_MemberVO chkMemberinRoom(Map<String, Object> map);
 	int addChatMember(Map<String, Object> map);
 	ChatVO chatRoomInfo(String room_code);
+	String userNotoNick(int user_no);
 	List<ChatVO> showAllChat(String room_code);
 	List<Chat_MemberVO> chatMemberList(String room_code);
 	int addChatText(ChatVO cvo);
+	Object deleteChat(Map<String, Object> map);
+	Object quitChatMember(Map<String, Object> map);
 }

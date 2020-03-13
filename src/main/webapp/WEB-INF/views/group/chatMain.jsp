@@ -49,12 +49,12 @@ function joinChat(tmp){
 	var w=window.open("about:blank","_blank","width=540, height=800, left=0, top=0");
 	$.ajax({
 		type:'get',
-		url:'chat/chatRoom',
+		url:'chat/enterChat',
 		data:{"room_code":val},
 		dataType:'html',
 		success:function(res){
 			//alert(res);
-			w.location.href="/RidingHan/chat/chatRoom?room_code="+val;
+			w.location.href="/RidingHan/chat/enterChat?room_code="+val;
 		},
 		error:function(e){
 			alert('error: '+e.status);
@@ -75,8 +75,8 @@ function joinChat(tmp){
 					<button type="button" id="makeChat" class="btn btn-success col-12">채팅
 						만들기 +</button>
 					<p class="txt_blue">참여중인 채팅 목록</p><br>
-					<c:forEach var="chattitle" items="${chatArr}">
-						<a class="txt_black">${chattitle.chat_title}</a><br>
+					<c:forEach var="chatList" items="${chatArr}">
+						<a class="txt_black">${chatList.chat_title}</a><br>
 					</c:forEach>
 				</div>
 
@@ -85,28 +85,28 @@ function joinChat(tmp){
 						<td colspan="5"><b>현재 채팅방이 없습니다.</b></td>
 					</tr>
 				</c:if>
-				<c:if test="${chatArr !=null || not empty chatArr }">
+				<c:if test="${chatArr !=null || not empty chatArr}">
 					<div class="group-right">
-						<c:forEach var="chatList" items="${chatArr}">
+						<c:forEach var="chatList2" items="${chatArr}">
 							<div class="group-box">
 								<a href="#"> <img
 									style="width: 70px; height: 70px; z-index: -1; display: inline-block; border-radius: 35px; float: left;"
-									src="asset/images/chat/${chat.chat_img}">
+									src="asset/images/chat/${chatList2.chat_img}">
 								</a>
 
 								<div class="group-txt">
-									${chat.chat_title} <br>
+									${chatList2.chat_title} <br>
 									<div style="font-size: 10px;">
-										<fmt:formatDate value="${chat.chat_wtime}"
+										<fmt:formatDate value="${chatList2.chat_wtime}"
 											pattern="yy.MM.dd" />
 									</div>
 
 									<span
 										style="font-size: 12px; position: absolute; bottom: 0; z-index: 9;">
-										${chat.chat_wtime} </span>
+										${chatList2.chat_wtime} </span>
 
 								</div>
-								<input type="button" name="${chat.room_code}" id="joinChat" class="enter" onclick="joinChat(this)" value="참여" />
+								<input type="button" name="${chatList2.room_code}" id="joinChat" class="enter" onclick="joinChat(this)" value="참여" />
 
 							</div>
 						</c:forEach>

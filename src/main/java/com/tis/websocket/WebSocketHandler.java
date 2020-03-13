@@ -62,10 +62,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		log.info(ses.getId()+"로부터 "+msg.getPayload()+"받음");
 		String str=msg.getPayload();
 		String tokens[]=str.split("@!\\|");
-		
-		ChatVO roomInfo=new ChatVO();
+
 		String room_code;
 		String nickName;
+		int user_no;
 		
 		//log.info("room_code : "+room_code);
 		if(tokens!=null) {
@@ -73,35 +73,39 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			case "100":
 				room_code=tokens[1];
 				nickName=tokens[2];
-				roomInfo=chatservice.chatRoomInfo(room_code);
+				ChatVO roomInfo=chatservice.chatRoomInfo(room_code);
 				log.info("roomInfo : "+roomInfo);
 				roomList.put(ses, roomInfo);
 				break;
 			case "200":	
 				ChatVO chat=(ChatVO)roomList.get(ses);
 				String text=tokens[1];
+				user_no=Integer.parseInt(tokens[2]);
+				chat.setChat_user_no(user_no);
 				chat.setChat_text(text);
-				log.info("chat : "+chat);
+				log.info("chatVO chat : "+chat);
 				if(!text.equals("")&&!(text.trim().isEmpty())) {
 					for(WebSocketSession webSocketSession:sesList) {
-						String rcode=((ChatVO)(roomList.get(webSocketSession))).getRoom_code();					
-						if(chat.getRoom_code().equals(rcode)){
-							//if(!ses.getId().equals(webSocketSession.getId())) {
+						String thisRoom_code=((ChatVO)(roomList.get(webSocketSession))).getRoom_code();					
+						int thisUser_no=((ChatVO)(roomList.get(webSocketSession))).getChat_user_no();					
+						if(chat.getRoom_code().equals(thisRoom_code)){
+							if(user_no!=thisUser_no) {
 							if(webSocketSession.isOpen()) {
 								int n=chatservice.addChatText(chat);
 								if(n>0) {
+								log.info("메시지 저장 성공이욤");
 								webSocketSession.sendMessage(new TextMessage(text));
 								}else {
 									log.info("메시지 전송 실패");
 								}
 							}
-							//}
+							}
 						}
-					}
-				}
+					}//for--------------------------
+				}//if--------------------------
 				break;
-			}
-		}//if---------------------
+			}//switch------------------------
+		}//if------------------------------
 	}
 	
 	@Override
