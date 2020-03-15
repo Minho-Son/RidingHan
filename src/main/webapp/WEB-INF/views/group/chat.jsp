@@ -28,6 +28,7 @@
 	
 	var user_no="${user.user_no}";
 	var nick="${user.nickName}";
+	var yourNick="";
 	var chat_title="${chatInfo.chat_title}";
 	var room_code="${chatInfo.room_code}";
 
@@ -66,7 +67,8 @@
 		//메세지 보내기
 		ws.onopen=function(){
 			ws.send(100+"@!|${room_code}@!|"+nick);
-			$("#sendText").click(function(){
+			
+			function sendText(){
 				var msg=$('input[name=textInput]').val();
 				var room=$("#chatTitle").text();
 				if(msg!=""){
@@ -77,33 +79,28 @@
 					$("#textInput").val("");
 					$("#textInput").focus();
 				}
-			})
+			}
+			$("#sendText").click(function(){
+				sendText();
+			});
 			$("#textInput").keypress(function(event){
 				if(event.keyCode==13){
 					event.preventDefault();
-					var msg=$('input[name=textInput]').val();
-					var room=$("#chatTitle").text();;
-					if(msg!=""){
-						ws.send(200+"@!|"+msg+"@!|"+user_no);
-						var sentMsg="<div class='message'><div class='response'><p class='text'>"+msg+"</p></div></div><br>";
-						$("#just").append(sentMsg);
-						$("#textInput").val("");
-						$("#textInput").focus();
-						$("#just").scrollTop(99999999);
-					}
+					sendText();
 				}
-			})
+			});
 		}
 			//서버로부터 받은 메시지
 			ws.onmessage=function(msg){
-				//alert(msg);
+				alert(msg);
 				var data=msg.data;
+				var tokens=data.split("@!\\|");
 				//alert(data);
 				var receivedMsg="<div class='message text-only' style='margin:0;'>"
 				+"<img src=''"
 				+"style='background-color:#337AF2; width:48px; height:48px; display:inline-block; border-radius:100%'>"
-				+"<p>이름샘플</p>"
-				+"<p class='text' style='margin:0 10px 0 0'>"+data+"</p></div><br>";
+				+"<p>"+yourNick+"</p>"
+				+"<p class='text' style='margin:0 10px 0 0'>"+tokens[1]+"</p></div><br>";
 				$("#just").append(receivedMsg);
 				$("#just").scrollTop(99999999);
 			

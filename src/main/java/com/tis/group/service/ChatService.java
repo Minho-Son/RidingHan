@@ -12,12 +12,16 @@ import com.tis.user.model.MemberVO;
 public interface ChatService {
 	List<ChatVO> showChatList (PagingVO paging);
 	int getTotalCount();
+	int getTotalCount(PagingVO paging);
+	List<ChatVO> getSearchList(PagingVO paging);
+	
 	int createChat(ChatVO cvo, MemberVO mvo);
 	int createChatMember(MemberVO vo);
 	int chkMemberinRoom(Map<String, Object> map);
 	int addChatMember(Map<String, Object> map);
 	ChatVO chatRoomInfo(String room_code);
 	String userNotoNick(int user_no);
+	
 	List<ChatVO> showAllChat(String room_code);
 	List<Chat_MemberVO> chatMemberList(String room_code);
 	int addChatText(ChatVO cvo);

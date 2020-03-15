@@ -11,6 +11,9 @@ import com.tis.user.model.MemberVO;
 public interface ChatMapper{
 	List<ChatVO> showChatList (PagingVO paging);
 	int getTotalCount();
+	int getTotalCount(PagingVO paging);
+	List<ChatVO> getSearchList(PagingVO paging);
+	
 	int createChat(ChatVO cvo);
 	int createChatMember(MemberVO vo);
 	Chat_MemberVO chkMemberinRoom(Map<String, Object> map);

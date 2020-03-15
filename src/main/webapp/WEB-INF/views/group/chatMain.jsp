@@ -13,7 +13,7 @@
 <title>채팅</title>
 <!--채팅방---------------------------------->
 <script>
-$(document).ready(function() { 
+$(document).ready(function() {
     $('#makeChat').click(function(){
        $("#chatModal").modal();
     })
@@ -70,8 +70,11 @@ function joinChat(tmp){
 			<div class="inner3">
 				<div class="group-left">
 					<p class="cicon">채팅</p>
-					<input type="text" name="search" id="search" class="form-control"
+					 <form class="form-inline" name="findChat" action="searchChat">
+              			 <input type="text" name="findChat" id="findChat" class="form-control col-md-7"
 						placeholder="검색">
+               			<button type="submit" id="" class="">검색</button>
+            		</form>
 					<button type="button" id="makeChat" class="btn btn-success col-12">채팅
 						만들기 +</button>
 					<p class="txt_blue">참여중인 채팅 목록</p><br>

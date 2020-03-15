@@ -36,7 +36,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	//연결되었을 때
 	@Override
 	public void afterConnectionEstablished(WebSocketSession ses) throws Exception{
-		log.info("채팅방 연결 성공");
+		log.info("채팅방 연결 성공, sesList : "+ses);
 		sesList.add(ses);
 		
 		/*
@@ -59,7 +59,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession ses, TextMessage msg) throws Exception{
-		log.info(ses.getId()+"로부터 "+msg.getPayload()+"받음");
+		log.info(ses.getId()+"방으로부터 "+msg.getPayload()+"받음");
 		String str=msg.getPayload();
 		String tokens[]=str.split("@!\\|");
 
@@ -74,33 +74,34 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				room_code=tokens[1];
 				nickName=tokens[2];
 				ChatVO roomInfo=chatservice.chatRoomInfo(room_code);
-				log.info("roomInfo : "+roomInfo);
 				roomList.put(ses, roomInfo);
 				break;
 			case "200":	
+				log.info("200 받음요?????????????");
 				ChatVO chat=(ChatVO)roomList.get(ses);
 				String text=tokens[1];
 				user_no=Integer.parseInt(tokens[2]);
 				chat.setChat_user_no(user_no);
 				chat.setChat_text(text);
-				log.info("chatVO chat : "+chat);
-				if(!text.equals("")&&!(text.trim().isEmpty())) {
+				if(!text.equals("")&&!(text.trim().isEmpty())) {		
 					for(WebSocketSession webSocketSession:sesList) {
 						String thisRoom_code=((ChatVO)(roomList.get(webSocketSession))).getRoom_code();					
 						int thisUser_no=((ChatVO)(roomList.get(webSocketSession))).getChat_user_no();					
 						if(chat.getRoom_code().equals(thisRoom_code)){
+							log.info("됨");
 							if(user_no!=thisUser_no) {
 							if(webSocketSession.isOpen()) {
 								int n=chatservice.addChatText(chat);
 								if(n>0) {
-								log.info("메시지 저장 성공이욤");
-								webSocketSession.sendMessage(new TextMessage(text));
+								log.info("메시지 저장 성공이욤"+text);
+								webSocketSession.sendMessage(new TextMessage(user_no+"@!|"+text));
 								}else {
 									log.info("메시지 전송 실패");
 								}
 							}
 							}
 						}
+						log.info("안됨");
 					}//for--------------------------
 				}//if--------------------------
 				break;
@@ -110,7 +111,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession ses, CloseStatus status) throws Exception{
-		
+		sesList.remove(ses);
 		
 	}
 	

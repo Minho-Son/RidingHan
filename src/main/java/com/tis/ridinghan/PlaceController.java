@@ -1,49 +1,158 @@
 package com.tis.ridinghan;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tis.place.domain.DirectionVO;
+import com.tis.place.domain.DirectionViewVO;
 import com.tis.place.domain.PagingVO;
 import com.tis.place.domain.PlaceVO;
 import com.tis.place.service.PlaceService;
 
 import lombok.extern.log4j.Log4j;
 
-@Controller 
+@Controller
 @Log4j
 public class PlaceController {
-	
-	@Autowired
-	private PlaceService placeService;
-	
-	/*
-	 * // "/signup" url로 get방식의 요청이 올 때 수행함
-	 * 
-	 * @RequestMapping(value="/registerPlace2", method=RequestMethod.GET) public
-	 * String showPlaceForm() {
-	 * 
-	 * return "/index_map"; // "WEB-INF/views/index_map.jsp" }
-	 */
-	@RequestMapping(value="/registerPlace", method=RequestMethod.POST) 
-	public String placeJoin(@ModelAttribute PlaceVO place, Model model) {
-		log.info("place==="+place);
-		log.info("placeService=="+this.placeService);
-		int n=this.placeService.registerPlace(place);
-		String str=(n>0)?"장소 등록 성공":"장소 등록 실패";
-		String loc="javascript:history.back()";
-		model.addAttribute("msg",str);
-		model.addAttribute("loc",loc);
-		return "message";
-	}
+
+   @Autowired
+   private PlaceService placeService;
+
+   @RequestMapping(value = "/registerPlace", method = RequestMethod.POST)
+   public @ResponseBody Map<String, String> registerPlace(@ModelAttribute PlaceVO place) {
+
+      PlaceVO registered = placeService.findPlaceByCoordinate(place.getLatitude(), place.getLongitude());
+      log.info("registered=" + registered);
+      String str = null;
+      String place_no = null;
+      if (registered == null) {
+         int n = this.placeService.registerPlace(place);
+         str = (n > 0) ? "장소 등록 성공" : "장소 등록 실패";
+         log.info("place after register ===" + place);
+         place_no = String.format("%06d", place.getPlace_no());
+      } else {
+         str = "이미 등록된 장소";
+         place_no = String.format("%06d", registered.getPlace_no());
+      }
+
+      Map<String, String> map = new HashMap<>();
+      map.put("msg", str);
+      map.put("place", place_no);
+      return map;
+   } // ---------------------------------
+
+   @RequestMapping("/placeList")
+   public String placeList(@ModelAttribute PagingVO paging, HttpServletRequest req, Model m) {
+      int totalCount = placeService.getTotalPlaceCount();
+
+      paging.setTotalCount(totalCount); // 총 장소 수 셋팅
+      paging.init(); // 페이징 처리관련 연산 수행
+      log.info("paging: " + paging);
+
+      List<PlaceVO> pList = placeService.getAllPlaceList(paging);
+      String myctx = req.getContextPath();
+
+      // 페이지 네비 문자열 받아오기
+      String pageNavi = paging.getPageNavi(myctx, "placeList");
+
+      m.addAttribute("totalCount", totalCount);
+      m.addAttribute("placeArr", pList);
+      m.addAttribute("paging", paging);
+      m.addAttribute("pageNavi", pageNavi);
+
+      return "place/placeList";
+      // "WEB-INF/views/place/placeList.jsp"
+   } // ---------------------------------
+
+   @RequestMapping("/selectPlace")
+   public String selectPlace(Model m, @ModelAttribute("place_no") String place_no) {
+      log.info("place_no: " + place_no);
+      PlaceVO place = placeService.findPlaceByPlaceid(place_no);
+      log.info("place: " + place);
+
+      m.addAttribute("selectedPlace", place_no);
+
+      String str = "선택된 장소는 " + place.getTitle() + "(" + place.getPlace_no() + ")입니다";
+      String loc = "javascript:history.back()";
+      // 돌아가는 페이지는 다시 고민해야 됨
+      m.addAttribute("msg", str);
+      m.addAttribute("loc", loc);
+      return "message";
+   } // ---------------------------------
+
+   @RequestMapping(value = "/registerDirection", method = RequestMethod.POST)
+   public @ResponseBody Map<String, String> directionRegister(@ModelAttribute DirectionVO direction)
+         throws IOException {
+      log.info("direction===" + direction);
+
+      DirectionViewVO registered = placeService.findDirectionByGpxfile(direction.getGpxfile());
+      log.info("registered=" + registered);
+      String str = null;
+      String direction_no = null;
+      if (registered == null) {
+         int n = this.placeService.registerDirection(direction);
+         str = (n > 0) ? "경로 등록 성공" : "경로 등록 실패";
+         log.info("direction after register ===" + direction);
+         direction_no = String.format("%06d", direction.getDirection_no());
+      } else {
+         str = "이미 등록된 장소";
+         direction_no = String.format("%06d", registered.getDirection_no());
+      }
+      Map<String, String> map = new HashMap<>();
+      map.put("msg", str);
+      map.put("direction", direction_no);
+      return map;
+   } // ---------------------------------
+
+   @RequestMapping("/directionList")
+   public String directionList(@ModelAttribute PagingVO paging, HttpServletRequest req, Model m) {
+      int totalCount = placeService.getTotalDirectionCount();
+
+      paging.setTotalCount(totalCount); // 총 장소 수 셋팅
+      paging.init(); // 페이징 처리관련 연산 수행
+      log.info("paging: " + paging);
+
+      List<DirectionVO> dList = placeService.getAllDirectionList(paging);
+      String myctx = req.getContextPath();
+
+      // 페이지 네비 문자열 받아오기
+      String pageNavi = paging.getPageNavi(myctx, "directionList");
+
+      m.addAttribute("totalCount", totalCount);
+      m.addAttribute("directionArr", dList);
+      m.addAttribute("paging", paging);
+      m.addAttribute("pageNavi", pageNavi);
+
+      return "place/directionList";
+      // "WEB-INF/views/place/directionList.jsp"
+   } // ---------------------------------
+
+   @RequestMapping("/selectDirection")
+   public String selectDirection(Model m, @ModelAttribute("direction_no") String direction_no) {
+      log.info("direction_no: " + direction_no);
+      DirectionViewVO direction = placeService.findDirectionByDirectionid(direction_no);
+      log.info("direction: " + direction);
+
+      m.addAttribute("selectedDirection", direction_no);
+
+      String str = "선택된 경로는 " + direction.getTitle() + "(" + direction.getDirection_no() + ")입니다";
+      String loc = "javascript:history.back()";
+      // 돌아가는 페이지는 다시 고민해야 됨
+      m.addAttribute("msg", str);
+      m.addAttribute("loc", loc);
+      return "message";
+   } // ---------------------------------
 
 }

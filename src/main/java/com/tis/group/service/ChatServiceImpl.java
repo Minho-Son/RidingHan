@@ -31,6 +31,16 @@ public class ChatServiceImpl implements ChatService {
 		return this.chatMapper.getTotalCount();
 	}
 	@Override
+	public int getTotalCount(PagingVO paging) {
+		return 0;
+	}
+	
+	@Override
+	public List<ChatVO> getSearchList(PagingVO paging) {
+		return this.chatMapper.getSearchList(paging);
+	}
+	
+	@Override
 	public int createChat(ChatVO cvo, MemberVO mvo) {
 		int n=this.chatMapper.createChat(cvo);
 		if(n>0) {

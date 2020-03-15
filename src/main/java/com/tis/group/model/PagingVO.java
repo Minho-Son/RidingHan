@@ -2,75 +2,106 @@ package com.tis.group.model;
 
 import lombok.Data;
 
-@Data
+@Data 
 public class PagingVO {
-	//ÆäÀÌÂ¡ Ã³¸®°ü·Ã ÇÁ·ÎÆÛÆ¼ ¼±¾ğ
-		private int cpage=1; //ÇöÀç º¸¿©ÁÙ ÆäÀÌÁö ¹øÈ£( µğÆúÆ® ÆäÀÌÁö 1)
-		private int pageSize=10; //ÇÑÆäÀÌÁö´ç º¸¿©ÁÙ ¸ñ·Ï°³¼ö
-		private int totalCount; //ÃÑ °Ô½Ã±Û ¼ö
-		private int pageCount; //ÆäÀÌÁö ¼ö
-		
-		//DB¿¡¼­ ·¹ÄÚµå¸¦ ²÷¾î °¡Á®¿À±â À§ÇÑ ½ÃÀÛ°ª°ú ³¡°ª ÇÁ·ÎÆÛÆ¼
-		private int start;
-		private int end;
-		
-		//ÆäÀÌÂ¡ ºí·Ï Ã³¸®¸¦ À§ÇÑ ÇÁ·ÎÆÛÆ¼
-		private int pagingBlock=5; // ÇÑ ºí·°´ç º¸¿©ÁÙ ÆäÀÌÁö °³¼ö
-		private int prevBlock; // ÀÌÀü
-		private int nextBlock; // ÀÌÈÄ
-		
-		//°Ë»ö°ü·Ã ÇÁ·ÎÆÛÆ¼
-		private String findKeyword; //°Ë»ö¾î
-		
-		public void init() {
-			pageCount=(totalCount-1)/pageSize+1;
-			if(cpage<1) {
-				cpage=1;	//1ÆäÀÌÁö µğÆúÆ®
-			}
-			if(cpage>pageCount) {
-				cpage=pageCount;	// ¸¶Áö¸· ÆäÀÌÁö·Î ¼³Á¤
-			}
-			
-			end=cpage*pageSize;
-			start=end-(pageSize-1);
-			
-			//ÀÌÀü 5°³, ÀÌÈÄ5°³ ±¸ÇÏ´Â ·ÎÁ÷
-			prevBlock=(cpage-1)/pagingBlock*pagingBlock;
-			nextBlock=prevBlock +(pagingBlock+1);
-		}
-		
-		public String getPageNavi(String myctx, String loc) {
-			// myctx: ÄÁÅØ½ºÆ®¸í
-			// loc: °æ·Î
-			// qStr : query string (°Ë»ö½Ã ÇÊ¿ä- Å°¿öµå)
-			findKeyword=(findKeyword==null)?"":findKeyword;
-			
-			String qStr="?findKeyword="+findKeyword;
-			//String ÀÇ ºÒº¯¼º ¶§¹®¿¡ StringBuffer ¶Ç´Â StringBuilder¸¦ ÀÌ¿ë
-			StringBuffer buf=new StringBuffer().append("<ul class='pagination pagination-sm'>");
-			
-			if(prevBlock>0) { //ÀÌÀü 5°³
-				buf.append("<li><a href='"+myctx+"/"+loc+qStr+"&cpage="+prevBlock+"'>");
-				buf.append("Prev</a></li>");
-			}
-			for(int i=prevBlock +1 ; i<=nextBlock-1 && i<=pageCount; i++) {
-				if(i==cpage) {
-					buf.append("<li class='active'><a href='#'>").append(i+"</a></li>");
-				}else {
-					buf.append("<li><a href='"+myctx+"/"+loc+qStr+"&cpage="+i+"'>");
-					buf.append(i+"</a></li>");
-				}
-			}
-			if(nextBlock<=pageCount) { //ÀÌÈÄ 5°³
-				buf.append("<li><a href='"+myctx+"/"+loc+qStr+"&cpage="+nextBlock+"'>");
-				buf.append("Next</a></li>");
-			}
-			
-			buf.append("</ul>");
-			String str=buf.toString();
-			return str;
-		}
-		
+   // í˜ì´ì§• ì²˜ë¦¬ê´€ë ¨ í•œ í”„ë¡œí¼í‹° ì„ ì–¸
+   private int cpage = 1; // í˜„ì¬ ë³´ì—¬ì¤„ í˜ì´ì§€ ë²ˆí˜¸ ( ë””í´íŠ¸ 1í˜ì´ì§€)
+   private int pageSize = 5; // í•œ í˜ì´ì§€ ë‹¹ ë³´ì—¬ì¤„ ëª©ë¡ ê°œìˆ˜
+   private int totalCount; // ì´ ê²Œì‹œê¸€ ìˆ˜
+   private int pageCount; // í˜ì´ì§€ ìˆ˜
 
-}
+   // DBì—ì„œ ë ˆì½”ë“œë¥¼ ëŠì–´ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ ì‹œì‘ê°’ê³¼ ëê°’ í”„ë¡œí¼í‹°
+   private int start;
+   private int end;
 
+   // í˜ì´ì§• ë¸”ëŸ­ ì²˜ë¦¬ë¥¼ ìœ„í•œ í”„ë¡œí¼í‹°
+   private int pagingBlock = 5; // í•œ ë¸”ëŸ­ë‹¹ ë³´ì—¬ì¤„ í˜ì´ì§€ê°œìˆ˜ (ë””í´íŠ¸ 5ê°œ)
+   private int prevBlock; // ì´ì „ 5ê°œ
+   private int nextBlock; // ì´í›„5ê°œ
+ 
+   // ê²€ìƒ‰ê´€ë ¨ í”„ë¡œí¼í‹° ì„ ì–¸
+   private String findType;// ê²€ìƒ‰ìœ í˜•
+   private String findKeyword;// ê²€ìƒ‰ì–´
+
+   public PagingVO() {
+
+   }
+
+   public PagingVO(int cpage, int pageSize, int totalCount, int pagingBlock) {
+      this.cpage = cpage;
+      this.pageSize = pageSize;
+      this.totalCount = totalCount;
+      this.pagingBlock = pagingBlock;
+      // í˜ì´ì§• ì²˜ë¦¬ ê´€ë ¨ ì—°ì‚°ì„ ìˆ˜í–‰í•˜ëŠ” ë©”ì†Œë“œ í˜¸ì¶œ
+      init();
+      ////////////////////////////////
+   }
+
+   // í˜ì´ì§• ì²˜ë¦¬ ê´€ë ¨ ì—°ì‚°ì„ ìˆ˜í–‰í•˜ëŠ” ì‚¬ìš©ì ì •ì˜ ë©”ì†Œë“œ
+   public void init() {
+      pageCount = (totalCount - 1) / pageSize + 1;
+      if (cpage < 1) {
+         cpage = 1; // 1í˜ì´ì§€ ë””í´íŠ¸
+      }
+      if (cpage > pageCount) {
+         cpage = pageCount; // ë§ˆì§€ë§‰ í˜ì´ì§€ë¡œ ì„¤ì •
+      }
+
+      end = cpage * pageSize;
+      start = end - (pageSize - 1);
+
+      // ì´ì „ 5ê°œ, ì´í›„ 5ê°œ êµ¬í•˜ëŠ” ë¡œì§
+      prevBlock = (cpage - 1) / pagingBlock * pagingBlock;
+      nextBlock = prevBlock + (pagingBlock + 1);
+
+   }// init()------------------------------------
+   /*
+    * [1][2][3][4][5] | [6][7][8][9][10] | [11][12][13][14][15] | [16].......
+    * 
+    * cpage pagingBlock prevBlock nextBlock 1,2,3,4,5 5 x 6 6,7,8,9,10 5 5 11
+    * 11,12,13,14,15 5 10 16
+    * 
+    * prevBlock=(cpage-1)/pagingBlock * pagingBlock; nextBlock = prevBlock +
+    * (pagingBlock+1)
+    */
+
+   /** í˜ì´ì§• ë„¤ë¹„ê²Œì´ì…˜ ë¬¸ìì—´ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ */
+   public String getPageNavi(String myctx, String loc) {
+      // myctx: ì»¨í…ìŠ¤íŠ¸ëª…. Spring03Web
+      // loc : ê²½ë¡œ /board/list
+      // qStr: query string (ê²€ìƒ‰ì‹œ í•„ìš”-ê²€ìƒ‰ìœ í˜•, í‚¤ì›Œë“œ)
+      findType = (findType == null) ? "" : findType;
+      findKeyword = (findKeyword == null) ? "" : findKeyword;
+
+      String qStr = "?findType=" + findType + "&findKeyword=" + findKeyword;
+      // Stringì˜ ë¶ˆë³€ì„± ë•Œë¬¸ì— StringBuffer ë˜ëŠ” StringBuilderë¥¼
+      // ì´ìš©í•˜ì.
+      StringBuffer buf = new StringBuffer() // ë¬¸ìì—´ í¸ì§‘í•˜ëŠ” í´ë˜ìŠ¤
+            .append("<ul class='pagination pagination-sm'>");
+
+      if (prevBlock > 0) {// ì´ì „ 5ê°œ
+         buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + prevBlock + "'>");
+         buf.append("Prev</a></li>");
+      }
+      for (int i = prevBlock + 1; i <= nextBlock - 1 && i <= pageCount; i++) {
+
+         if (i == cpage) {
+            buf.append("<li class='active'><a href='#'>").append(i + "</a></li>");
+         } else {
+            buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + i + "'>");
+            buf.append(i + "</a></li>");
+         }
+
+      }
+      if (nextBlock <= pageCount) {// ì´í›„ 5ê°œ
+         buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + nextBlock + "'>");
+         buf.append("Next</a></li>");
+      }
+
+      buf.append("</ul>");
+      String str = buf.toString();
+      
+      return str;
+   }
+
+}//////////////////////////////////////////////////////

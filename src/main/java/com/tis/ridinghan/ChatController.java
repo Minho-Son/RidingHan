@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tis.board.model.BoardVO;
 import com.tis.common.CommonUtil;
 import com.tis.common.CreateRandomCode;
 import com.tis.group.model.ChatVO;
@@ -64,6 +65,34 @@ public class ChatController {
 		
 		return "group/chatMain";
 	}
+	
+	@RequestMapping("/searchChat")
+    public String searchChat(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
+       log.info(paging);
+       int totalCount = chatService.getTotalCount(paging);
+
+       paging.setTotalCount(totalCount);
+       paging.setPageSize(10);  
+       paging.setPagingBlock(5); 
+       paging.init(); 
+
+       List<ChatVO> cList = chatService.getSearchList(paging);
+
+       log.info(totalCount);
+       log.info(cList);
+       String myctx = req.getContextPath();
+       // 페이지 네비 문자열 받아오기
+       String pageNavi = paging.getPageNavi(myctx, "chat");
+
+       model.addAttribute("totalCount", totalCount);
+       model.addAttribute("ChatArr", cList);
+       model.addAttribute("paging", paging);
+       model.addAttribute("pageNavi", pageNavi);
+       model.addAttribute("findKeyword",req.getParameter("findKeyword"));
+
+       return "group/chatMain";
+    }
+
 	
 	@RequestMapping(value="/chat/newChat",method=RequestMethod.POST)
 	public String createChat(@RequestParam("myfile") MultipartFile myfile,
