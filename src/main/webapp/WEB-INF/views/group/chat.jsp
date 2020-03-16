@@ -29,8 +29,8 @@
 	var user_no="${user.user_no}";
 	var nick="${user.nickName}";
 	var yourNick="";
-	var chat_title="${chatInfo.chat_title}";
-	var room_code="${chatInfo.room_code}";
+	var chat_title="${chatRoomInfo.chat_title}";
+	var room_code="${chatRoomInfo.room_code}";
 
 	$(function(){
 		var arr={'room_code':room_code,
@@ -66,7 +66,7 @@
 		$("#textInput").focus();		
 		//메세지 보내기
 		ws.onopen=function(){
-			ws.send(100+"@!|${room_code}@!|"+nick);
+			ws.send(100+"@!|"+room_code+"@!|"+nick);
 			
 			function sendText(){
 				var msg=$('input[name=textInput]').val();
@@ -128,11 +128,11 @@
             data-toggle="dropdown"></i>
             <div class="dropdown-menu">
             	<c:forEach var="cmList" items="${chatMemberList}">	
-			   <a class="dropdown-item">${cmList.user_no}</a>
+			   <a class="dropdown-item">${cmList.nickName}</a>
 				</c:forEach>
 			</div>
 			
-            <p class="name" id="chatTitle">${chatInfo.chat_title} 채팅방</p>		    
+            <p class="name" id="chatTitle">${chatRoomInfo.chat_title} 채팅방</p>		    
             <button class="fa fa-times" type="button" id="exitChat" name="exitChat"
             style="float:right; position:absolute; right:20px; height:20px; width:20px"></button>
           </div>
@@ -152,7 +152,9 @@
 	          			<div class='message' ><div class='response'><p class='text'>${chatText.chat_text}</p></div></div><br>
 	          			</c:when>
 	          			<c:otherwise>
-	          			<div class='message text-only' style='margin:0;'><p class='text'>${chatText.chat_text}</p></div><br>
+	          			<div class='message text-only' style='margin:0;'>
+						<img src='<%=myctx %>/asset/images/${chatText.user_img}' style='background-color:#337AF2; width:48px; height:48px; display:inline-block; border-radius:100%'>
+						<p>${chatText.nickName}</p><p class='text' style='margin:0 10px 0 0'>${chatText.chat_text}</p></div><br>
 	          			</c:otherwise>
 	          		</c:choose>	
 	          		</c:forEach>

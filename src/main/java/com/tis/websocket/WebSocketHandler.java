@@ -59,12 +59,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession ses, TextMessage msg) throws Exception{
-		log.info(ses.getId()+"방으로부터 "+msg.getPayload()+"받음");
+		log.info(ses.getId()+"방으로 "+msg.getPayload()+"입장하였음");
 		String str=msg.getPayload();
 		String tokens[]=str.split("@!\\|");
 
-		String room_code;
-		String nickName;
+		String room_code=tokens[1];
+		String nickName=tokens[2];
 		int user_no;
 		
 		//log.info("room_code : "+room_code);
@@ -78,8 +78,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				break;
 			case "200":	
 				log.info("200 받음요?????????????");
-				ChatVO chat=(ChatVO)roomList.get(ses);
 				String text=tokens[1];
+				ChatVO chat=(ChatVO)roomList.get(ses);
 				user_no=Integer.parseInt(tokens[2]);
 				chat.setChat_user_no(user_no);
 				chat.setChat_text(text);

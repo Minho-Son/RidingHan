@@ -52,22 +52,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 	@Override
 	public int createChatMember(MemberVO vo) {
-		int n=this.chatMapper.createChatMember(vo);
-		return n;
-	}
-	@Override
-	public int chkMemberinRoom(Map<String, Object> map) {
-		Chat_MemberVO cm=this.chatMapper.chkMemberinRoom(map);
-		if(cm==null) {
-			int n=addChatMember(map);
-			if(n>0) {
-				//log.info("채팅방에 멤버추가");
-				return n;//채팅방에 멤버 추가
-			}
-			return n;//채팅방 멤버추가 실패
-		}
-		//log.info("채팅방에 이미 멤버 있음");
-		return 1;//이미 멤버가 있음
+		return this.chatMapper.createChatMember(vo);
 	}
 	@Override
 	public int addChatMember(Map<String, Object> map) {
@@ -78,12 +63,12 @@ public class ChatServiceImpl implements ChatService {
 		return this.chatMapper.chatRoomInfo(room_code);
 	}
 	@Override
-	public String userNotoNick(int user_no) {
-		return this.userNotoNick(user_no);
+	public Chat_MemberVO chatMyInfo(Map<String, Object> map) {
+		return this.chatMapper.chatMyInfo(map);
 	}
 	@Override
-	public List<ChatVO> showAllChat(String room_code){
-		return this.chatMapper.showAllChat(room_code);
+	public List<ChatVO> showAllChat(Chat_MemberVO vo){
+		return this.chatMapper.showAllChat(vo);
 	}
 	@Override
 	public List<Chat_MemberVO> chatMemberList(String room_code){
@@ -96,10 +81,6 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int quitChatMember(Map<String, Object> map) {
 		return 1;
-	}
-	@Override
-	public Chat_MemberVO chkMemberIs(Map<String, Object> map) {
-		return this.chatMapper.chkMemberIs(map);
 	}
 	@Override
 	public int deleteChatRoom(String room_code) {

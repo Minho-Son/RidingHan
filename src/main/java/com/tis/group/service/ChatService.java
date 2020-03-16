@@ -17,15 +17,13 @@ public interface ChatService {
 	
 	int createChat(ChatVO cvo, MemberVO mvo);
 	int createChatMember(MemberVO vo);
-	int chkMemberinRoom(Map<String, Object> map);
+	Chat_MemberVO chatMyInfo(Map<String, Object> map);
 	int addChatMember(Map<String, Object> map);
 	ChatVO chatRoomInfo(String room_code);
-	String userNotoNick(int user_no);
+	List<ChatVO> showAllChat(Chat_MemberVO chatMyInfo);
 	
-	List<ChatVO> showAllChat(String room_code);
 	List<Chat_MemberVO> chatMemberList(String room_code);
 	int addChatText(ChatVO cvo);
 	int quitChatMember(Map<String, Object> map);
-	Chat_MemberVO chkMemberIs(Map<String, Object> map);
 	int deleteChatRoom(String room_code);
 }

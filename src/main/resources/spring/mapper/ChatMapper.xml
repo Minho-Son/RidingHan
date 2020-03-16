@@ -23,9 +23,20 @@
       from chat where chat_text='|start|')
       where chat_title like '%'||#{findKeyword}||'%'
    </select>
-   
 	<select id="chatRoomInfo" parameterType="String" resultType="Chat">
 		select * from chat where room_code=#{room_code} and chat_text='|start|'
+	</select>
+	<select id="chatMemberList" parameterType="String" resultType="Chat_Member">
+		select cm.*,m.nickName from chat_member cm join member m 
+		on cm.user_no=m.user_no and cm.room_code=#{room_code} order by cm.chat_jtime asc
+	</select>
+	<select id="chatMyInfo" parameterType="Map" resultType="Chat_Member">
+		select * from chat_Member where room_code=#{room_code} and user_no=#{user_no}
+	</select>
+	<select id="showAllChat" parameterType="Chat_Member" resultType="Chat">
+		select c.*,m.nickname,m.user_img from chat c join member m
+		on c.room_code=#{room_code} and chat_wtime<![CDATA[ > ]]>#{chat_jtime} 
+		order by chat_wtime asc
 	</select>
 	<insert id="createChat" parameterType="Chat">
 		insert into chat(chat_no, chat_title, chat_text, chat_wtime, chat_img, chat_user_no, room_code, chat_info)
@@ -37,29 +48,17 @@
     	(select room_code from (select * from chat where chat_user_no=#{user_no} and chat_text='|start|' order by chat_wtime desc) where rownum=1)
     	,#{user_no},sysdate,null)
 	</insert>
-	<select id="chkMemberinRoom" parameterType="Map" resultType="Chat_Member">
-		select * from chat_member where room_code=#{room_code} and user_no=#{user_no}
-	</select>
  	<insert id="addChatMember" parameterType="Map">
 		insert into chat_member(chat_member_no,room_code,user_no,chat_jtime,plan_no)
 		values(chat_member_seq.nextval,#{room_code},#{user_no},sysdate,null)
 	</insert>
-	<select id="userNotoNick" parameterType="int" resultType="String">
+	<!-- <select id="userNotoNick" parameterType="int" resultType="String">
 		select nickname from member where user_no=#{user_no}
-	</select>	
-	<select id="showAllChat" parameterType="String" resultType="Chat">
-		select * from chat where room_code=#{room_code} order by chat_wtime asc
-	</select>
-	<select id="chatMemberList" parameterType="String" resultType="Chat_Member">
-		select * from chat_member where room_code=#{room_code} order by chat_jtime asc
-	</select>
+	</select> -->	
 	<insert id="addChatText" parameterType="Chat">
 		insert into chat(chat_no, chat_title, chat_text, chat_wtime, chat_user_no, room_code, chat_info)
 		values(chat_seq.nextval,#{chat_title},#{chat_text},sysdate,#{chat_user_no},#{room_code}, null)
 	</insert>
-	<select id="chkMemberIs" parameterType="Map" resultType="Chat_Member">
-		select * from chat_member where room_code=#{room_code} and user_no=#{user_no}
-	</select>
 	<delete id="quitChatMember" parameterType="Map">
 		delete from chat_member where room_code=#{room_code} and user_no=#{user_no}
 	</delete>

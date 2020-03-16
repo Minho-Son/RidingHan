@@ -13,5 +13,6 @@ public class Chat_MemberVO {
 	private Integer plan_no;
 	
 	private String nickName;
+	private String user_img;	
 	private Integer sockNo;
 }
