@@ -7,7 +7,7 @@
    src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
 
 <!--자바스크립트 / CSS-->
-<link href="asset/css/style.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 
 <style type="text/css">
 #startPointInfo {
@@ -25,7 +25,7 @@
 <div id="container">
    <div id="wrap" class="section">
       <!-- map 검색 -->
-      <div id="map" style="width: 100%; height: 1080px;"></div>
+      <div id="map" style="width: 100%; height: 600px;"></div>
       <div id="map_search">
          <a class="logo" href="index.html"> <img
             src="asset/images/RUN_LOGO.png"></a> <img
@@ -102,9 +102,7 @@
    var point1_no = null;
    var point2_no = null;
    
-   var flag=false;
-   
-   function registerPlace(params){
+   function registerPlace(params, point){
       $.ajax({
          type : 'POST',
          data : params,
@@ -113,7 +111,8 @@
          cache : false,
          success : function(res) {
             alert(res.msg);
-            point1_no = res.place;
+            if (point==1) point1_no = res.place;
+            else if (point==2) point2_no = res.place;
             // 등록버튼 변경
             // 등록버튼 비활성화
          },
@@ -138,7 +137,7 @@
          $('#road_address').val(selectedPoints[0].road);
          $('#jibun_address').val(selectedPoints[0].jibun);
          var params = $('#point1').serialize();
-         registerPlace(params);
+         registerPlace(params,1);
          // 등록버튼 변경
          // 등록버튼 비활성화
       }
@@ -159,7 +158,7 @@
          $('#road_address2').val(selectedPoints[1].road);
          $('#jibun_address2').val(selectedPoints[1].jibun);
          var params = $('#point2').serialize();
-         registerPlace(params);
+         registerPlace(params,2);
          // 등록버튼 변경
          // 등록버튼 비활성화
       }
@@ -195,7 +194,7 @@
       },
       logoControl : true,
       logoControlOptions : {
-         position : naver.maps.Position.TOP_LEFT
+         position : naver.maps.Position.TOP_RIGHT
       },
       mapDataControl : true,
       mapDataControlOptions : {
@@ -245,7 +244,7 @@
                      markerInfo.title = "클릭한 지점";
                      markerInfo.x = latlng.x;
                      markerInfo.y = latlng.y;
-					
+
                      for (var i = 0, ii = items.length, item, addrType; i < ii; i++) {
                         item = items[i];
                         address = makeAddress(item) || '';
@@ -261,6 +260,7 @@
                            markerInfo.jibun = address;
                         }
                      }
+
                      markerInfos.push(markerInfo);
                      viewMarkers();
 
@@ -512,10 +512,7 @@
       });
    }
 
-   function makePlaceMatrix(resPlaces) { // markerInfos 비우기
-      if (markerInfos.length > 0) {
-         markerInfos.shift();
-      }
+   function makePlaceMatrix(resPlaces) {
       $.each(resPlaces, function(i, place) {
          var markerInfo = {
             title : "",
@@ -536,27 +533,26 @@
    function viewMarkers() {
       infoWindow.close();
       // markerInfos 비우기
-      if (markers.length > 0) {
+      while (markers.length > 0) {
          markers[0].setMap(null);
          markers.shift();
-    	 alert('첫번째 배열값 삭제')
       }
-      for (var i = 0; i < markerInfos.length; i++) {
+      for (var i = 0, ii = markerInfos.length; i < ii; i++) {
+         // console.log(latlngs[i]);
          var icon = {
             url : 'asset/images/sp_pins_spot_v3.png',
             size : new naver.maps.Size(24, 37),
             anchor : new naver.maps.Point(12, 37),
             origin : new naver.maps.Point(i * 29, 0)
-         	},
-         	marker = new naver.maps.Marker({
-            	position : new naver.maps.LatLng(markerInfos[i].y,markerInfos[i].x),
-           		title : markerInfos[i].toString(),
-            	map : map,
-            	icon : icon
-        	 });
+         }, marker = new naver.maps.Marker({
+            position : new naver.maps.LatLng(markerInfos[i].y,
+                  markerInfos[i].x),
+            title : markerInfos[i].toString(),
+            map : map,
+            icon : icon
+         });
+
          marker.set('seq', i);
-         console.log("markers.length : "+markers.length);
-         console.log("markerInfos.length : "+markerInfos.length);
          markers.push(marker);
 
          marker.addListener('mouseover', onMouseOver);
@@ -611,16 +607,14 @@
 
       selectedMarkers[selectPoints] = seq;
       selectPoints++;
-      if (selectPoints > 1) { //찍은 장소가 두개가 넘을 때에
-         selectedPoints.pop(); //마지막 원소 삭제
-         selectPoints = 1; //[1]로 돌아감
+      if (selectPoints > 2) {
+         selectedPoints.pop();
+         selectPoints = 2;
       }
       /* alert(seq + " 마커 클릭\n" + markerInfos[seq].title + "\n"
             + markerInfos[seq].x + "\n" + markerInfos[seq].y + "\n"
             + markerInfos[seq].road + "\n" + markerInfos[seq].jibun); */
-            
       selectedPoints.push(markerInfos[seq]);
-      //alert('markerInfos[seq] = '+markerInfos[seq]); //object,object로 뜸
       showPoints(selectedPoints[selectPoints - 1], selectPoints);
    }
 

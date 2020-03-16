@@ -83,14 +83,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				user_no=Integer.parseInt(tokens[2]);
 				chat.setChat_user_no(user_no);
 				chat.setChat_text(text);
+				log.info("room_code : "+chat.getRoom_code());
 				if(!text.equals("")&&!(text.trim().isEmpty())) {		
 					for(WebSocketSession webSocketSession:sesList) {
 						String thisRoom_code=((ChatVO)(roomList.get(webSocketSession))).getRoom_code();					
 						int thisUser_no=((ChatVO)(roomList.get(webSocketSession))).getChat_user_no();					
 						if(chat.getRoom_code().equals(thisRoom_code)){
-							log.info("됨");
 							if(user_no!=thisUser_no) {
 							if(webSocketSession.isOpen()) {
+								log.info("여기까지는 됨");
 								int n=chatservice.addChatText(chat);
 								if(n>0) {
 								log.info("메시지 저장 성공이욤"+text);
@@ -101,7 +102,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 							}
 							}
 						}
-						log.info("안됨");
 					}//for--------------------------
 				}//if--------------------------
 				break;

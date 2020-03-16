@@ -50,6 +50,9 @@
 	<select id="showAllChat" parameterType="String" resultType="Chat">
 		select * from chat where room_code=#{room_code} order by chat_wtime asc
 	</select>
+	<select id="chatMemberList" parameterType="String" resultType="Chat_Member">
+		select * from chat_member where room_code=#{room_code} order by chat_jtime asc
+	</select>
 	<insert id="addChatText" parameterType="Chat">
 		insert into chat(chat_no, chat_title, chat_text, chat_wtime, chat_user_no, room_code, chat_info)
 		values(chat_seq.nextval,#{chat_title},#{chat_text},sysdate,#{chat_user_no},#{room_code}, null)

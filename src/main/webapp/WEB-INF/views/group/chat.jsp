@@ -127,9 +127,9 @@
             <i class="icon fa fa-user-o  dropdown-toggle" aria-hidden="true"
             data-toggle="dropdown"></i>
             <div class="dropdown-menu">
-			   <a class="dropdown-item">Link 1</a>
-			   <a class="dropdown-item">Link 2</a>
-			   <a class="dropdown-item">Text Link</a>
+            	<c:forEach var="cmList" items="${chatMemberList}">	
+			   <a class="dropdown-item">${cmList.user_no}</a>
+				</c:forEach>
 			</div>
 			
             <p class="name" id="chatTitle">${chatInfo.chat_title} 채팅방</p>		    

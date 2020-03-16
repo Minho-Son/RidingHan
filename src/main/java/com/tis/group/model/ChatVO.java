@@ -12,4 +12,8 @@ public class ChatVO {
 	private Integer chat_user_no;
 	private String room_code;
 	private String chat_info;
+	
+	private String nickName;
+	private String user_img;
+	private Integer sockNo;
 }

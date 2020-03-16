@@ -158,8 +158,10 @@ public class ChatController {
 		int n=chatService.chkMemberinRoom(map);//멤버가 방에 있는지 없는지 확인 후 목록 추가
 		if(n>0) {
 			ChatVO chatInfo=chatService.chatRoomInfo(room_code); //채팅방 정보
+			List<Chat_MemberVO> memberList=chatService.chatMemberList(room_code); //채팅방 정보
 			List<ChatVO> allChat=chatService.showAllChat(room_code); //채팅방 대화 내용
 			m.addAttribute("chatInfo", chatInfo);
+			m.addAttribute("chatMemberList", memberList);
 			m.addAttribute("allChat", allChat);
 			return "group/chat";
 		}else {

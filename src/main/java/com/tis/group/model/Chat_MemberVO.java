@@ -11,4 +11,7 @@ public class Chat_MemberVO {
 	private Integer user_no;
 	private java.sql.Date chat_jtime;
 	private Integer plan_no;
+	
+	private String nickName;
+	private Integer sockNo;
 }

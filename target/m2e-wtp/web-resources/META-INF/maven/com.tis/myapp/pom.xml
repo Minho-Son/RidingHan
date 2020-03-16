@@ -200,10 +200,10 @@
       </dependency>
 
       <!-- UltiGPX 패키지 (중앙저장소에 UltiGPX.jar가 없음) 로컬로 지정하자 -->
-      <dependency>
+      <dependency> 
          <groupId>com.ultigpx</groupId>
          <artifactId>ultigpx</artifactId>
-         <version>1.1.1</version>
+         <version>1.1.1</version> 
          <scope>system</scope>
          <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/UltiGPX.jar</systemPath>
       </dependency>

@@ -13,8 +13,17 @@
 		from chat) where rn between 1 and 10 -->
 	</select>
 	<select id="getTotalCount" parameterType="int" resultType="int">
-		select count(*) from chat
+		select count(*) from(
+      select chat.*,row_number() over(order by chat_no desc) rn
+      from chat where chat_text='|start|') where rn between 1 and 10
 	</select>
+	<select id="searchChat" parameterType="com.tis.board.model.PagingVO" resultType="Chat">
+         select * from(
+      select chat.*,row_number() over(order by chat_no desc) rn
+      from chat where chat_text='|start|')
+      where chat_title like '%'||#{findKeyword}||'%'
+   </select>
+   
 	<select id="chatRoomInfo" parameterType="String" resultType="Chat">
 		select * from chat where room_code=#{room_code} and chat_text='|start|'
 	</select>
@@ -40,6 +49,9 @@
 	</select>	
 	<select id="showAllChat" parameterType="String" resultType="Chat">
 		select * from chat where room_code=#{room_code} order by chat_wtime asc
+	</select>
+	<select id="chatMemberList" parameterType="String" resultType="Chat_Member">
+		select * from chat_member where room_code=#{room_code} order by chat_jtime asc
 	</select>
 	<insert id="addChatText" parameterType="Chat">
 		insert into chat(chat_no, chat_title, chat_text, chat_wtime, chat_user_no, room_code, chat_info)
