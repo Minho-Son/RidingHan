@@ -13,9 +13,11 @@ public class BoardVO implements Serializable {
       private String board_pwd;
       private String board_content;
       private java.sql.Date board_wdate;
-      private String bimage;
-      private String board_img;
+   /*
+    * private String bimage; private String board_img;
+    */
       private String user_id;
+      private String user_nick; 
       private String originFilename;
       private String filename;
       private long filesize;
@@ -27,4 +29,6 @@ public class BoardVO implements Serializable {
       
       //24시간 이내 글을위한 프로퍼티
       private int newImg;
+
+   
 }

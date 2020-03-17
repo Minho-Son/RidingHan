@@ -86,7 +86,7 @@
 				<ul class="menu">
 					<li><em>Menu</em>
 						<ul>
-							<li><a href="<%=myctx%>/board">게시판</a></li>
+							<li><a href="<%=myctx%>/board">QnA게시판</a></li>
 							<li><a href="<%=myctx%>/map">마이 라이딩</a></li>
 							<li><a href="<%=myctx%>/map" target="_blank">나의 여행</a></li>
 							<li><a href="<%=myctx%>/mypage" target="_blank">마이페이지</a></li>

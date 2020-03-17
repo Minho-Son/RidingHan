@@ -1,7 +1,6 @@
 package com.tis.ridinghan;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +36,8 @@ public class BoardController {
       public String insertBoard(@RequestParam("myfile") MultipartFile myfile, 
             @ModelAttribute BoardVO board, Model model, HttpSession ses) {
          MemberVO user=(MemberVO)ses.getAttribute("user");
+        
+         
          if(user==null) {
             String str="로그인 해야 이용가능합니다.";
             String loc="login";
@@ -47,6 +48,7 @@ public class BoardController {
          }
          board.setBoard_user_no(user.getUser_no());
          board.setUser_id(user.getUser_id());
+         board.setUser_nick(user.getNickName());
          log.info("user_no : "+board.getBoard_user_no()+", user_id : "+board.getUser_id());
          
          
@@ -148,13 +150,18 @@ public class BoardController {
       }
 
    @GetMapping("/boardView")
-   public String boardView(Model model, @RequestParam(defaultValue = "0") int board_idx) {
-      // UserVO loginUser=(UserVO)ses.getAttribute("loginUser");
-      // int idx_fk=loginUser.getIdx();
-
+   public String boardView(HttpSession ses,Model model, @RequestParam(defaultValue = "0") int board_idx
+        ) {
+       
+      /* BoardVO user_nick=(BoardVO)ses.getAttribute("user"); */
+      
+      /* MemberVO user=(MemberVO)ses.getAttribute("user"); */
+     
       BoardVO board = (BoardVO) boardService.selectBoardView(board_idx);
+     
       log.info(board);
       model.addAttribute("bi", board);
+      /* model.addAttribute("usernick",user_nick.getUser_nick()); */
       return "board/boardView";
    }
 

@@ -85,7 +85,7 @@ public class ChatController {
        String pageNavi = paging.getPageNavi(myctx, "chat");
 
        model.addAttribute("totalCount", totalCount);
-       model.addAttribute("ChatArr", cList);
+       model.addAttribute("chatArr", cList);
        model.addAttribute("paging", paging);
        model.addAttribute("pageNavi", pageNavi);
        model.addAttribute("findKeyword",req.getParameter("findKeyword"));

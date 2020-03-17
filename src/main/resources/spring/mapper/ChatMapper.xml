@@ -17,11 +17,8 @@
       select chat.*,row_number() over(order by chat_no desc) rn
       from chat where chat_text='|start|') where rn between 1 and 10
 	</select>
-	<select id="searchChat" parameterType="com.tis.board.model.PagingVO" resultType="Chat">
-         select * from(
-      select chat.*,row_number() over(order by chat_no desc) rn
-      from chat where chat_text='|start|')
-      where chat_title like '%'||#{findKeyword}||'%'
+	<select id="getSearchList" parameterType="com.tis.board.model.PagingVO" resultType="Chat">
+      select * from chat where chat_title like '%'||#{findKeyword}||'%' and chat_text='|start|'
    </select>
 	<select id="chatRoomInfo" parameterType="String" resultType="Chat">
 		select * from chat where room_code=#{room_code} and chat_text='|start|'

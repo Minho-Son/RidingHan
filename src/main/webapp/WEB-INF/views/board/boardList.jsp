@@ -32,24 +32,18 @@
 <div id="container">
 
    <div class="s-content">
+   	<div class="inbx">
       <div class="inner3">
          <div class="group-left">
-            <p class="cicon">게시판</p>
+            <p class="cicon">Q&A게시판</p>
             <form class="form-inline" name="findKeyword" action="searchBoard">
                <input type="text" name="findKeyword" id="findKeyword"
-                  class="form-control col-md-7" placeholder="검색">
-               <button type="submit" id="" class="">검색</button>
+                  class="form-control col-md-9" placeholder="검색">
+               <button type="submit" id="" class="serchbtn-bl">검색</button>
             </form>
-            
-            <%-- <input type="hidden" name="serch" value="${serch}"> --%>
-
-            <button type="button" id="insertboard"
-               class="btn btn-success col-12">게시글 쓰기 +</button>
             <p class="txt_blue">최근 게시글</p>
-            <br>
-            <c:forEach var="board" items="${boardArr }" begin='0' end='4'>
-               <a href="boardView?board_idx=${board.board_idx}" class="txt_black">${board.board_title}</a>
-               <br>
+            <c:forEach var="board" items="${boardArr}" begin='0' end='4'>
+               <a href="boardView?board_idx=${board.board_idx}" class="txt_black">- ${board.board_title}</a>
             </c:forEach>
          </div>
 
@@ -59,38 +53,48 @@
             </tr>
          </c:if>
          <c:if test="${boardArr !=null and not empty boardArr }">
-            <div class="group-right">
-               <c:forEach var="board" items="${boardArr}">
-                  <div class="group-box">
-                     <img
-                        style="width: 70px; height: 70px; z-index: -1; display: inline-block; border-radius: 35px; float: left;"
-                        src="resources/images/${board.board_img}">
-                     
-                     <div class="group-txt">
-                        <a href="boardView?board_idx=${board.board_idx }">${board.board_title}</a>
-                        <br>
-                        <div style="font-size: 10px;">
-                           <fmt:formatDate value="${board.board_wdate}" pattern="yy.MM.dd" />
-                        </div>
-                     </div>
-
-
-                  </div>
-               </c:forEach>
+            <div class="group-right">  
+               <table class="table" style="font-size:14px">
+               	<thead>
+               		<tr>
+	               		<th>글번호</th>
+	               		<th>제목</th>
+	               		<th>글쓴이</th>
+	               		<th>날짜</th>
+	               		<th>조회수</th>
+               		</tr>
+               	</thead>
+               	<tbody>
+               		<c:forEach var="board" items="${boardArr}">
+               		<tr >
+               			<td>${board.board_idx}</td>
+               			<td><a href="boardView?board_idx=${board.board_idx}">${board.board_title}</a></td>
+               			<td>${board.user_id}</td>
+               			<td><fmt:formatDate value="${board.board_wdate}" pattern="yyyy.MM.dd" /></td>
+               			<td>${board.board_title}</td>
+               		</tr>
+               		</c:forEach>
+               	</tbody>
+               </table>
+               <br><br><hr>
                <table style="background-color: powderblue">
                   <tr>
-                     <td colspan="6" class="text-center" style="width: 800px">${pageNavi}</td>
+                     <td colspan="5" class="text-center" style="width: 300px">${pageNavi}</td>
                      <td colspan="2" class="text-right">총 게시글 수 <b>${totalCount}</b>
                      </td>
                   </tr>
                </table>
+            	<button type="button" id="insertboard" style="float:right"
+               class="btn btn-success col-3">질문남기기 +</button>
+               
+               
             </div>
          </c:if>
          <br class="clear">
       </div>
    </div>
 </div>
-
+</div>
 <!--채팅 추가 모달+--------------------------->
 <div class="modal fade" id="boardModal">
    <div class="modal-dialog">

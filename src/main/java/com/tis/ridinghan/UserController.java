@@ -1,9 +1,12 @@
 package com.tis.ridinghan;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tis.common.CommonUtil;
 import com.tis.user.model.MemberVO;
@@ -112,14 +116,20 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/mypage/myInfoEdit", method = RequestMethod.POST)
-	public String myInfoEdit(@RequestParam(defaultValue = "false") String newPwd, @ModelAttribute MemberVO mv, Model m,
-			HttpSession ses, HttpServletResponse res) throws NotUserException {
+	public String myInfoEdit(
+			@RequestParam String newPwd,
+			@RequestParam("mypfile") MultipartFile mypfile,
+			@ModelAttribute MemberVO mv, Model m, HttpSession ses, HttpServletResponse res) throws NotUserException {
 
+		ServletContext sc=ses.getServletContext();
+		String upDir=sc.getRealPath("/asset/images/user");
+		log.info("upDir="+upDir);
+		
 		//////// 비밀번호 체크
 		MemberVO user = (MemberVO) ses.getAttribute("user");
-		boolean input = user.getPwd().equals(mv.getPwd());
+		boolean pwdisCorrect = user.getPwd().equals(mv.getPwd());
 
-		if (input == false) {
+		if (pwdisCorrect == false) {
 			throw new NotUserException("비밀번호가 일치하지 않습니다.");
 		} else {
 			System.out.println("일치함");
@@ -127,8 +137,21 @@ public class UserController {
 				mv.setPwd(newPwd);
 			}
 			mv.setUser_id(user.getUser_id());
-			int n = 0;
-			n = userService.editMember(mv);
+			
+			//프로필 이미지 업로드
+			String user_img=mypfile.getOriginalFilename();
+			if(mypfile.isEmpty()) {
+				mv.setUser_img("noimage.jpg");
+			}else {
+				try {
+					mypfile.transferTo(new File(upDir,user_img));
+					mv.setUser_img(user_img);					
+				}catch(IOException e) {
+					log.error("파일 업로드 중 에러 : "+e.getMessage());
+				}
+			}
+			
+			int n = userService.editMember(mv);
 			System.out.println("mv = " + mv);
 
 			String msg = (n > 0) ? "회원정보 수정 완료" : "회원정보 수정 실패";

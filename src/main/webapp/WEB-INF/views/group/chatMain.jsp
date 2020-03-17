@@ -70,8 +70,8 @@ function joinChat(tmp){
 			<div class="inner3">
 				<div class="group-left">
 					<p class="cicon">채팅</p>
-					 <form class="form-inline" name="findChat" action="searchChat">
-              			 <input type="text" name="findChat" id="findChat" class="form-control col-md-7"
+					 <form class="form-inline" name="findKeyword" action="searchChat">
+              			 <input type="text" name="findKeyword" id="findKeyword" class="form-control col-md-7"
 						placeholder="검색">
                			<button type="submit" id="" class="">검색</button>
             		</form>
@@ -116,7 +116,7 @@ function joinChat(tmp){
 						<table  style="background-color:powderblue">
 						<tr>
 						<td colspan="6" class="text-center" style="width:800px">${pageNavi}</td>
-						<td colspan="2" class="text-right">총 채팅방 수  <b>${totalCount}</b>
+						<td colspan="3" class="text-right" style="padding: 0 20px 0 0">총 채팅방 수  <b>${totalCount}</b>
 						</td>
 					</tr>
 					</table>

@@ -12,14 +12,14 @@
       select count(*) from board
    </select>
    <insert id="insertBoard" parameterType="Board">
-      insert into board (board_idx,board_title,board_user_no,board_pwd,board_content,board_wdate,board_img,
-      user_id,originfilename,filename,filesize,refer,lev,sunbun)
+      insert into board (board_idx,board_title,board_user_no,board_pwd,board_content,board_wdate,
+      user_id,originfilename,filename,filesize,refer,lev,sunbun,user_nick)
       values (board_seq.nextval,#{board_title},#{board_user_no},#{board_pwd},#{board_content:VARCHAR},sysdate,
-     'default.jpg',#{user_id},#{originFilename:VARCHAR},#{filename:VARCHAR},#{filesize:VARCHAR},#{board_idx},#{lev},#{sunbun}) 
+     #{user_id},#{originFilename:VARCHAR},#{filename:VARCHAR},#{filesize:VARCHAR},#{board_idx},#{lev},#{sunbun},#{user_nick}) 
    </insert>
    <select id="selectBoardView" parameterType="int" resultType="Board">
       select board_idx,board_title,board_pwd,board_content,board_wdate,originfilename,filesize,
-      (select user_id from member where user_no=board_user_no) user_id,
+      (select user_nick from member where user_no=board_user_no) user_nick,
       (select user_no from member where user_no=board_user_no) board_user_no
        from board where board_idx=#{value}
    </select>
