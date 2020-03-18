@@ -32,7 +32,7 @@
 <div id="container">
 
    <div class="s-content">
-   	<div class="inbx">
+      <div class="inbx">
       <div class="inner3">
          <div class="group-left">
             <p class="cicon">Q&A게시판</p>
@@ -41,8 +41,8 @@
                   class="form-control col-md-9" placeholder="검색">
                <button type="submit" id="" class="serchbtn-bl">검색</button>
             </form>
-            <p class="txt_blue">최근 게시글</p>
-            <c:forEach var="board" items="${boardArr}" begin='0' end='4'>
+            <p class="txt_blue">많이 찾는 질문글</p>
+            <c:forEach var="board" items="${Top5BoardList}" begin='0' end='4'>
                <a href="boardView?board_idx=${board.board_idx}" class="txt_black">- ${board.board_title}</a>
             </c:forEach>
          </div>
@@ -55,26 +55,26 @@
          <c:if test="${boardArr !=null and not empty boardArr }">
             <div class="group-right">  
                <table class="table" style="font-size:14px">
-               	<thead>
-               		<tr>
-	               		<th>글번호</th>
-	               		<th>제목</th>
-	               		<th>글쓴이</th>
-	               		<th>날짜</th>
-	               		<th>조회수</th>
-               		</tr>
-               	</thead>
-               	<tbody>
-               		<c:forEach var="board" items="${boardArr}">
-               		<tr >
-               			<td>${board.board_idx}</td>
-               			<td><a href="boardView?board_idx=${board.board_idx}">${board.board_title}</a></td>
-               			<td>${board.user_id}</td>
-               			<td><fmt:formatDate value="${board.board_wdate}" pattern="yyyy.MM.dd" /></td>
-               			<td>${board.board_title}</td>
-               		</tr>
-               		</c:forEach>
-               	</tbody>
+                  <thead>
+                     <tr>
+                        <th>글번호</th>
+                        <th>제목</th>
+                        <th>글쓴이</th>
+                        <th>날짜</th>
+                        <th>조회수</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <c:forEach var="board" items="${boardArr}">
+                     <tr >
+                        <td>${board.board_idx}</td>
+                        <td><a href="boardView?board_idx=${board.board_idx}">${board.board_title}</a></td>
+                        <td>${board.user_nick}</td>
+                        <td><fmt:formatDate value="${board.board_wdate}" pattern="yyyy.MM.dd" /></td>
+                        <td>${board.readnum}</td>
+                     </tr>
+                     </c:forEach>
+                  </tbody>
                </table>
                <br><br><hr>
                <table style="background-color: powderblue">
@@ -84,12 +84,14 @@
                      </td>
                   </tr>
                </table>
-            	<button type="button" id="insertboard" style="float:right"
-               class="btn btn-success col-3">질문남기기 +</button>
+               
                
                
             </div>
+
          </c:if>
+            <button type="button" id="insertboard" style="float:right"
+               class="btn btn-success col-3">질문남기기 +</button>
          <br class="clear">
       </div>
    </div>

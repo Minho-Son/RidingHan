@@ -133,7 +133,7 @@ public class ChatController {
 			return "message";
 		}else {
 			String msg="환영합니다."+user.getNickName()+"님";
-			String loc="redirect:chat";
+			String loc="../chat";
 			
 			m.addAttribute("msg", msg);
 			m.addAttribute("loc", loc);
@@ -156,23 +156,14 @@ public class ChatController {
 		Chat_MemberVO cmvo=chatService.chatMyInfo(map);//멤버가 방에 있는지 없는지 확인
 		if(cmvo==null) {
 			int n=chatService.addChatMember(map);//Chat_Member에 추가
-			if(n>0) {
-				ChatVO chatRoomInfo=chatService.chatRoomInfo(room_code); //현 채팅방 정보
-				List<Chat_MemberVO> chatMemberList=chatService.chatMemberList(room_code); //채팅방 멤버 목록
-				Chat_MemberVO chatMyInfo=chatService.chatMyInfo(map); 				
-				List<ChatVO> allChat=chatService.showAllChat(chatMyInfo); //채팅방 대화 내용
-					
-				m.addAttribute("chatRoomInfo", chatRoomInfo);
-				m.addAttribute("chatMemberList", chatMemberList);
-				return "group/chat";
-			}else {
+			if(n<0) {
 				String msg="멤버 추가 실패";
 				String loc="javascript:history().back";
 				m.addAttribute("msg", msg);
 				m.addAttribute("loc", loc);
 				return "message";
 			}
-		}//멤버가 방에 이미 있는 경우
+		}
 		ChatVO chatRoomInfo=chatService.chatRoomInfo(room_code); //현 채팅방 정보
 		List<Chat_MemberVO> chatMemberList=chatService.chatMemberList(room_code); //채팅방 멤버 목록
 		Chat_MemberVO chatMyInfo=chatService.chatMyInfo(map); 				
@@ -201,10 +192,13 @@ public class ChatController {
 		
 		if(n>0) {
 			Chat_MemberVO cmvo=chatService.chatMyInfo(map);
+			log.info("cmvo="+cmvo);
 			if(cmvo==null) {//멤버가 없을 경우 모든 채팅과 방을 삭제
+				log.info("삭제 됐냐 안됐냐222 n = "+result);
 				n=chatService.deleteChatRoom(room_code);
 				if(n>0) {
 					result.put("result",1);
+					log.info("삭제 됐냐 안됐냐333 n = "+result);
 					return result;
 				}
 			}else {

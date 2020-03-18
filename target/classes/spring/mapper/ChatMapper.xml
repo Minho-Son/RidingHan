@@ -32,7 +32,7 @@
 	</select>
 	<select id="showAllChat" parameterType="Chat_Member" resultType="Chat">
 		select c.*,m.nickname,m.user_img from chat c join member m
-		on c.room_code=#{room_code} and chat_wtime<![CDATA[ > ]]>#{chat_jtime} 
+		on c.chat_user_no = m.user_no and c.room_code=#{room_code} and chat_wtime<![CDATA[ > ]]>#{chat_jtime} 
 		order by chat_wtime asc
 	</select>
 	<insert id="createChat" parameterType="Chat">

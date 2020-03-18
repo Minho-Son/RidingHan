@@ -21,7 +21,7 @@ public class BoardVO implements Serializable {
       private String originFilename;
       private String filename;
       private long filesize;
-      
+      private int readnum;
       private int refer;
       private int lev;
       private int sunbun;

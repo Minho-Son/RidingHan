@@ -13,18 +13,18 @@
    </select>
    <insert id="insertBoard" parameterType="Board">
       insert into board (board_idx,board_title,board_user_no,board_pwd,board_content,board_wdate,
-      user_id,originfilename,filename,filesize,refer,lev,sunbun,user_nick)
+      user_id,originfilename,filename,filesize,refer,lev,sunbun,user_nick,readnum)
       values (board_seq.nextval,#{board_title},#{board_user_no},#{board_pwd},#{board_content:VARCHAR},sysdate,
-     #{user_id},#{originFilename:VARCHAR},#{filename:VARCHAR},#{filesize:VARCHAR},#{board_idx},#{lev},#{sunbun},#{user_nick}) 
+     #{user_id},#{originFilename:VARCHAR},#{filename:VARCHAR},#{filesize:VARCHAR},#{board_idx},#{lev},#{sunbun},#{user_nick},0) 
    </insert>
    <select id="selectBoardView" parameterType="int" resultType="Board">
-      select board_idx,board_title,board_pwd,board_content,board_wdate,originfilename,filesize,
+      select board_idx,board_title,board_pwd,board_content,board_w date,filename,originfilename,filesize,readnum,
       (select user_nick from member where user_no=board_user_no) user_nick,
       (select user_no from member where user_no=board_user_no) board_user_no
        from board where board_idx=#{value}
    </select>
    <update id="editBoard" parameterType="board">
-      update board set board_title=#{board_title},board_content=#{board_content},board_pwd=#{board_pwd}
+      update board set board_title=#{board_title},board_content=#{board_content}
       where board_idx= #{board_idx}
    </update>
    <update id="deleteBoard" parameterType="int">
@@ -32,5 +32,11 @@
    </update>
    <select id="searchBoard" parameterType="com.tis.board.model.PagingVO" resultType="Board">
          select * from board where board_title like '%'||#{findKeyword}||'%'
+   </select>
+   <update id="updateReadnum" parameterType="int">
+      update board set readnum = readnum +1 where board_idx=#{board_idx}
+   </update>
+   <select id="getTop5BoardList" parameterType="com.tis.board.model.PagingVO" resultType="Board">
+      select * from board order by readnum desc
    </select>
 </mapper>

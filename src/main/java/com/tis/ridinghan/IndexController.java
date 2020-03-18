@@ -41,7 +41,7 @@ public class IndexController {
       int totalCount = campaignService.getTotalCount();
 
       paging.setTotalCount(totalCount); // 총 게시글 수 세팅
-      paging.setPageSize(12); // 한 페이지당 보여줄 회원목록 갯수
+      paging.setPageSize(30); // 한 페이지당 보여줄 회원목록 갯수
       paging.setPagingBlock(5); // 페이징 블럭
       paging.init(); // 페이징 처리 관련 연산수행
  

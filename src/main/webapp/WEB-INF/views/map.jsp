@@ -111,8 +111,13 @@
          cache : false,
          success : function(res) {
             alert(res.msg);
-            if (point==1) point1_no = res.place;
-            else if (point==2) point2_no = res.place;
+            if (point==1) {
+            	point1_no = res.place;
+            }
+            else if (point==2){
+            	point2_no = res.place;
+            	
+            }
             // 등록버튼 변경
             // 등록버튼 비활성화
          },

@@ -15,5 +15,4 @@ public class ChatVO {
 	
 	private String nickName;
 	private String user_img;
-	private Integer sockNo;
 }

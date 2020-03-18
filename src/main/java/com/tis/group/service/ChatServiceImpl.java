@@ -80,11 +80,11 @@ public class ChatServiceImpl implements ChatService {
 	}
 	@Override
 	public int quitChatMember(Map<String, Object> map) {
-		return 1;
+		return this.chatMapper.quitChatMember(map);
 	}
 	@Override
 	public int deleteChatRoom(String room_code) {
-		return 1;
+		return this.chatMapper.deleteChatRoom(room_code);
 	}
 
 }

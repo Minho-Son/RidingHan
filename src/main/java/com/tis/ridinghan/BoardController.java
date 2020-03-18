@@ -1,6 +1,8 @@
 package com.tis.ridinghan;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,14 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tis.board.model.BoardVO;
@@ -109,6 +118,8 @@ public class BoardController {
       paging.init(); // 페이징 처리 관련 연산수행
 
       List<BoardVO> bList = boardService.getAllBoardList(paging);
+      
+      List<BoardVO> bList2 = boardService.getTop5BoardList(paging);
 
       String myctx = req.getContextPath();
       // 페이지 네비 문자열 받아오기
@@ -116,6 +127,8 @@ public class BoardController {
 
       model.addAttribute("totalCount", totalCount);
       model.addAttribute("boardArr", bList);
+      model.addAttribute("Top5BoardList", bList2);
+      
       model.addAttribute("paging", paging);
       model.addAttribute("pageNavi", pageNavi);
 
@@ -133,7 +146,9 @@ public class BoardController {
          paging.init(); 
 
          List<BoardVO> bList = boardService.getSearchList(paging);
-
+         List<BoardVO> bList2 = boardService.getTop5BoardList(paging);
+         model.addAttribute("Top5BoardList", bList2);
+         
          log.info(totalCount);
          log.info(bList);
          String myctx = req.getContextPath();
@@ -150,20 +165,68 @@ public class BoardController {
       }
 
    @GetMapping("/boardView")
-   public String boardView(HttpSession ses,Model model, @RequestParam(defaultValue = "0") int board_idx
+   public String boardView(@ModelAttribute PagingVO paging,HttpSession ses,Model model, @RequestParam(defaultValue = "0") int board_idx
         ) {
-       
+       if(board_idx==0) {
+          return "redirect:list";
+       }
       /* BoardVO user_nick=(BoardVO)ses.getAttribute("user"); */
       
       /* MemberVO user=(MemberVO)ses.getAttribute("user"); */
+     this.boardService.updateReadnum(board_idx); //조회수 증가  
+      BoardVO board = (BoardVO) boardService.selectBoardView(board_idx); 
      
-      BoardVO board = (BoardVO) boardService.selectBoardView(board_idx);
-     
+      List<BoardVO> bList2 = boardService.getTop5BoardList(paging);
+      model.addAttribute("Top5BoardList", bList2);
+      
+      
       log.info(board);
       model.addAttribute("bi", board);
       /* model.addAttribute("usernick",user_nick.getUser_nick()); */
       return "board/boardView";
    }
+   @RequestMapping(value="/fileDown",produces="application/octet-stream")
+   @ResponseBody
+   public ResponseEntity<Resource> download(HttpServletRequest req,
+            @RequestHeader("User-Agent") String userAgent,
+            @RequestParam("filename") String fname,
+            @RequestParam("origin") String originfname){
+         log.info("userAgent: "+userAgent+", fname: "+fname);
+          
+         String upDir=req.getServletContext().getRealPath("/asset/images/board");
+         log.info("upDir= "+upDir);
+         
+         //업로드된 디렉토리의 절대경로 얻기
+         String filePath=upDir+"/"+fname;
+         log.info("filePath="+filePath);
+         FileSystemResource resource=new FileSystemResource(filePath);
+         if(!resource.exists()) {
+            //해당 파일이 없다면
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+         }
+         //브라우저 유형별로 인코드 처리
+         boolean checkIE = (userAgent.indexOf("MSIE")>-1 || userAgent.indexOf("Trident")> -1);
+         //MSIE, Trident 둘 중 하나가 붙으면 익스플로어
+         
+         String downfname=null;
+         
+      try {
+         if(checkIE) {
+            //IE일 경우
+            downfname=URLEncoder.encode(originfname,"UTF8").replaceAll("\\+", " "); 
+            //+를 공백문자로 전환
+         }else {
+            //IE이외의 브라우저일 경우
+            downfname=new String(originfname.getBytes("UTF-8"),"ISO-8859-1");
+         }
+      }catch(UnsupportedEncodingException e){
+         // TODO Auto-generated catch block
+         log.info("파일명 인코딩 중 에러: " + e.getMessage());
+      }
+         HttpHeaders header = new HttpHeaders();
+         header.add("Content-Disposition", "attachment; filename= " + downfname);
+         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+      }
 
    @PostMapping("/boardEditForm")
    public String boardEdit(Model model, @RequestParam(defaultValue = "0") int board_idx,
