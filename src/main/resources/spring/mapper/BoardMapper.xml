@@ -18,7 +18,7 @@
      #{user_id},#{originFilename:VARCHAR},#{filename:VARCHAR},#{filesize:VARCHAR},#{board_idx},#{lev},#{sunbun},#{user_nick},0) 
    </insert>
    <select id="selectBoardView" parameterType="int" resultType="Board">
-      select board_idx,board_title,board_pwd,board_content,board_w date,filename,originfilename,filesize,readnum,
+      select board_idx,board_title,board_pwd,board_content,board_wdate,filename,originfilename,filesize,readnum,
       (select user_nick from member where user_no=board_user_no) user_nick,
       (select user_no from member where user_no=board_user_no) board_user_no
        from board where board_idx=#{value}
