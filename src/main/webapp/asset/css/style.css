@@ -4,13 +4,13 @@
 
 *{ font-family:'Noto Sans KR', '돋움', 'Dotum', Apple Gothic, Tahoma, Verdana, sans-serif;}
 /*
-1B1B1F
-26282B
-454C53
-72787F
-C9CDD2
-E8EBED
-F7F8F9
+#1B1B1F
+#26282B
+#454C53
+#72787F
+#C9CDD2
+#E8EBED
+#F7F8F9
 */
 
 /* --------------------------------------------
@@ -24,10 +24,18 @@ F7F8F9
 #container .txt_gray{text-align:center; font-size: 1rem; color:#72787F; font-weight:400; margin-top:15px; display: block; text-align: 1.5;}
 
 /*continer 버튼*/
-#container .serchbtn-bl {font-size: 15px; display:inline-block; width:50px; height: 36px; border-radius: 4px; text-align: center; color: #fff; background: #337AF2; margin-bottom:10px;}
+#container .serchbtn-bl {font-size: 15px; display:inline-block; width:50px; 
+height: 36px; border-radius: 4px; text-align: center; color: #fff; background: #337AF2; 
+margin-bottom:10px;line-height: 33px}
 #container .serchbtn-bl:hover{background-color:rgba(51,122,242,0.6); color: #fff;}
-#container .serchbtn-bl2 {font-size: 15px; display:inline-block; width:70px; height: 36px; border-radius: 4px; text-align: center; color: #fff; background: #337AF2; margin-bottom:10px}
+#container .serchbtn-bl2 {font-size: 15px; display:inline-block; width:70px; 
+height: 36px; border-radius: 4px; text-align: center; color: #fff; background: #337AF2; 
+margin-bottom:10px;line-height: 33px}
 #container .serchbtn-bl2:hover{background-color:rgba(51,122,242,0.6); color: #fff;}
+#container .serchbtn-bl3 {font-size: 15px; display:inline-block; width:105px; 
+height: 36px; border-radius: 4px; text-align: center; color: #337AF2; 
+background: #fff; margin-bottom:10px;line-height: 33px; border: 1px #337AF2 solid}
+
 
 #container .serchbtn-wh {font-size: 15px; display:inline-block; width:50px; height: 36px; border-radius: 4px; text-align: center; border:1px #337AF2 solid; color: #337AF2; background: #fff;  margin-bottom:10px; margin-left: 6px}
 #container .serchbtn-wh:hover{background-color:rgba(51,122,242,0.6); color: #fff;}
@@ -180,9 +188,29 @@ F7F8F9
 #groupModal .addpathtxt
 {font-size: 14px; color:#337AF2;}
 
-#chatModal .photo {  display: block;  width: 80px;  height: 80px;  background: #E6E7ED; border-radius: 50%; background-position: center;  background-size: cover;  background-repeat: no-repeat; margin:auto; }
+
+/* 댓글기능 */
+.comment_box{width:100%; height:150px; padding:20px 0}
+.comment_area{width:100%; border-radius:4px; border:1px #C9CDD2 solid; }
+.comment_btn{width:30px; height:30px; 
+border-radius:4px; color:white; padding-top:3px;}
+.panel-body { padding:0px; border-top:2px #337AF2 solid; 
+border-bottom:2px #337AF2 solid; margin-bottom:50px;}
+.panel-title { display:inline }
+.label-info { float: right; }
+.list-group-item {border-radius: 0;border: 0;border-top: 1px solid #ddd; position:relative}
+.list-group-item:hover { background-color: rgba(86,61,124,.1); }
+.mic-info { color: #1B1B1F;font-size: 14px; display:inline-block; 
+width:80%;}
+.action { item-align:center; float:right; position:absolute; right:3%; top:15px}
+.comment-text { font-size: 12px; display:inline-block}
+.btn-block { border-top-left-radius:0px; border-top-right-radius:0px; }
+.commet{width:12px; height:12px; border-bottom:1.2px #337AF2 solid; 
+border-left:1.2px #337AF2 solid; float:left; margin-right:20px; margin-top:3px}
+
 /*채팅화면*/
 
+#chatModal .photo {  display: block;  width: 80px;  height: 80px;  background: #E6E7ED; border-radius: 50%; background-position: center;  background-size: cover;  background-repeat: no-repeat; margin:auto; }
 #chat .online {  position: relative;  top: 30px;  left: 35px;  width: 13px;  height: 13px;  background-color: #8BC34A;  border-radius: 13px;  border: 3px solid #FAFAFA;}
 #chat .header-chat {  background-color: #FFF;  height: 90px;  box-shadow: 0px 3px 2px rgba(0,0,0,0.100);  display:flex;  align-items: center;}
 #chat .header-chat .icon {  margin-left: 30px;  color:#337AF2;  font-size: 15pt;}
@@ -245,20 +273,28 @@ F7F8F9
 
 
 /*왼쪽 메뉴바*/
-#lm{ position: fixed; left:-100%; top:0; width:16%; height: 100vh; background-color:#337AF2; z-index: 4; transition:all 0.2s ease-in-out; }
+#lm{ position: fixed; left:-100%; top:0; width:250px; height: 100vh; 
+background-color:#337AF2; z-index: 4; transition:all 0.2s ease-in-out; }
 #lm.open{ left:0;}
 #lm .inner{ height: 100vh;}
 #lm .hd{ height: 100px; max-width: 1200px; margin:0 auto; position: relative;}
-#lm .hd .close{ position: absolute; top:33px; right: 20px; width:33px; height: 33px; background:url('../images/bt_close.png') 50% 50% no-repeat; display: block; text-indent: -9999px;}
+#lm .hd .close{ position: absolute; top:33px; right: 20px; width:33px; 
+height: 33px; background:url('../images/bt_close.png') 50% 50% no-repeat; 
+display: block; text-indent: -9999px;}
 #lm .hd .close:hover{ transform: rotate(90deg);}
-#lm .menu{ max-width: 1200px; margin:50% auto; text-align: center; color: #fff; }
-#lm .menu > li{ margin-top:40px;}
-#lm .menu > li em{ display: block; font-size: 40px; font-weight: 500; font-family: 'Gotham Book'; font-weight: 600;}
-#lm .menu > li > ul{ margin-top:24px;}
-#lm .menu > li > ul a{ font-size: 20px; color:#fff; display: block; padding:8px 0; text-decoration: none;}
-#lm .menu > li > ul a:hover{ color:#fff;opacity:.3;}
-
-
+#lm .menu{ max-width: 1200px; margin:auto; text-align: left; color: #fff; 
+padding:0 50px;}
+#lm .menu > em{ display: block; font-size: 40px; font-weight: 500; 
+font-family: 'Gotham Book'; font-weight: 600; margin-bottom:10px;}
+#lm .menu p{ font-size: 20px; color:#fff; display: inline-block;
+cursor:pointer; margin:12px 0;} 
+#lm .menu a{ font-size: 16px; color:#fff; display: block; 
+text-decoration: none;}
+#lm .menu a:hover{ color:#64FFFF}
+#lm .menu_icon {float:right; margin-top:15px; cursor:pointer}
+#lm .menu_second{margin-left:15px;display:none; padding-bottom:20px}
+#lm .menu_second>li{margin-bottom:5px}
+#lm .li_pack{display:inline-block; width:100%; height:45px; backgroun-color:black;}
 
 
 .mbg{ display:none; position:fixed; left:0; top:0; width:100%; height:100%; background-color:#1B1B1F;

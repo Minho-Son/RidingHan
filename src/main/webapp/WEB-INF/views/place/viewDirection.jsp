@@ -9,7 +9,7 @@
 <div id="container">
    <div id="wrap" class="section">
       <!-- map 검색 -->
-      <div id="map" style="width: 100%; height: 600px;"></div>
+      <div id="map" style="width: 100%; height: 100%;"></div>
    </div>
 </div>
 
@@ -155,24 +155,44 @@
       markerInfo.jibun = place.jibun_address;
       markerInfos.push(markerInfo);
    }
+   
+   function setMapBounds(point1, point2){
+      var maxX=0, minX=0, maxY=0, minY=0;
+      if(point1.x > point2.x){
+         minX=point2.x;
+         maxX=point1.x;
+      } else {
+         minX=point1.x;
+         maxX=point2.x;
+      }
+      if(point1.y > point2.y){
+         minY=point2.y;
+         maxY=point1.y;
+      } else {
+         minY=point1.y;
+         maxY=point2.y;
+      }
+      let ySpan = (maxY - minY) * 0.01;
+      if(ySpan < 0.03) ySpan = 0.01;
+      let xSpan = (maxX - minX) * 0.01;
+      if(xSpan < 0.03) xSpan = 0.01;
+      
+      let northEast= new naver.maps.LatLng(maxY+ySpan, maxX+xSpan);
+      let southWest= new naver.maps.LatLng(minY-ySpan, minX-xSpan);
+      
+      let centerX, centerY;
+      centerX=(minX+maxX)/2;
+      centerY=(minY+maxY)/2;
+      setMapCenter(new naver.maps.LatLng(centerY, centerX));
+      map.setCenter(mapCenter);
+      
+      var mapBounds = new naver.maps.LatLngBounds(southWest, northEast);
+      map.fitBounds(mapBounds);
+   }
 
    function viewMarkers() {
       infoWindow.close();
-      var maxX=0, minX=0, maxY=0, minY=0;
-      if(markerInfos[0].x > markerInfos[1].x){
-         minX=markerInfos[1].x;
-         maxX=markerInfos[0].x;
-      } else {
-         minX=markerInfos[0].x;
-         maxX=markerInfos[1].x;
-      }
-      if(markerInfos[0].y > markerInfos[1].y){
-         minY=markerInfos[1].y;
-         maxY=markerInfos[0].y;
-      } else {
-         minY=markerInfos[0].y;
-         maxY=markerInfos[1].y;
-      }
+      setMapBounds(markerInfos[0], markerInfos[1]);
       // markers 비우기
       while (markers.length > 0) {
          markers[0].setMap(null);
@@ -202,11 +222,8 @@
          marker = null;
       }
       
-      let northEast= new naver.maps.LatLng(maxY, maxX);
-      let southWest= new naver.maps.LatLng(minY, minX);
-      var mapBound = new naver.maps.LatLngBounds(southWest, northEast);
-      
-      map.fitBounds(mapBound);
+      var mapBounds = map.getBounds();
+      map.fitBounds(mapBounds);
    }
 
    function displayPointInfo(latlng, title, coordinate, road, jibun) {

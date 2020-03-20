@@ -135,7 +135,6 @@
       })
    }
 
-
    var registerPoint1 = function() {
       let title;
       if(selectedPoints[0].title=="클릭한 지점") {
@@ -161,7 +160,6 @@
       let title;
       if(selectedPoints[1].title=="클릭한 지점") {
          title = prompt("등록지점 이름을 입력하세요","");
-         return;
       } else {
          title = selectedPoints[1].title
       }
@@ -427,6 +425,40 @@
          })
       }
    } //registerDirectionByGeo------------------
+   
+   function setMapBounds(point1, point2){
+      var maxX=0, minX=0, maxY=0, minY=0;
+      if(point1.x > point2.x){
+         minX=point2.x;
+         maxX=point1.x;
+      } else {
+         minX=point1.x;
+         maxX=point2.x;
+      }
+      if(point1.y > point2.y){
+         minY=point2.y;
+         maxY=point1.y;
+      } else {
+         minY=point1.y;
+         maxY=point2.y;
+      }
+      let ySpan = (maxY - minY) * 0.01;
+      if(ySpan < 0.03) ySpan = 0.01;
+      let xSpan = (maxX - minX) * 0.01;
+      if(xSpan < 0.03) xSpan = 0.01;
+      
+      let northEast= new naver.maps.LatLng(maxY+ySpan, maxX+xSpan);
+      let southWest= new naver.maps.LatLng(minY-ySpan, minX-xSpan);
+      
+      let centerX, centerY;
+      centerX=(minX+maxX)/2;
+      centerY=(minY+maxY)/2;
+      setMapCenter(new naver.maps.LatLng(centerY, centerX));
+      map.setCenter(mapCenter);
+      
+      var mapBounds = new naver.maps.LatLngBounds(southWest, northEast);
+      map.fitBounds(mapBounds);
+   }
 
    function findDirection() {
       if (point1_no == null) {
@@ -438,25 +470,7 @@
          return;
       }
       let gpxfile = point1_no + point2_no + ".gpx";
-      alert(gpxfile);
-      var maxX=0, minX=0, maxY=0, minY=0;
-      if(selectedPoints[0].x > selectedPoints[1].x){
-         minX=selectedPoints[1].x;
-         maxX=selectedPoints[0].x;
-      } else {
-         minX=selectedPoints[0].x;
-         maxX=selectedPoints[1].x;
-      }
-      if(selectedPoints[0].y > selectedPoints[1].y){
-         minY=selectedPoints[1].y;
-         maxY=selectedPoints[0].y;
-      } else {
-         minY=selectedPoints[0].y;
-         maxY=selectedPoints[1].y;
-      }
-      let northEast= new naver.maps.LatLng(maxY, maxX);
-      let southWest= new naver.maps.LatLng(minY, minX);
-      
+      setMapBounds(selectedPoints[0], selectedPoints[1]);
       $.ajax({
          type : 'POST',
          url : 'Directions',
@@ -474,7 +488,7 @@
             foundDirection = true;
             // alert(res);
             distance = res;
-            viewDirection(gpxfile, southWest, northEast);
+            viewDirection(gpxfile);
          },
          error : function(e) {
             alert('error: ' + e.status);
@@ -506,18 +520,13 @@
       })
    }
 
-   var bounds = map.getBounds(), southWest = bounds.getSW(), northEast = bounds
-         .getNE(), lngSpan = northEast.lng() - southWest.lng(), latSpan = northEast
-         .lat()
-         - southWest.lat();
-
    var markers = [];
    var latlngs = [];
    //var directions = [];
    var distance;
    var markerInfos = [];
 
-   function viewDirection(gpxfile, southWest, northEast) {
+   function viewDirection(gpxfile) {
       $.ajax({
          url : 'gpx/' + gpxfile,
          dataType : 'xml',
@@ -526,9 +535,9 @@
             alert('error: ' + e.status);
          }
       });
-      var mapBound = new naver.maps.LatLngBounds(southWest, northEast);
       
-      map.fitBounds(mapBound);
+      var mapBounds = map.getBounds();
+      map.fitBounds(mapBounds);
    }
 
    function startDataLayer(xmlDoc) {

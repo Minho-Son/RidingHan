@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tis.board.model.BoardVO;
 import com.tis.board.model.PagingVO;
+import com.tis.board.model.ReplyVO;
 import com.tis.board.service.BoardService;
 import com.tis.user.model.MemberVO;
 
@@ -124,7 +125,7 @@ public class BoardController {
       String myctx = req.getContextPath();
       // 페이지 네비 문자열 받아오기
       String pageNavi = paging.getPageNavi(myctx, "board");
-
+      
       model.addAttribute("totalCount", totalCount);
       model.addAttribute("boardArr", bList);
       model.addAttribute("Top5BoardList", bList2);
@@ -165,26 +166,65 @@ public class BoardController {
       }
 
    @GetMapping("/boardView")
-   public String boardView(@ModelAttribute PagingVO paging,HttpSession ses,Model model, @RequestParam(defaultValue = "0") int board_idx
+   public String boardView(@ModelAttribute PagingVO paging,HttpSession ses,Model model,
+         @RequestParam(defaultValue = "0") int board_idx
         ) {
        if(board_idx==0) {
-          return "redirect:list";
+          return "redirect:boardView";
        }
       /* BoardVO user_nick=(BoardVO)ses.getAttribute("user"); */
       
       /* MemberVO user=(MemberVO)ses.getAttribute("user"); */
+     
      this.boardService.updateReadnum(board_idx); //조회수 증가  
       BoardVO board = (BoardVO) boardService.selectBoardView(board_idx); 
-     
+      
       List<BoardVO> bList2 = boardService.getTop5BoardList(paging);
+      List<ReplyVO> rList=boardService.getReplyList(board_idx);
+      log.info("rList="+rList);
+      MemberVO loginCheck=(MemberVO)ses.getAttribute("user");
+      /* int m=this.boardService.loginCheck("loginCheck", loginCheck); */
+      
+      model.addAttribute("loginCheck",loginCheck);
       model.addAttribute("Top5BoardList", bList2);
+      model.addAttribute("replyArr",rList);
       
+      int n=this.boardService.countReply(board_idx);
       
+      model.addAttribute("count",n);
       log.info(board);
       model.addAttribute("bi", board);
       /* model.addAttribute("usernick",user_nick.getUser_nick()); */
       return "board/boardView";
    }
+   
+   @PostMapping("/boardReply")
+   public String boardRePly( @ModelAttribute ReplyVO reply,Model m, @RequestParam(defaultValue="0") int board_idx,
+         @RequestParam(defaultValue="") String board_title,
+         HttpSession ses) {   
+      log.info(board_idx);
+      MemberVO user_nick=(MemberVO)ses.getAttribute("user");
+      
+      reply.setReply_wname(user_nick.getNickName());
+      reply.setBoard_idx_fk(board_idx);
+      
+      
+      log.info(reply);
+      
+      int n=boardService.insertReply(reply);
+      /*
+       * List<ReplyVO> replyArr=boardService.getReplyList(board_idx);
+       * m.addAttribute("replyArr",replyArr);
+       */
+      
+    
+      
+      return "redirect:boardView?board_idx="+board_idx;
+   }
+   
+   
+   
+   
    @RequestMapping(value="/fileDown",produces="application/octet-stream")
    @ResponseBody
    public ResponseEntity<Resource> download(HttpServletRequest req,

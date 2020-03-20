@@ -9,16 +9,17 @@ import org.springframework.stereotype.Service;
 import com.tis.board.mapper.BoardMapper;
 import com.tis.board.model.BoardVO;
 import com.tis.board.model.PagingVO;
+import com.tis.board.model.ReplyVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
-     
+
    @Inject
    private BoardMapper boardMapper;
-   
+
    @Override
    public int insertBoard(BoardVO board) {
-      
+
       return this.boardMapper.insertBoard(board);
    }
 
@@ -40,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
    @Override
    public BoardVO findBoardByIdx(String idx) {
       // TODO Auto-generated method stub
-      return null; 
+      return null;
    }
 
    @Override
@@ -71,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
 
    @Override
    public List<BoardVO> getSearchList(PagingVO paging) {
-      
+
       return boardMapper.searchBoard(paging);
    }
 
@@ -82,7 +83,22 @@ public class BoardServiceImpl implements BoardService {
 
    @Override
    public List<BoardVO> getTop5BoardList(PagingVO paging) {
-      return boardMapper.getTop5BoardList(paging); 
+      return boardMapper.getTop5BoardList(paging);
+   }
+   @Override
+   public int insertReply(ReplyVO reply) {
+      
+      return boardMapper.insertReply(reply); 
+   }
+
+   @Override
+   public List<ReplyVO> getReplyList(int board_idx) {
+      return boardMapper.getReplyList(board_idx);
+   }
+
+   @Override
+   public int countReply(int board_idx) {
+      return boardMapper.countReply(board_idx);
    }
 
 }
