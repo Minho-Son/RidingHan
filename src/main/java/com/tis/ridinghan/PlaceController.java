@@ -25,16 +25,20 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
+@RequestMapping(value="/map")
 public class PlaceController {
-
+	
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	public String showMap() {
+	      return "map";
+	}
+	
    @Autowired
    private PlaceService placeService;
-
+   
    @RequestMapping(value = "/registerPlace", method = RequestMethod.POST)
    public @ResponseBody Map<String, String> registerPlace(@ModelAttribute PlaceVO place) {
-
       PlaceVO registered = placeService.findPlaceByCoordinate(place.getLatitude(), place.getLongitude());
-      log.info("registered=" + registered);
       String str = null;
       String place_no = null;
       if (registered == null) {

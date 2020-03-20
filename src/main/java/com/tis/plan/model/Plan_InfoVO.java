@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 public class Plan_InfoVO {
-	Integer plan_info_no;
-	Integer plan_no;
-	Integer user_no;
-	Date plan_join;
-	Date plan_quit;
-	Integer plan_state;
+	private Integer plan_info_no;
+	private Integer plan_no;
+	private Integer user_no;
+	private Date plan_join;
+	private Date plan_quit;
+	private Integer plan_state;
 	
 }

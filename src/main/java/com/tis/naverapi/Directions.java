@@ -24,7 +24,7 @@ import ultigpx.Group;
 /**
  * Servlet implementation class Directions
  */
-@WebServlet("/Directions")
+@WebServlet("/map/Directions")
 public class Directions extends HttpServlet {
    private static final long serialVersionUID = 1L;
        

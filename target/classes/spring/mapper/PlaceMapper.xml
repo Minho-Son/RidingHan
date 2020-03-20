@@ -11,7 +11,7 @@
          select place_seq.nextval from dual
       </selectKey>
       insert into place values(#{place_no},#{title},#{latitude},
-      #{longitude},#{road_address:VARCHAR},#{jibun_address:VARCHAR})
+      #{longitude},#{road_address:VARCHAR},#{jibun_address:VARCHAR},1)
    </insert>
    
    <!-- 장소 지우기 -->
@@ -62,7 +62,7 @@
          select direction_seq.nextval from dual
       </selectKey>
       insert into direction values(#{direction_no},#{title},#{place_from},
-      #{place_to},#{distance},#{gpxfile})
+      #{place_to},#{distance},#{gpxfile},1)
    </insert>
    
    <!-- 경로 지우기 -->

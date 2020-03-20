@@ -50,9 +50,6 @@ public class IndexController {
       return "index";//뷰네임을 문자열로 변환
       //"WEB-INF/views/index.jsp를 찾아감
    }
+
    
-   @RequestMapping(value="/map", method=RequestMethod.GET)
-   public String showMap() {
-      return "map";
-   }
 }

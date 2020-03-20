@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class PlanVO {
-	Integer plan_no;
-	Integer user_no;
-	String plan_title;
-	String plan_about;
-	Integer place_direction_no;
-	Date plan_wtime;
+	private Integer plan_no;
+	private Integer user_no;
+	private String plan_title;
+	private String plan_about;
+	private Integer place_direction_no;
+	private Date plan_wtime;
 }

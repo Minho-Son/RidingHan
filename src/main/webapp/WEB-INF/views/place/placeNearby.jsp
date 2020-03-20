@@ -53,7 +53,7 @@
    </div>
    
    <!-- 내 주변 징서들 보여주기 form start--------------------------------------------------- -->
-   <form name="myLocation" id="myLocation" method="POST" action="findPlaceNearby">
+   <form name="myLocation" id="myLocation" method="POST" action="map/findPlaceNearby">
       <input type="hidden" name="title" id="title">
       <input type="hidden" name="latitude" id="latitude">
       <input type="hidden" name="longitude" id="longitude">
@@ -63,7 +63,7 @@
    <!-- ----------------------------------------------------------------------- -->
 
    <!-- 장서 선택 관련 form start--------------------------------------------------- -->
-   <form name="point1" id="point" method="POST" action="selectPlace">
+   <form name="point1" id="point" method="POST" action="map/selectPlace">
       <input type="hidden" name="title" id="title2">
       <input type="hidden" name="latitude" id="latitude2"> 
       <input type="hidden" name="longitude" id="longitude2">

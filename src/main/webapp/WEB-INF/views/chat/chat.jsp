@@ -61,7 +61,7 @@
 	
 	var socket=null;
 	$(document).ready(function(){
-		ws=new WebSocket("ws://192.168.0.93:9090/RidingHan/echo");
+		ws=new WebSocket("ws://localhost:9090/RidingHan/echo");
 		$("#just").append("<div><b>"+chat_title+"채팅방에 참여했습니다.</b></div><br>")
 		$("#just").scrollTop(99999999);
 		$("#textInput").focus();		

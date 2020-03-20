@@ -10,5 +10,6 @@ public class DirectionVO {
 	private int place_to;
 	private double distance;
 	private String gpxfile;
+	private int d_user_no;
 	
 }

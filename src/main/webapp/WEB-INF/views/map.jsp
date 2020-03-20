@@ -40,14 +40,14 @@
       <!-- map 검색 -->
       <div id="map" style="width: 100%; height: 100%;"></div>
       <div id="map_search">
-         <a class="logo" href="index.html"> <img
-            src="asset/images/RUN_LOGO.png"></a> <img
-            src="asset/images/hangang_kor.png">
+         <a class="logo" href="../index"> <img
+            src="../asset/images/RUN_LOGO.png"></a> <img
+            src="../asset/images/hangang_kor.png">
          <p class="sub">마이 라이딩</p>
          <div class="search-bar">
             <input type="search" id="searchingPlace" placeholder="장소 검색"
                value="당산역" /> <input id="map_submit" class="icon" type="image"
-               src="asset/images/search.png" value="" />
+               src="../asset/images/search.png" value="" />
          </div>
       </div>
       <div id="map_check">
@@ -57,7 +57,7 @@
                <td>
                   <button id="startPoint" type="button" onclick="registerPoint1()"
                      class="mappick">
-                     <img src="asset/images/mappick.png" alt="chooseAdress">
+                     <img src="../asset/images/mappick.png" alt="chooseAdress">
                   </button>
                </td>
             </tr>
@@ -66,7 +66,7 @@
                <td>
                   <button id="endPoint" type="button" onclick="registerPoint2()"
                      class="mappick">
-                     <img src="asset/images/mappick.png" alt="chooseAdress">
+                     <img src="../asset/images/mappick.png" alt="chooseAdress">
                   </button>
                </td>
             </tr>
@@ -81,7 +81,7 @@
    </div>
 
    <!-- 1지점 등록관련 form start--------------------------------------------------- -->
-   <form name="point1" id="point1" method="POST" action="registerPlace">
+   <form name="point1" id="point1">
       <input type="hidden" name="title" id="title"> <input type="hidden"
          name="latitude" id="latitude"> <input type="hidden"
          name="longitude" id="longitude"> <input type="hidden"
@@ -90,7 +90,7 @@
    </form>
    <!-- ----------------------------------------------------------------------- -->
    <!-- 2지점 등록관련 form start--------------------------------------------------- -->
-   <form name="point2" id="point2" method="POST" action="registerPlace">
+   <form name="point2" id="point2">
       <input type="hidden" name="title" id="title2"> <input
          type="hidden" name="latitude" id="latitude2"> <input
          type="hidden" name="longitude" id="longitude2"> <input
@@ -99,8 +99,7 @@
    </form>
    <!-- ----------------------------------------------------------------------- -->
    <!-- 경로 등록관련 form start--------------------------------------------------- -->
-   <form name="direction" id="direction" method="POST"
-      action="registerDirection">
+   <form name="direction" id="direction">
       <input type="hidden" name="title" id="title3">
       <input type="hidden" name="place_from" id="place_from">
       <input type="hidden" name="place_to" id="place_to">
@@ -502,7 +501,7 @@
       setMapCenter(center);
       $.ajax({
          type : 'POST',
-         url : './SearchPlaces',
+         url : '../SearchPlaces',
          data : {
             place : place,
             lng : mapCenter.x,
@@ -528,7 +527,7 @@
 
    function viewDirection(gpxfile) {
       $.ajax({
-         url : 'gpx/' + gpxfile,
+         url : '../gpx/' + gpxfile,
          dataType : 'xml',
          success : startDataLayer,
          error : function(e) {
@@ -588,7 +587,7 @@
       for (var i = 0, ii = markerInfos.length; i < ii; i++) {
          // console.log(latlngs[i]);
          var icon = {
-            url : 'asset/images/sp_pins_spot_v3.png',
+            url : '../asset/images/sp_pins_spot_v3.png',
             size : new naver.maps.Size(24, 37),
             anchor : new naver.maps.Point(12, 37),
             origin : new naver.maps.Point(i * 29, 0)
@@ -641,9 +640,9 @@
       var marker = e.overlay, seq = marker.get('seq');
       var url = null;
       if (selectPoints == 0) {
-         url = 'asset/images/start.png';
+         url = '../asset/images/start.png';
       } else if (selectPoints == 1) {
-         url = 'asset/images/finish.png';
+         url = '../asset/images/finish.png';
       }
       marker.setIcon({
          url : url,
@@ -672,7 +671,7 @@
       }
 
       marker.setIcon({
-         url : 'asset/images/sp_pins_spot_v3_over.png',
+         url : '../asset/images/sp_pins_spot_v3_over.png',
          size : new naver.maps.Size(24, 37),
          anchor : new naver.maps.Point(12, 37),
          origin : new naver.maps.Point(seq * 29, 50)
@@ -693,7 +692,7 @@
       }
 
       marker.setIcon({
-         url : 'asset/images/sp_pins_spot_v3.png',
+         url : '../asset/images/sp_pins_spot_v3.png',
          size : new naver.maps.Size(24, 37),
          anchor : new naver.maps.Point(12, 37),
          origin : new naver.maps.Point(seq * 29, 0)
