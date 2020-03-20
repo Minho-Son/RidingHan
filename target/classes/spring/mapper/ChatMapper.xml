@@ -3,8 +3,8 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 인터페이스명과 namespace를 동일하게 주어야 함 -->
 <mapper	
-	namespace="com.tis.group.mapper.ChatMapper">
-	<select id="showChatList" parameterType="com.tis.group.model.PagingVO" resultType="Chat">
+	namespace="com.tis.chat.mapper.ChatMapper">
+	<select id="showChatList" parameterType="com.tis.chat.model.PagingVO" resultType="Chat">
 		select * from(
       select chat.*,row_number() over(order by chat_no desc) rn
       from chat where chat_text='|start|') where rn between 1 and 10

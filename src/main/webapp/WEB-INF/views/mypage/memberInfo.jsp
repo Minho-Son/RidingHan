@@ -134,7 +134,7 @@
 	<h6 class="mtitle">회원정보수정</h6>
 	<p class="txt_black">기본정보</p>
 	<hr />
-	<form class="modifyform" id="mf" action="myInfoEdit" method="POST">
+	<form class="modifyform" id="mf" action="myInfoEdit" method="POST" enctype="multipart/form-data">
 		<div class="form-group">
 			<label class="mtxt_gray" style="margin: 0 150px 0 0">아이디</label>
 			<label class="mtxt_black" id="user_id" name="user_id">${user.user_id}</label>
@@ -151,7 +151,7 @@
 				<input type="button" class="modifybtn" id="nickChk" value="중복확인" />
 		</div>
 		<div class="form-inline">
-			<label class="mtxt_gray" for="pwd" style="margin: 0 105px 0 0">이전 비밀번호</label>
+			<label class="mtxt_gray" for="pwd" style="margin: 0 99px 0 0"> 비밀번호(필수)</label>
 			<input type="password" id="pwd" name="pwd" class="form-control col-md-6">
 		</div>
 		<div class="form-inline">
@@ -165,6 +165,7 @@
 		<div class="form-inline">
 			<label class="mtxt_gray" style="margin: 0 70px 0 0">프로필 이미지 등록</label> 
             <input type="file" name="mypfile" id="mypfile" class="form-control col-md-6">
+            <input type="hidden" name="old_mypfile" id="old_mypfile" class="form-control col-md-6" value="${user.user_img}">
         </div>
 		<br>
 		<div class="form-inline">

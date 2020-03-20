@@ -47,13 +47,17 @@
                <a href="<%=myctx%>/index"></a>
             </h1>
             <div class="utill2">
-               <a href="<%=myctx%>/map" target="_self" class="sup">지도 보기</a>
+               <a href="<%=myctx%>/map" target="_self" class="sup">지도보기</a>
                <a href="<%=myctx%>/chat" target="_self" class="doc">채팅</a>
-               <a href="<%=myctx%>/mypage" target="_self" class="sup">마이페이지</a>
             </div>
             <div class="lang2">
+               <c:if test="${user eq null}">
+               	  <a href="<%=myctx%>/signup" target="_self" class="sup">회원가입</a>
+                  <a href="<%=myctx%>/login" class="_self">로그인</a>
+               </c:if>
                <c:if test="${user ne null}">
-                  <a href="<%=myctx%>/logout" class="active">로그아웃</a>
+               	  <a href="<%=myctx%>/mypage" target="_self" class="sup">마이페이지</a>
+                  <a href="<%=myctx%>/logout" class="_self">로그아웃</a>
                </c:if>
             </div>
          </div>
@@ -64,7 +68,7 @@
             <li class="active" data-menuanchor="intro"><a href="index">HOME</a></li>
             <li data-menuanchor="index01"><a href="index.html#index01">START RIDING</a></li>
             <li data-menuanchor="index02"><a href="index.html#index02">MY TRAVEL</a></li>
-<!--             <li data-menuanchor="index05"><a href="index.html#index05">CAMPAIGN</a></li> -->
+			<li data-menuanchor="index05"><a href="index.html#index05">CAMPAIGN</a></li>
          </ul>
       </div>
       

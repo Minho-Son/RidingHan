@@ -5,8 +5,8 @@
 <mapper
 	namespace="com.tis.user.mapper.UserMapper">
 	<insert id="createMember" parameterType="Member">
-		insert into member(user_no, user_id, pwd, user_name, nickname, state, joindate)
-		values(member_seq.nextval,#{user_id},#{pwd},#{user_name},#{nickName},1,sysdate)
+		insert into member(user_no, user_id, pwd, user_name, nickname, state, joindate, user_img)
+		values(member_seq.nextval,#{user_id},#{pwd},#{user_name},#{nickName},1,sysdate,'bike1.jpg')
 	</insert>
 	
 	<select id="memberChkByEmail" parameterType="string" resultType="Member">
@@ -18,7 +18,7 @@
 	</select>
 	
 	<update id="editMember" parameterType="Member">
-		update member set user_name=#{user_name}, pwd=#{pwd}, nickname=#{nickName}
+		update member set user_name=#{user_name}, pwd=#{pwd}, nickname=#{nickName}, user_img=#{user_img}
 		 where user_id=#{user_id}		
 	</update>
 

@@ -1,4 +1,4 @@
-package com.tis.group.model;
+package com.tis.chat.model;
 
 import java.sql.Timestamp;
 

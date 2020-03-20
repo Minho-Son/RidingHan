@@ -21,13 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tis.board.model.BoardVO;
+import com.tis.chat.model.ChatVO;
+import com.tis.chat.model.Chat_MemberVO;
+import com.tis.chat.model.PagingVO;
+import com.tis.chat.service.ChatService;
 import com.tis.common.CommonUtil;
 import com.tis.common.CreateRandomCode;
-import com.tis.group.model.ChatVO;
-import com.tis.group.model.Chat_MemberVO;
-import com.tis.group.model.PagingVO;
-import com.tis.group.service.ChatService;
 import com.tis.user.model.MemberVO;
 
 import lombok.extern.log4j.Log4j;
@@ -35,9 +34,6 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class ChatController {
-	
-	@Autowired
-	private CommonUtil util;
 	
 	@Inject
 	private ChatService chatService;
@@ -63,7 +59,7 @@ public class ChatController {
 		m.addAttribute("paging",paging);
 		m.addAttribute("pageNavi",pageNavi);
 		
-		return "group/chatMain";
+		return "chat/chatMain";
 	}
 	
 	@RequestMapping("/searchChat")
@@ -90,7 +86,7 @@ public class ChatController {
        model.addAttribute("pageNavi", pageNavi);
        model.addAttribute("findKeyword",req.getParameter("findKeyword"));
 
-       return "group/chatMain";
+       return "chat/chatMain";
     }
 
 	
@@ -172,7 +168,7 @@ public class ChatController {
 		m.addAttribute("chatRoomInfo", chatRoomInfo);
 		m.addAttribute("chatMemberList", chatMemberList);
 		m.addAttribute("allChat", allChat);
-		return "group/chat";
+		return "chat/chat";
 	}
 	
 	@RequestMapping(value="/chat/quitChat")

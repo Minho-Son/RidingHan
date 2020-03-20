@@ -1,10 +1,10 @@
-package com.tis.place.mapper;
+package com.tis.plan.mapper;
 
 import java.util.List;
 import java.util.Map;
 
-import com.tis.place.domain.PagingVO;
-import com.tis.place.domain.PlanVO;
+import com.tis.plan.model.PagingVO;
+import com.tis.plan.model.PlanVO;
 
 public interface PlanMapper {
 	int registerPlan(PlanVO plan);

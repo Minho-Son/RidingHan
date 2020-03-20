@@ -52,6 +52,16 @@ public class PlaceController {
       map.put("place", place_no);
       return map;
    } // ---------------------------------
+   
+   @RequestMapping("/getPlaceById")
+   public @ResponseBody PlaceVO getDirectionById(
+         @ModelAttribute("place_no") int place_no) {
+      log.info("place_no: " + place_no);
+      PlaceVO place = placeService.findPlaceByPlaceid(place_no);
+      log.info("place: " + place);
+
+      return place;
+   } // ---------------------------------
 
    @RequestMapping("/placeList")
    public String placeList(@ModelAttribute PagingVO paging, HttpServletRequest req, Model m) {
@@ -73,13 +83,53 @@ public class PlaceController {
       m.addAttribute("pageNavi", pageNavi);
 
       return "place/placeList";
-      // "WEB-INF/views/place/placeList.jsp"
+      // "WEB-INF/views/place/placeLiset.jsp"
+   } // ---------------------------------
+
+   @RequestMapping("/placeNearby")
+   public String placeListNearby(@ModelAttribute PlaceVO place, HttpServletRequest req, Model m) {
+
+      log.info("place=" + place);
+      if (place.getLatitude()==0) place.setLatitude(37.8054953);
+      if (place.getLongitude()==0) place.setLongitude(128.9082081);
+      List<PlaceVO> pList = placeService.findPlaceNearby(place.getLatitude(), place.getLongitude());
+      log.info("pList=" + pList);
+      log.info("pList.size()=" + pList.size());
+      
+      m.addAttribute("totalCount", pList.size());
+      m.addAttribute("placeArr", pList);
+
+      return "place/placeNearby";
+      // "WEB-INF/views/place/placeNearby.jsp"
+   } // ---------------------------------
+   
+   @RequestMapping(value = "/placeNearbyMap", method = RequestMethod.GET)
+   public String showPlaceNearbyMap(Model m) {
+      return "place/placeNearbyMap";
+      // "WEB-INF/views/place/placeNearbyMap.jsp"
+   }
+
+   @RequestMapping(value = "/placeNearbyMap", method = RequestMethod.POST)
+   public @ResponseBody List<PlaceVO> placeListNearbyMap(@ModelAttribute PlaceVO place) {
+
+      log.info("place=" + place);
+      if (place.getLatitude()==0) place.setLatitude(37.5349277);
+      if (place.getLongitude()==0) place.setLongitude(126.9027279);
+      List<PlaceVO> pList = placeService.findPlaceNearby(place.getLatitude(), place.getLongitude());
+      log.info("pList=" + pList);
+      log.info("pList.size()=" + pList.size());
+      
+      //m.addAttribute("totalCount", pList.size());
+      //m.addAttribute("placeArr", pList);
+      
+      return pList;
+      // "WEB-INF/views/place/placeNearbyMap.jsp"
    } // ---------------------------------
 
    @RequestMapping("/selectPlace")
    public String selectPlace(Model m, @ModelAttribute("place_no") String place_no) {
       log.info("place_no: " + place_no);
-      PlaceVO place = placeService.findPlaceByPlaceid(place_no);
+      PlaceVO place = placeService.findPlaceByPlaceid(Integer.parseInt(place_no));
       log.info("place: " + place);
 
       m.addAttribute("selectedPlace", place_no);
@@ -97,7 +147,7 @@ public class PlaceController {
          throws IOException {
       log.info("direction===" + direction);
 
-      DirectionViewVO registered = placeService.findDirectionByGpxfile(direction.getGpxfile());
+      DirectionVO registered = placeService.findDirectionByGpxfile(direction.getGpxfile());
       log.info("registered=" + registered);
       String str = null;
       String direction_no = null;
@@ -114,6 +164,16 @@ public class PlaceController {
       map.put("msg", str);
       map.put("direction", direction_no);
       return map;
+   } // ---------------------------------
+   
+   @RequestMapping("/getDirctionById")
+   public @ResponseBody DirectionVO getDirectionById(
+         @ModelAttribute("direction_no") String direction_no) {
+      log.info("direction_no: " + direction_no);
+      DirectionVO direction = placeService.findDirectionByDirectionid(direction_no);
+      log.info("direction: " + direction);
+
+      return direction;
    } // ---------------------------------
 
    @RequestMapping("/directionList")
@@ -142,7 +202,7 @@ public class PlaceController {
    @RequestMapping("/selectDirection")
    public String selectDirection(Model m, @ModelAttribute("direction_no") String direction_no) {
       log.info("direction_no: " + direction_no);
-      DirectionViewVO direction = placeService.findDirectionByDirectionid(direction_no);
+      DirectionVO direction = placeService.findDirectionByDirectionid(direction_no);
       log.info("direction: " + direction);
 
       m.addAttribute("selectedDirection", direction_no);
@@ -154,5 +214,14 @@ public class PlaceController {
       m.addAttribute("loc", loc);
       return "message";
    } // ---------------------------------
+   
+   @RequestMapping("/viewDirection")
+   public String viewDirection(Model m, @ModelAttribute("direction_no") String direction_no) {
+      log.info("direction_no: " + direction_no);
+      m.addAttribute("viewDirection", direction_no);
+      
+      return "place/viewDirection";
+   } // ---------------------------------
+
 
 }

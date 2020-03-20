@@ -11,8 +11,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.tis.group.model.ChatVO;
-import com.tis.group.service.ChatService;
+import com.tis.chat.model.ChatVO;
+import com.tis.chat.service.ChatService;
 import com.tis.ridinghan.ChatController;
 import com.tis.user.model.MemberVO;
 

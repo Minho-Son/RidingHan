@@ -119,6 +119,7 @@ public class UserController {
 	public String myInfoEdit(
 			@RequestParam String newPwd,
 			@RequestParam("mypfile") MultipartFile mypfile,
+			@RequestParam(defaultValue="") String old_mypfile,
 			@ModelAttribute MemberVO mv, Model m, HttpSession ses, HttpServletResponse res) throws NotUserException {
 
 		ServletContext sc=ses.getServletContext();
@@ -132,21 +133,27 @@ public class UserController {
 		if (pwdisCorrect == false) {
 			throw new NotUserException("비밀번호가 일치하지 않습니다.");
 		} else {
-			System.out.println("일치함");
-			if (newPwd != null) {
+			System.out.println("패스워드 일치함");
+			if (!newPwd.isEmpty()) {
 				mv.setPwd(newPwd);
+			}else {
+				mv.setPwd(user.getPwd());
 			}
 			mv.setUser_id(user.getUser_id());
 			
 			//프로필 이미지 업로드
 			String user_img=mypfile.getOriginalFilename();
-			if(mypfile.isEmpty()) {
+			if(mypfile.isEmpty()&&old_mypfile.isEmpty()) {
 				mv.setUser_img("noimage.jpg");
 			}else {
 				try {
 					mypfile.transferTo(new File(upDir,user_img));
-					mv.setUser_img(user_img);					
-				}catch(IOException e) {
+					mv.setUser_img(user_img);	
+					
+					File delF=new File(upDir,old_mypfile);
+					boolean b=delF.delete();
+					log.error("예전파일 "+old_mypfile+" 삭제 처리 여부 : "+b);
+				}catch(Exception e) {
 					log.error("파일 업로드 중 에러 : "+e.getMessage());
 				}
 			}
@@ -161,6 +168,6 @@ public class UserController {
 			m.addAttribute("loc", loc);
 
 			return "message";
-		}
+		}//else------------------------------------------------------
 	}
 }

@@ -17,7 +17,7 @@
 			<p class="mtxt_blue">계정</p>
 			<a href="<%=myctx%>/mypage/myInfo" class="txt_black">회원정보수정</a>
 			<p class="txt_blue">나의 여행</p>
-			<a href="<%=myctx%>/mypage/favorite" class="txt_black">즐겨찾기</a> 
-			<a href="<%=myctx%>/mypage/travelingList" class="txt_black">진행중인 여행</a> 
-			<a href="<%=myctx%>/mypage/travelingHistory" class="txt_black">여행 히스토리</a>
+			<a href="<%=myctx%>/mypage/favorite" class="txt_black">내가 등록한 장소</a> 
+			<a href="<%=myctx%>/mypage/travelingList" class="txt_black">진행중인 플랜</a> 
+			<a href="<%=myctx%>/mypage/travelingHistory" class="txt_black">플랜 히스토리</a>
 		</div>

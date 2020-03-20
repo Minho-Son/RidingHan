@@ -1,4 +1,4 @@
-package com.tis.group.service;
+package com.tis.chat.service;
 
 import java.util.List;
 import java.util.Map;
@@ -7,10 +7,10 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.tis.group.mapper.ChatMapper;
-import com.tis.group.model.ChatVO;
-import com.tis.group.model.Chat_MemberVO;
-import com.tis.group.model.PagingVO;
+import com.tis.chat.mapper.ChatMapper;
+import com.tis.chat.model.ChatVO;
+import com.tis.chat.model.Chat_MemberVO;
+import com.tis.chat.model.PagingVO;
 import com.tis.user.model.MemberVO;
 
 import lombok.extern.log4j.Log4j;

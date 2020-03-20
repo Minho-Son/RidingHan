@@ -1,13 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:import url="/top" />
+<%
+   String myctx = request.getContextPath();
+%>
 
 <script type="text/javascript"
    src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
 
 <!--자바스크립트 / CSS-->
-<link href="css/style.css" rel="stylesheet">
+<link href="<%=myctx%>/asset/css/style.css" rel="stylesheet">
+<script src="<%=myctx%>/asset/js/jquery.min.js"></script>
+<script src="https://ajax.googleapiscom/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="<%=myctx%>/asset/js/common.js"></script>
+<script src="<%=myctx%>/asset/js/custom.js"></script>
+
+<!--부트스트랩-->
+<link rel="stylesheet" href="<%=myctx%>/asset/css/bootstrap.min.css" />
+<script
+   src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+   src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 <style type="text/css">
 #startPointInfo {
@@ -25,7 +38,7 @@
 <div id="container">
    <div id="wrap" class="section">
       <!-- map 검색 -->
-      <div id="map" style="width: 100%; height: 600px;"></div>
+      <div id="map" style="width: 100%; height: 100%;"></div>
       <div id="map_search">
          <a class="logo" href="index.html"> <img
             src="asset/images/RUN_LOGO.png"></a> <img
@@ -69,30 +82,30 @@
 
    <!-- 1지점 등록관련 form start--------------------------------------------------- -->
    <form name="point1" id="point1" method="POST" action="registerPlace">
-      <input type="text" name="title" id="title"> <input type="text"
-         name="latitude" id="latitude"> <input type="text"
-         name="longitude" id="longitude"> <input type="text"
-         name="road_address" id="road_address"> <input type="text"
+      <input type="hidden" name="title" id="title"> <input type="hidden"
+         name="latitude" id="latitude"> <input type="hidden"
+         name="longitude" id="longitude"> <input type="hidden"
+         name="road_address" id="road_address"> <input type="hidden"
          name="jibun_address" id="jibun_address">
    </form>
    <!-- ----------------------------------------------------------------------- -->
    <!-- 2지점 등록관련 form start--------------------------------------------------- -->
    <form name="point2" id="point2" method="POST" action="registerPlace">
-      <input type="text" name="title" id="title2"> <input
-         type="text" name="latitude" id="latitude2"> <input
-         type="text" name="longitude" id="longitude2"> <input
-         type="text" name="road_address" id="road_address2"> <input
-         type="text" name="jibun_address" id="jibun_address2">
+      <input type="hidden" name="title" id="title2"> <input
+         type="hidden" name="latitude" id="latitude2"> <input
+         type="hidden" name="longitude" id="longitude2"> <input
+         type="hidden" name="road_address" id="road_address2"> <input
+         type="hidden" name="jibun_address" id="jibun_address2">
    </form>
    <!-- ----------------------------------------------------------------------- -->
    <!-- 경로 등록관련 form start--------------------------------------------------- -->
    <form name="direction" id="direction" method="POST"
       action="registerDirection">
-      <input type="text" name="title" id="title3">
-      <input type="text" name="place_from" id="place_from">
-      <input type="text" name="place_to" id="place_to">
-      <input type="text" name="distance" id="distance">
-      <input type="text" name="gpxfile" id="gpxfile">
+      <input type="hidden" name="title" id="title3">
+      <input type="hidden" name="place_from" id="place_from">
+      <input type="hidden" name="place_to" id="place_to">
+      <input type="hidden" name="distance" id="distance">
+      <input type="hidden" name="gpxfile" id="gpxfile">
    </form>
    <!-- ----------------------------------------------------------------------- -->
 </div>
@@ -110,14 +123,9 @@
          dataType : 'json',
          cache : false,
          success : function(res) {
-            alert(res.msg);
-            if (point==1) {
-            	point1_no = res.place;
-            }
-            else if (point==2){
-            	point2_no = res.place;
-            	
-            }
+            alert(res.msg+"\n"+"place="+res.place);
+            if (point==1) point1_no = res.place;
+            else if (point==2) point2_no = res.place;
             // 등록버튼 변경
             // 등록버튼 비활성화
          },
@@ -128,7 +136,8 @@
    }
 
 
-   var registerPoint1 = function(title) {
+   var registerPoint1 = function() {
+      let title;
       if(selectedPoints[0].title=="클릭한 지점") {
          title = prompt("등록지점 이름을 입력하세요","");
       } else {
@@ -152,6 +161,7 @@
       let title;
       if(selectedPoints[1].title=="클릭한 지점") {
          title = prompt("등록지점 이름을 입력하세요","");
+         return;
       } else {
          title = selectedPoints[1].title
       }
@@ -429,6 +439,24 @@
       }
       let gpxfile = point1_no + point2_no + ".gpx";
       alert(gpxfile);
+      var maxX=0, minX=0, maxY=0, minY=0;
+      if(selectedPoints[0].x > selectedPoints[1].x){
+         minX=selectedPoints[1].x;
+         maxX=selectedPoints[0].x;
+      } else {
+         minX=selectedPoints[0].x;
+         maxX=selectedPoints[1].x;
+      }
+      if(selectedPoints[0].y > selectedPoints[1].y){
+         minY=selectedPoints[1].y;
+         maxY=selectedPoints[0].y;
+      } else {
+         minY=selectedPoints[0].y;
+         maxY=selectedPoints[1].y;
+      }
+      let northEast= new naver.maps.LatLng(maxY, maxX);
+      let southWest= new naver.maps.LatLng(minY, minX);
+      
       $.ajax({
          type : 'POST',
          url : 'Directions',
@@ -444,9 +472,9 @@
          cashe : 'false',
          success : function(res) {
             foundDirection = true;
-            alert(res);
+            // alert(res);
             distance = res;
-            viewDirection(gpxfile);
+            viewDirection(gpxfile, southWest, northEast);
          },
          error : function(e) {
             alert('error: ' + e.status);
@@ -489,7 +517,7 @@
    var distance;
    var markerInfos = [];
 
-   function viewDirection(gpxfile) {
+   function viewDirection(gpxfile, southWest, northEast) {
       $.ajax({
          url : 'gpx/' + gpxfile,
          dataType : 'xml',
@@ -498,6 +526,9 @@
             alert('error: ' + e.status);
          }
       });
+      var mapBound = new naver.maps.LatLngBounds(southWest, northEast);
+      
+      map.fitBounds(mapBound);
    }
 
    function startDataLayer(xmlDoc) {
@@ -518,6 +549,7 @@
    }
 
    function makePlaceMatrix(resPlaces) {
+      var newmap = markerInfos.length;
       $.each(resPlaces, function(i, place) {
          var markerInfo = {
             title : "",
@@ -533,6 +565,8 @@
          markerInfo.jibun = place.jibun_address;
          markerInfos.push(markerInfo);
       })
+      setMapCenter(new naver.maps.LatLng(markerInfos[newmap].y, markerInfos[newmap].x));
+      map.setCenter(mapCenter);
    }
 
    function viewMarkers() {
@@ -567,8 +601,6 @@
          icon = null;
          marker = null;
       }
-      setMapCenter(markers[0].position);
-      map.setCenter(mapCenter);
    }
 
    function displayPointInfo(latlng, title, coordinate, road, jibun) {

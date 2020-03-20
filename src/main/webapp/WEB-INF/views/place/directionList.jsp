@@ -64,7 +64,7 @@
       //frm폼의 direction_no value값으로 direction_no값을 넣어주자.
       if (yn) {
          frm.direction_no.value = direction_no;
-         frm.action = "selectDirection";
+         frm.action = "viewDirection";
          frm.method = 'post';
          frm.submit();
       }

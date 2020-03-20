@@ -13,7 +13,7 @@
 	<div class="group-box2">
 		<a href="해당 그룹 화면으로 jsp이동 새창으로뜸" target="_blank">
 			<div class="profile2" href="a">
-				<img src="./asset/images/chat/${chat.chat_image}">
+				<img src="../asset/images/chat/${chat.chat_image}">
 			</div>
 			<div class="group-txt2">
 				<p class="mtxt_black">다녀왔던 여행제목</p>
