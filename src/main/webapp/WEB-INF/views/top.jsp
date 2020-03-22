@@ -72,7 +72,7 @@ $(document).ready(function(){
                <a href="<%=myctx%>/index"></a>
             </h1>
             <div class="utill2">
-               <a href="<%=myctx%>/map/" target="_self" class="sup">지도보기</a> <a
+               <a href="<%=myctx%>/map" target="_self" class="sup">지도보기</a> <a
                   href="<%=myctx%>/chat" target="_self" class="doc">채팅</a>
             </div>
             <div class="lang2">
@@ -117,12 +117,12 @@ $(document).ready(function(){
 
                   <li class="menu_first">
                      <div class="li_pack">
-                        <p>지도보기</p>
+                        <p>라이딩 검색</p>
                         <i class="material-icons menu_icon"> expand_more </i>
                      </div>
                      <ul class="menu_second">
-                        <li><a href="<%=myctx%>">라이딩 검색</a></li>
-                        <li><a href="<%=myctx%>">등록된 장소보기</a></li>
+                        <li><a href="<%=myctx%>/map">지도보기</a></li>
+                        <li><a href="<%=myctx%>/map/placeList">등록된 장소</a></li>
                      </ul>
                   </li>
 
@@ -132,7 +132,7 @@ $(document).ready(function(){
                         <i class="material-icons menu_icon"> expand_more </i>
                      </div>
                      <ul class="menu_second">
-                        <li><a href="<%=myctx%>/map" target="_blank">라이딩 계획</a></li>
+                        <li><a href="<%=myctx%>/plan">라이딩 플랜</a></li>
                         <li><a href="<%=myctx%>/chat">채팅</a></li>
                         <li><a href="index.html#index05">캠페인</a></li>
                      </ul>
@@ -146,9 +146,8 @@ $(document).ready(function(){
                      <ul class="menu_second">
                         <li><a href="<%=myctx%>/mypage/myInfo">회원정보수정</a></li>
                         <li><a href="<%=myctx%>/mypage/favorite">내가 등록한 장소</a></li>
-                        <li><a href="<%=myctx%>/mypage/travelingList">진행중인 여행</a></li>
-                        <li><a href="<%=myctx%>/mypage/travelingHistory">여행
-                              히스토리</a></li>
+                        <li><a href="<%=myctx%>/mypage/travelingList">진행중인 플랜</a></li>
+                        <li><a href="<%=myctx%>/mypage/travelingHistory">플랜 히스토리</a></li>
                      </ul>
                   </li>
 

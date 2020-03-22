@@ -4,11 +4,35 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:import url="/top"/>
 <script type="text/javascript">   
-	$(document).ready(function() {
-         $("#makegroup").click(function() {
-            $("#groupModal").modal();
-         });
-	});
+$(document).ready(function() {
+	$("#makegroup").click(function() {
+    	$("#groupModal").modal();
+    });
+});
+	
+//플랜 생성 시 유효성 체크
+function message(str){
+	var obj=document.getElementById("msg");
+	obj.innerHTML=str;
+	}
+$(function(){
+	$('#makePlan').click(function(){
+		if (!$('#plan_title').val()){
+			var str = '※ 플랜의 제목을 입력해주세요';
+			message(str);
+			return;
+		}
+		if(!$('#plan_about').val()){
+			var str = '※ 플랜 소개를 입력해주세요';
+			message(str);
+			return;
+		}
+		alert(plan_title.val());
+		alert(sharePlan.val());
+		//f.submit();
+	})
+})
+	
 </script>
  <div id="container">
          <div class="inbx">
@@ -47,6 +71,7 @@
 
       <!--플랜추가 모달+--------------------------->
       <!-- The Modal -->
+      <form id="pf" method="POST" action="plan/makePlan">
       <div class="modal fade" id="groupModal">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -75,15 +100,21 @@
                   <span class="departure" name="place_direction_no" id="place_direction_no" ><img src="">
                   	
                   </span>
-                  <br />
+                  <br/>
                </div>
 
                <!-- Modal footer -->
+               <div class="checks">
+					<input type="checkbox" id="sharePlan" value="sharePlan" />
+					<label for="checks"> 그룹으로 공유하기</label>
+					<label id="msg" style="fontSize: 8pt; color: red;"></label>
+				</div>
                <div class="modal-footer">
-               	  <button type="button" class="btn btn-success" data-dismiss="modal">나의 플랜에 저장</button>
-                  <button type="button" class="btn btn-success" data-dismiss="modal">그룹으로 공유</button>
+               	  <button type="button" class="btn btn-success" data-dismiss="modal" id="makePlan">플랜 만들기</button>
+                  <button type="button" class="btn btn-success" data-dismiss="modal" id="sharePlan">그룹으로 공유</button>
                </div>
 
             </div>
          </div>
       </div>
+      </form>

@@ -17,5 +17,7 @@ public interface PlanService {
 	PlanVO findPlanByTitle(String title);
 	PlanVO findPlanByPlanid(String planid);
 	PlanVO findPlanByCoordinate(double latitude, double longitude);
+	////////////////////////////
+	int createPlan(PlanVO pv);
 	
 }

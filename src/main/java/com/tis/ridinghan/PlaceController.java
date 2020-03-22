@@ -25,10 +25,10 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping(value="/map")
+//@RequestMapping(value="/map")
 public class PlaceController {
 	
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@RequestMapping(value="/map", method=RequestMethod.GET)
 	public String showMap() {
 	      return "map";
 	}
@@ -36,7 +36,7 @@ public class PlaceController {
    @Autowired
    private PlaceService placeService;
    
-   @RequestMapping(value = "/registerPlace", method = RequestMethod.POST)
+   @RequestMapping(value = "/map/registerPlace", method = RequestMethod.POST)
    public @ResponseBody Map<String, String> registerPlace(@ModelAttribute PlaceVO place) {
       PlaceVO registered = placeService.findPlaceByCoordinate(place.getLatitude(), place.getLongitude());
       String str = null;
@@ -57,7 +57,7 @@ public class PlaceController {
       return map;
    } // ---------------------------------
    
-   @RequestMapping("/getPlaceById")
+   @RequestMapping("/map/getPlaceById")
    public @ResponseBody PlaceVO getDirectionById(
          @ModelAttribute("place_no") int place_no) {
       log.info("place_no: " + place_no);
@@ -67,7 +67,7 @@ public class PlaceController {
       return place;
    } // ---------------------------------
 
-   @RequestMapping("/placeList")
+   @RequestMapping("/map/placeList")
    public String placeList(@ModelAttribute PagingVO paging, HttpServletRequest req, Model m) {
       int totalCount = placeService.getTotalPlaceCount();
 
@@ -90,7 +90,7 @@ public class PlaceController {
       // "WEB-INF/views/place/placeLiset.jsp"
    } // ---------------------------------
 
-   @RequestMapping("/placeNearby")
+   @RequestMapping("/map/placeNearby")
    public String placeListNearby(@ModelAttribute PlaceVO place, HttpServletRequest req, Model m) {
 
       log.info("place=" + place);
@@ -107,13 +107,13 @@ public class PlaceController {
       // "WEB-INF/views/place/placeNearby.jsp"
    } // ---------------------------------
    
-   @RequestMapping(value = "/placeNearbyMap", method = RequestMethod.GET)
+   @RequestMapping(value = "/map/placeNearbyMap", method = RequestMethod.GET)
    public String showPlaceNearbyMap(Model m) {
       return "place/placeNearbyMap";
       // "WEB-INF/views/place/placeNearbyMap.jsp"
    }
 
-   @RequestMapping(value = "/placeNearbyMap", method = RequestMethod.POST)
+   @RequestMapping(value = "/map/placeNearbyMap", method = RequestMethod.POST)
    public @ResponseBody List<PlaceVO> placeListNearbyMap(@ModelAttribute PlaceVO place) {
 
       log.info("place=" + place);
@@ -130,7 +130,7 @@ public class PlaceController {
       // "WEB-INF/views/place/placeNearbyMap.jsp"
    } // ---------------------------------
 
-   @RequestMapping("/selectPlace")
+   @RequestMapping("/map/selectPlace")
    public String selectPlace(Model m, @ModelAttribute("place_no") String place_no) {
       log.info("place_no: " + place_no);
       PlaceVO place = placeService.findPlaceByPlaceid(Integer.parseInt(place_no));
@@ -146,7 +146,7 @@ public class PlaceController {
       return "message";
    } // ---------------------------------
 
-   @RequestMapping(value = "/registerDirection", method = RequestMethod.POST)
+   @RequestMapping(value = "/map/registerDirection", method = RequestMethod.POST)
    public @ResponseBody Map<String, String> directionRegister(@ModelAttribute DirectionVO direction)
          throws IOException {
       log.info("direction===" + direction);
@@ -170,7 +170,7 @@ public class PlaceController {
       return map;
    } // ---------------------------------
    
-   @RequestMapping("/getDirctionById")
+   @RequestMapping("/map/getDirctionById")
    public @ResponseBody DirectionVO getDirectionById(
          @ModelAttribute("direction_no") String direction_no) {
       log.info("direction_no: " + direction_no);
@@ -180,7 +180,7 @@ public class PlaceController {
       return direction;
    } // ---------------------------------
 
-   @RequestMapping("/directionList")
+   @RequestMapping("/map/directionList")
    public String directionList(@ModelAttribute PagingVO paging, HttpServletRequest req, Model m) {
       int totalCount = placeService.getTotalDirectionCount();
 
@@ -203,7 +203,7 @@ public class PlaceController {
       // "WEB-INF/views/place/directionList.jsp"
    } // ---------------------------------
 
-   @RequestMapping("/selectDirection")
+   @RequestMapping("/map/selectDirection")
    public String selectDirection(Model m, @ModelAttribute("direction_no") String direction_no) {
       log.info("direction_no: " + direction_no);
       DirectionVO direction = placeService.findDirectionByDirectionid(direction_no);
@@ -219,7 +219,7 @@ public class PlaceController {
       return "message";
    } // ---------------------------------
    
-   @RequestMapping("/viewDirection")
+   @RequestMapping("/map/viewDirection")
    public String viewDirection(Model m, @ModelAttribute("direction_no") String direction_no) {
       log.info("direction_no: " + direction_no);
       m.addAttribute("viewDirection", direction_no);

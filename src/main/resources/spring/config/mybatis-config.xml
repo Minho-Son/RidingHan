@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="spring/mapper/DirectionMapper.xml"/>
 		<mapper resource="spring/mapper/PlaceMapper.xml"/>
 		<mapper resource="spring/mapper/CampaignMapper.xml"/>
+		<mapper resource="spring/mapper/PlanMapper.xml"/>
 		
 	</mappers>
 </configuration>

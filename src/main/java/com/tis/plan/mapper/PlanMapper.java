@@ -15,5 +15,7 @@ public interface PlanMapper {
 	PlanVO findPlanByTitle(String title);
 	PlanVO findPlanByPlanid(String planid);
 	PlanVO findPlanByCoordinate(Map<String, Double> map);
+	//////////////////////////
+	int createPlan(PlanVO pv);
 
 }

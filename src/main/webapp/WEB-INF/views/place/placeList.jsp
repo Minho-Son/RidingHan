@@ -104,7 +104,7 @@
 <script>
    function select(place_no) {
       //정말 선택하시겠습니까 물어보기
-      var yn = confirm(place_no + "번 장소를 선택하시 겠습니까?");
+      var yn = confirm(place_no + "번 장소를 선택하시겠습니까?");
       //frm폼의 place_no value값으로 place_no값을 넣어주자.
       if (yn) {
          frm.place_no.value = place_no;

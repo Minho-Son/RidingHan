@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 인터페이스명과 namespace를 동일하게 주어야 함 -->
+<mapper	
+	namespace="com.tis.plan.mapper.PlanMapper">
+	<insert id="createPlan" parameterType="Plan">
+		insert into chat(plan_no, user_no, plan_title, plan_about,
+		place_direction_no, plan_wtime)
+		values(plan_seq.nextval,#{user_no},#{plan_title},#{plan_about},
+		#{place_direction_no},sysdate)
+	</insert>
+</mapper>
