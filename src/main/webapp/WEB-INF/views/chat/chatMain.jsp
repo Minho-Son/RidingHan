@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
-	import="com.oreilly.servlet.*, com.oreilly.servlet.multipart.*, com.tis.ridinghan.*"%> 
+   pageEncoding="UTF-8"
+   import="com.oreilly.servlet.*, com.oreilly.servlet.multipart.*, com.tis.ridinghan.*"%> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:import url="/top"/>
@@ -21,114 +21,117 @@ $(document).ready(function() {
 
 //채팅방 만들기 눌렀을 때 유효성 체크
 function message(str) {
-		var obj = document.getElementById("msg");
-		obj.innerHTML = str;
-	}
-$(function(){	
-	$('#makeChatEnd').click(function(){
-		if (!($('#chat_title').val())) {
-			var str = '※ 방 제목을 입력해주세요';
-			message(str);
-			return;
-		}
-		if (!($('#chat_info').val())) {
-			var str = '※ 방 공지사항을 입력해주세요';
-			message(str);
-			return;
-		}
-		//alert($('#chat_title').val());
-		f.submit();
-	})
+      var obj = document.getElementById("msg");
+      obj.innerHTML = str;
+   }
+$(function(){   
+   $('#makeChatEnd').click(function(){
+      if (!($('#chat_title').val())) {
+         var str = '※ 방 제목을 입력해주세요';
+         message(str);
+         return;
+      }
+      if (!($('#chat_info').val())) {
+         var str = '※ 방 공지사항을 입력해주세요';
+         message(str);
+         return;
+      }
+      //alert($('#chat_title').val());
+      f.submit();
+   })
 })
 
 //채팅방으로 현재 방 코드 보내기
 function joinChat(tmp){
-	var val=tmp.name;
-	//alert(val);
-	//var val=$('#joinChat').attr('name');
-	var w=window.open("about:blank","_blank","width=540, height=800, left=0, top=0");
-	$.ajax({
-		type:'get',
-		url:'chat/enterChat',
-		data:{"room_code":val},
-		dataType:'html',
-		success:function(res){
-			//alert(res);
-			w.location.href="/RidingHan/chat/enterChat?room_code="+val;
-		},
-		error:function(e){
-			alert('error: '+e.status);
-		}	
-	})
+   var val=tmp.name;
+   //alert(val);
+   //var val=$('#joinChat').attr('name');
+   var w=window.open("about:blank","_blank","width=540, height=800, left=0, top=0");
+   $.ajax({
+      type:'get',
+      url:'chat/enterChat',
+      data:{"room_code":val},
+      dataType:'html',
+      success:function(res){
+         //alert(res);
+         w.location.href="/RidingHan/chat/enterChat?room_code="+val;
+      },
+      error:function(e){
+         alert('error: '+e.status);
+      }   
+   })
 }
 
 </script>
 
 <div id="container">
 
-		<div class="s-content">
-			<div class="inner3">
-				<div class="group-left">
-					<p class="cicon">채팅</p>
-					 <form class="form-inline" name="findKeyword" action="searchChat">
-              			 <input type="text" name="findKeyword" id="findKeyword"
+      <div class="inbx">
+         <div class="inner3">
+            <div class="group-left">
+               <p class="cicon">채팅</p>
+                <form class="form-inline" name="findKeyword" action="searchChat">
+                        <input type="text" name="findKeyword" id="findKeyword"
                      class="form-control col-md-9" placeholder="검색">
                   <button type="submit" id="" class="serchbtn-bl">검색</button>
-            		</form>
-					<button type="button" id="makeChat" class="btn btn-success col-12">채팅
-						만들기 +</button>
-					<p class="txt_blue">참여중인 채팅 목록</p><br>
-					<c:forEach var="chatList" items="${chatArr}">
-						<a class="txt_black">${chatList.chat_title}</a><br>
-					</c:forEach>
-				</div>
+                  </form>
+               <button type="button" id="makeChat" class="btn btn-success col-12">채팅
+                  만들기 +</button>
+               <p class="txt_blue">참여중인 채팅 목록</p><br>
+               <c:forEach var="chatList" items="${chatArr}">
+                  <a class="txt_black">${chatList.chat_title}</a><br>
+               </c:forEach>
+            </div>
 
-				<c:if test="${chatArr==null || empty chatArr}">
-					<tr>
-						<td colspan="5"><b>현재 채팅방이 없습니다.</b></td>
-					</tr>
-				</c:if>
-				<c:if test="${chatArr !=null || not empty chatArr}">
-					<div class="group-right">
-						<c:forEach var="chatList2" items="${chatArr}">
-							<div class="group-box">
-								<a href="#"> <img
-									style="width: 70px; height: 70px; z-index: -1; display: inline-block; border-radius: 35px; float: left;"
-									src="asset/images/chat/${chatList2.chat_img}">
-								</a>
+            <c:if test="${chatArr==null || empty chatArr}">
+               <tr>
+                  <td colspan="5"><b>현재 채팅방이 없습니다.</b></td>
+               </tr>
+            </c:if>
+            <c:if test="${chatArr !=null || not empty chatArr}">
+               <div class="group-right">
+               <p>총 채팅방 수 <b class="mtxt_blue"style="display:inline-block">${totalCount}</b>개<p>
+            <hr>
+                  <c:forEach var="chatList2" items="${chatArr}">
+                     <div class="group-box">
+                        <a href="#"> <img
+                           style="width: 70px; height: 70px; z-index: -1; display: inline-block; border-radius: 35px; float: left;"
+                           src="asset/images/chat/${chatList2.chat_img}">
+                        </a>
 
-								<div class="group-txt">
-									${chatList2.chat_title} <br>
-									<div style="font-size: 10px;">
-										<fmt:formatDate value="${chatList2.chat_wtime}"
-											pattern="yy.MM.dd" />
-									</div>
+                        <div class="group-txt">
+                           ${chatList2.chat_title} <br>
+                           <div style="font-size: 10px;">
+                              <fmt:formatDate value="${chatList2.chat_wtime}"
+                                 pattern="yy.MM.dd" />
+                           </div>
 
-									<span
-										style="font-size: 12px; position: absolute; bottom: 0; z-index: 9;">
-										${chatList2.chat_wtime} </span>
+                           <span
+                              style="font-size: 12px; position: absolute; bottom: 0; z-index: 9;">
+                              ${chatList2.chat_wtime} </span>
 
-								</div>
-								<input type="button" name="${chatList2.room_code}" id="joinChat" class="enter" onclick="joinChat(this)" value="참여" />
+                        </div>
+                        <input type="button" name="${chatList2.room_code}" id="joinChat" class="enter" onclick="joinChat(this)" value="참여" />
 
-							</div>
-						</c:forEach>
-						<table  style="background-color:powderblue">
-						<tr>
-						<td colspan="6" class="text-center" style="width:800px">${pageNavi}</td>
-						<td colspan="3" class="text-right">총 채팅방 수  <b>${totalCount}</b>
-						</td>
-					</tr>
-					</table>
-					</div>
-				</c:if>
-				<br class="clear">
-			</div>
-	</div>
+                     </div>
+                  </c:forEach>
+                  <hr>
+                  <table style="width:auto;margin:auto">
+                  <tr>
+                     <td>${pageNavi}</td>
+                  </tr>
+            </table>
+            
+            
+               </div>
+            </c:if>
+            <br class="clear">
+         </div>
+   </div>
 </div>
 
 <!--채팅 추가 모달+------------ enctype="multipart/form-data"--------------->
-	<form id="f" method="POST" enctype="multipart/form-data" action="chat/newChat">
+   <form id="f" method="POST" enctype="multipart/form-data" action="chat/newChat">
       <div class="modal fade" id="chatModal">
          <div class="modal-dialog">
             <div class="modal-content">

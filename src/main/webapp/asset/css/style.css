@@ -137,6 +137,8 @@ background: #fff; margin-bottom:10px;line-height: 33px; border: 1px #337AF2 soli
 #container .enter:hover{ border-color:#337AF2; background-color:#337AF2; color: #fff;}
 
 /*그룹 게시판*/
+.pagention{text-aline:center; margin:auto;}
+
 
 #container .board_textarea{border:1px solid #337AF2; border-radius:4px;}
 #container .board_title{text-align:center; font-size: 20px; color:#337AF2; margin-bottom:30px; font-weight:600;}

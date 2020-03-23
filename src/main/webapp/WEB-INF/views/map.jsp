@@ -40,14 +40,14 @@
       <!-- map 검색 -->
       <div id="map" style="width: 100%; height: 100%;"></div>
       <div id="map_search">
-         <a class="logo" href="../index"> <img
-            src="../asset/images/RUN_LOGO.png"></a> <img
-            src="../asset/images/hangang_kor.png">
+         <a class="logo" href="index"> <img
+            src="asset/images/RUN_LOGO.png"></a> <img
+            src="asset/images/hangang_kor.png">
          <p class="sub">마이 라이딩</p>
          <div class="search-bar">
             <input type="search" id="searchingPlace" placeholder="장소 검색"
                value="당산역" /> <input id="map_submit" class="icon" type="image"
-               src="../asset/images/search.png" value="" />
+               src="asset/images/search.png" value="" />
          </div>
       </div>
       <div id="map_check">
@@ -57,7 +57,7 @@
                <td>
                   <button id="startPoint" type="button" onclick="registerPoint1()"
                      class="mappick">
-                     <img src="../asset/images/mappick.png" alt="chooseAdress">
+                     <img src="asset/images/mappick.png" alt="chooseAdress">
                   </button>
                </td>
             </tr>
@@ -66,7 +66,7 @@
                <td>
                   <button id="endPoint" type="button" onclick="registerPoint2()"
                      class="mappick">
-                     <img src="../asset/images/mappick.png" alt="chooseAdress">
+                     <img src="asset/images/mappick.png" alt="chooseAdress">
                   </button>
                </td>
             </tr>
@@ -118,7 +118,7 @@
       $.ajax({
          type : 'POST',
          data : params,
-         url : 'registerPlace',
+         url : 'map/registerPlace',
          dataType : 'json',
          cache : false,
          success : function(res) {
@@ -399,7 +399,7 @@
          alert("먼저 경로를 찾아 주세요.")
          return;
       } else {
-         $('#title3').val("From_" + point1_no + "_To_" + point2_no);
+         $('#title3').val(point1_no + " => " + point2_no);
          $('#place_from').val(point1_no);
          $('#place_to').val(point2_no);
          $('#distance').val(distance);
@@ -410,7 +410,7 @@
          $.ajax({
             type : 'POST',
             data : params,
-            url : 'registerDirection',
+            url : 'map/registerDirection',
             dataType : 'json',
             cache : false,
             success : function(res) {
@@ -472,7 +472,7 @@
       setMapBounds(selectedPoints[0], selectedPoints[1]);
       $.ajax({
          type : 'POST',
-         url : 'Directions',
+         url : 'map/Directions',
          data : {
             startx : selectedPoints[0].x,
             starty : selectedPoints[0].y,
@@ -501,7 +501,7 @@
       setMapCenter(center);
       $.ajax({
          type : 'POST',
-         url : '../SearchPlaces',
+         url : 'SearchPlaces',
          data : {
             place : place,
             lng : mapCenter.x,
@@ -527,7 +527,7 @@
 
    function viewDirection(gpxfile) {
       $.ajax({
-         url : '../gpx/' + gpxfile,
+         url : 'gpx/' + gpxfile,
          dataType : 'xml',
          success : startDataLayer,
          error : function(e) {

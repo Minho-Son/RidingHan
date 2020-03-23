@@ -77,24 +77,24 @@ public class PagingVO {
       // String의 불변성 때문에 StringBuffer 또는 StringBuilder를
       // 이용하자.
       StringBuffer buf = new StringBuffer() // 문자열 편집하는 클래스
-            .append("<ul class='pagination pagination-sm'>");
+            .append("<ul class='pagination pagination-sm text-center'>");
 
       if (prevBlock > 0) {// 이전 5개
-         buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + prevBlock + "'>");
+         buf.append("<li class='page-item'><a class='page-link' href='" + myctx + "/" + loc + qStr + "&cpage=" + prevBlock + "'>");
          buf.append("Prev</a></li>");
       }
       for (int i = prevBlock + 1; i <= nextBlock - 1 && i <= pageCount; i++) {
 
          if (i == cpage) {
-            buf.append("<li class='active'><a href='#'>").append(i + "</a></li>");
+            buf.append("<li class='page-item active'><a class='page-link' href='#'>").append(i + "</a></li>");
          } else {
-            buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + i + "'>");
+            buf.append("<li class='page-item'><a class='page-link' href='" + myctx + "/" + loc + qStr + "&cpage=" + i + "'>");
             buf.append(i + "</a></li>");
          }
 
       }
       if (nextBlock <= pageCount) {// 이후 5개
-         buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + nextBlock + "'>");
+         buf.append("<li class='page-item'><a class='page-link' href='" + myctx + "/" + loc + qStr + "&cpage=" + nextBlock + "'>");
          buf.append("Next</a></li>");
       }
 

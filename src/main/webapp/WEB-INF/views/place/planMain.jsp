@@ -97,21 +97,25 @@ $(function(){
                   </h6>
                   <hr />
                   <!-- if test로 불러올 것.... -->
-                  <span class="departure" name="place_direction_no" id="place_direction_no" ><img src="">
-                  	
+                  <span class="departure" style="margin-left:10px" name="place_direction_no" id="place_direction_no" >서울숲 => 뚝섬한강공원
+                  </span>
+                  <br/>
+                  <span class="departure" style="margin-left:10px" name="place_direction_no" id="place_direction_no" >국회의사당역 9호선
+                  </span>
+                  <br/>
+                  <span class="departure" style="margin-left:10px" name="place_direction_no" id="place_direction_no" >영등포역3번출구 => 가을단풍길(노량진공원길)	
                   </span>
                   <br/>
                </div>
 
                <!-- Modal footer -->
-               <div class="checks">
+               <div class="checks" style="margin-left:25px">
 					<input type="checkbox" id="sharePlan" value="sharePlan" />
-					<label for="checks"> 그룹으로 공유하기</label>
-					<label id="msg" style="fontSize: 8pt; color: red;"></label>
+					<label for="sharePlan"> 그룹으로 공유하기</label>
 				</div>
                <div class="modal-footer">
+               	  <label id="msg" style="fontSize: 8pt; color: red;"></label>
                	  <button type="button" class="btn btn-success" data-dismiss="modal" id="makePlan">플랜 만들기</button>
-                  <button type="button" class="btn btn-success" data-dismiss="modal" id="sharePlan">그룹으로 공유</button>
                </div>
 
             </div>

@@ -14,6 +14,8 @@
    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      
+   
 <title>게시판</title>
 <!--게시판---------------------------------->
 <script>
@@ -31,7 +33,7 @@
 
 <div id="container">
 
-   <div class="s-content">
+  
       <div class="inbx">
       <div class="inner3">
          <div class="group-left">
@@ -54,6 +56,8 @@
          </c:if>
          <c:if test="${boardArr !=null and not empty boardArr }">
             <div class="group-right">  
+            <p>총 게시글 수 <b class="mtxt_blue"style="display:inline-block">${totalCount}</b>개<p>
+               <br>
                <table class="table" style="font-size:14px">
                   <thead>
                      <tr>
@@ -75,28 +79,24 @@
                      </tr>
                      </c:forEach>
                   </tbody>
+                  
                </table>
-               <br><br><hr>
-               <table style="background-color: powderblue">
+               <table style="width:auto;margin:auto">
                   <tr>
-                     <td colspan="5" class="text-center" style="width: 300px">${pageNavi}</td>
-                     <td colspan="2" class="text-right">총 게시글 수 <b>${totalCount}</b>
-                     </td>
+                     <td>${pageNavi}</td>
                   </tr>
                </table>
-               
-               
-               
             </div>
-
          </c:if>
-            <button type="button" id="insertboard" style="float:right"
+         <div class="group-right"style="text-align:center;">
+            <button type="button" id="insertboard"
                class="btn btn-success col-3">질문남기기 +</button>
+          </div>
          <br class="clear">
       </div>
    </div>
 </div>
-</div>
+
 <!--채팅 추가 모달+--------------------------->
 <div class="modal fade" id="boardModal">
    <div class="modal-dialog">
@@ -144,4 +144,6 @@
       </div>
    </div>
 </div>
+
+
 <jsp:include page="../foot.jsp" />

@@ -35,6 +35,16 @@ public class IndexController {
       
    }
    
+   @RequestMapping("/policy")
+   public void showPolicy() {
+      
+   }
+   
+   @RequestMapping("/service")
+   public void showService() {
+      
+   }
+   
    @RequestMapping("/index")
    public String hello(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
       
@@ -51,5 +61,4 @@ public class IndexController {
       //"WEB-INF/views/index.jsp를 찾아감
    }
 
-   
 }

@@ -70,5 +70,3 @@
       }
    }
 </script>
-
-<c:import url="/foot" />

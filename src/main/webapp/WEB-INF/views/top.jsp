@@ -117,12 +117,13 @@ $(document).ready(function(){
 
                   <li class="menu_first">
                      <div class="li_pack">
-                        <p>라이딩 검색</p>
+                        <p>지도보기</p>
                         <i class="material-icons menu_icon"> expand_more </i>
                      </div>
                      <ul class="menu_second">
-                        <li><a href="<%=myctx%>/map">지도보기</a></li>
-                        <li><a href="<%=myctx%>/map/placeList">등록된 장소</a></li>
+                        <li><a href="<%=myctx%>/map">라이딩 검색</a></li>
+                        <li><a href="<%=myctx%>/placeList">등록된 장소</a></li>
+                        <li><a href="<%=myctx%>/directionList">등록된 라이딩</a></li>
                      </ul>
                   </li>
 
@@ -146,8 +147,9 @@ $(document).ready(function(){
                      <ul class="menu_second">
                         <li><a href="<%=myctx%>/mypage/myInfo">회원정보수정</a></li>
                         <li><a href="<%=myctx%>/mypage/favorite">내가 등록한 장소</a></li>
-                        <li><a href="<%=myctx%>/mypage/travelingList">진행중인 플랜</a></li>
-                        <li><a href="<%=myctx%>/mypage/travelingHistory">플랜 히스토리</a></li>
+                        <li><a href="<%=myctx%>/mypage/travelingList">진행중인 여행</a></li>
+                        <li><a href="<%=myctx%>/mypage/travelingHistory">여행
+                              히스토리</a></li>
                      </ul>
                   </li>
 
@@ -157,9 +159,9 @@ $(document).ready(function(){
                         <i class="material-icons menu_icon"> expand_more </i>
                      </div>
                      <ul class="menu_second">
-                        <li><a href="<%=myctx%>/board">QnA게시판</a></li>
-                        <li><a href="policy.html">개인정보정책</a></li>
-                        <li><a href="service.html">서비스약관</a></li>
+                        <li><a href="<%=myctx%>/board">Q&A게시판</a></li>
+                        <li><a href="<%=myctx%>/policy">개인정보정책</a></li>
+                        <li><a href="<%=myctx%>/service">서비스약관</a></li>
                      </ul>
                   </li>
 

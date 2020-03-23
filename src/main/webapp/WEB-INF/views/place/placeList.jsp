@@ -64,8 +64,8 @@
       <div id="map" style="width: 100%; height: 600px;"></div>
       <div id="map_search">
          <a class="logo" href="index.html"> <img
-            src="asset/images/RUN_LOGO.png"></a> <img
-            src="asset/images/hangang_kor.png">
+            src="../asset/images/RUN_LOGO.png"></a> <img
+            src="../asset/images/hangang_kor.png">
          <p class="sub">마이 라이딩</p>
       </div>
       <div id="map_check">
@@ -361,7 +361,7 @@
       }
       for (var i = 0, ii = markerInfos.length; i < ii; i++) {
          var icon = {
-            url : 'asset/images/sp_pins_spot_v3.png',
+            url : '../asset/images/sp_pins_spot_v3.png',
             size : new naver.maps.Size(24, 37),
             anchor : new naver.maps.Point(12, 37),
             origin : new naver.maps.Point(i * 29, 0)
@@ -410,7 +410,7 @@
    function clickMouse(e) {
       var marker = e.overlay, seq = marker.get('seq');
       marker.setIcon({
-         url : 'asset/images/start.png',
+         url : '../asset/images/start.png',
          size : new naver.maps.Size(32, 20),
          origin : new naver.maps.Point(0, 0)
       });
@@ -420,7 +420,7 @@
    function onMouseOver(e) {
       var marker = e.overlay, seq = marker.get('seq');
       marker.setIcon({
-         url : 'asset/images/sp_pins_spot_v3_over.png',
+         url : '../asset/images/sp_pins_spot_v3_over.png',
          size : new naver.maps.Size(24, 37),
          anchor : new naver.maps.Point(12, 37),
          origin : new naver.maps.Point(seq * 29, 50)
@@ -436,7 +436,7 @@
    function onMouseOut(e) {
       var marker = e.overlay, seq = marker.get('seq');
       marker.setIcon({
-         url : 'asset/images/sp_pins_spot_v3.png',
+         url : '../asset/images/sp_pins_spot_v3.png',
          size : new naver.maps.Size(24, 37),
          anchor : new naver.maps.Point(12, 37),
          origin : new naver.maps.Point(seq * 29, 0)
@@ -482,6 +482,4 @@
 
    naver.maps.onJSContentLoaded = initGeocoder;
 </script>
-
-<c:import url="/foot" />
 
