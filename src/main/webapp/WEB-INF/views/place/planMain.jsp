@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<c:import url="/top"/>
+<c:import url="/top" />
 <script type="text/javascript">   
 $(document).ready(function() {
 	$("#makegroup").click(function() {

@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<jsp:include page="../top.jsp" />
+<c:import url="/top" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
    rel="stylesheet">
 
@@ -185,4 +185,4 @@
    }
 </script>
 
-<jsp:include page="../foot.jsp" />
+<c:import url="/foot" />

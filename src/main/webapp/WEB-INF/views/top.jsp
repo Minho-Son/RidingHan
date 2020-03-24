@@ -14,19 +14,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
    content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no">
-<meta name="format-detection" content="email=no">
 <link rel="exerd icon" href="<%=myctx%>/asset/images/favicon.ico">
 <title>LetsRun</title>
-<meta name="description" content="mypet">
-<meta name="keywords" content="mypet">
+<meta name="description" content="ridinghan">
+<meta name="keywords" content="ridinghan">
 
 <!--자바스크립트 / CSS-->
 <link href="<%=myctx%>/asset/css/style.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="<%=myctx%>/asset/js/jquery.min.js"></script>
-<script
-   src="https://ajax.googleapiscom/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapiscom/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
 <script src="<%=myctx%>/asset/js/common.js"></script>
 <script src="<%=myctx%>/asset/js/custom.js"></script>
 
@@ -40,11 +37,10 @@
 
 </head>
 <script>
-
-$(document).ready(function(){
+$(function(){
    $('.menu_first').click(function(){
         var submenu = $('>.menu_second',this)
-
+   
         if(submenu.is(":visible")){
            submenu.slideUp(100)
           $('>.li_pack',this)
@@ -53,14 +49,13 @@ $(document).ready(function(){
         }else{
           submenu.slideDown(100)
           $('>.li_pack',this)
-                  .css('border-bottom','1.5px #fff solid')
-                  .css('margin-bottom','20px')
+              .css('border-bottom','1.5px #fff solid')
+              .css('margin-bottom','20px')
         }
-        
-         })
-});
-
+   })
+})
 </script>
+
 <body>
    <!-- ===== wrap ====== -->
    <div id="wrap" class="index">
@@ -107,7 +102,7 @@ $(document).ready(function(){
       <div id="lm">
          <div class="inner">
 
-            <div class="hd">
+            <div class="hd" style="z-index:10">
                <a href="#none" class="close">닫기</a>
             </div>
 
@@ -147,9 +142,8 @@ $(document).ready(function(){
                      <ul class="menu_second">
                         <li><a href="<%=myctx%>/mypage/myInfo">회원정보수정</a></li>
                         <li><a href="<%=myctx%>/mypage/favorite">내가 등록한 장소</a></li>
-                        <li><a href="<%=myctx%>/mypage/travelingList">진행중인 여행</a></li>
-                        <li><a href="<%=myctx%>/mypage/travelingHistory">여행
-                              히스토리</a></li>
+                        <li><a href="<%=myctx%>/mypage/travelingList">진행중인 플랜</a></li>
+                        <li><a href="<%=myctx%>/mypage/travelingHistory">플랜 히스토리</a></li>
                      </ul>
                   </li>
 

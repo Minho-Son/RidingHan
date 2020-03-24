@@ -2,7 +2,7 @@
    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="../top.jsp" />
+<c:import url="/top" />
 
 <script
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -146,4 +146,4 @@
 </div>
 
 
-<jsp:include page="../foot.jsp" />
+<c:import url="/foot" />

@@ -6,6 +6,14 @@
 %>
 <c:import url="/top" />
 
+<!-- 
+내일 바꿀것
+정민 ----
+1. 채팅창 이름 위치 크기 색상 변경
+2. 회원정보 수정 메뉴 스크립트 추가하기
+3. 채팅 왼쪽 리스트업 다시 하기
+ -->
+
 <!-- ===== indexwrap ====== -->
 <div id="indexwrap">
 
@@ -26,17 +34,16 @@
                나랑 같이 달릴래?</span>
          </div>
          <c:if test="${user eq null}">
-         <div class="bt-area opacity" data-animation-effect="fadeInUp"
-            data-effect-delay="2000">
-            <a href="<%=myctx%>/signup" class="down" style="color: white">회원가입</a>
-            <a href="<%=myctx%>/login" class="buy" style="color: white">로그인</a>
-         </div>
+            <div class="bt-area opacity" data-animation-effect="fadeInUp"
+               data-effect-delay="2000">
+               <a href="<%=myctx%>/signup" class="down" style="color: white">회원가입</a>
+               <a href="<%=myctx%>/login" class="buy" style="color: white">로그인</a>
+            </div>
          </c:if>
       </div>
       <div class="video-bg">
-         <video id="main-video" playsinline muted autoplay loop>
+         <video id="main-video" muted autoplay playsinline loop>
             <source src="asset/video/main2.mp4" type="video/mp4">
-            Sorry, your browser doesn't support embedded videos.
          </video>
       </div>
    </div>
@@ -69,7 +76,7 @@
                      <div class="swiper-wrapper">
                         <div class="swiper-slide item">
                            <p class="hd">
-                              <srong class="f-eng">Make New Friend</srong>
+                              <strong class="f-eng">Make New Friend</strong>
                            </p>
                            <p class="txt">
                               <span>근방 3km 이내의 친구를 만나 함께 여행하세요.</span> <span>좋은 여행엔
@@ -78,7 +85,7 @@
                         </div>
                         <div class="swiper-slide item">
                            <p class="hd">
-                              <srong class="f-eng">Plan and share</strong>
+                              <strong class="f-eng">Plan and share</strong>
                            </p>
                            <p class="txt">
                               <span>파티원을 모집해 <em>함께 여행을 해볼까요?</em></span> <span>나의 여행
@@ -113,11 +120,11 @@
                </div>
             </div>
 
-            <div class="group">
-               <div class="group-box2 hd opacity" data-animation-effect="fadeInUp"
-                  data-effect-delay="300">
-                  <a href="마이페이지로 이동" target="_blank">
-                     <div class="profile profile01" href=""></div>
+            <a href="<%=myctx%>/mypage" target="_blank">
+               <div class="group">
+                  <div class="group-box2 hd opacity"
+                     data-animation-effect="fadeInUp" data-effect-delay="300">
+                     <div class="profile profile01"></div>
                      <div class="group-txt2">
                         <p class="mtxt_black">여의나루 한 바퀴 굴러봐요~</p>
                         <br />
@@ -130,44 +137,43 @@
                         <p class="mtxt_small_gray">2020-02-24</p>
                      </div>
                      <button type="button" id="enter" class="enter">이동</button>
-               </div>
-
-               <div class="group-box2 hd opacity" data-animation-effect="fadeInUp"
-                  data-effect-delay="600">
-                  <div class="profile profile02" href=""></div>
-                  <div class="group-txt2">
-                     <p class="mtxt_black">따릉이 애용자</p>
-                     <br />
-                     <p class="mtxt_gray3">따릉이 이용하는 분들~ 선유도에서 모여요 :)</p>
-                     <br />
-                     <p class="mtxt_small_blue">선유도역 4번출구 미니스톱</p>
-                     <img class="m-arrow" src="./asset/images/blt_open.png" />
-                     <p class="mtxt_small_blue">선유도역 1번출구</p>
-                     <br />
-                     <p class="mtxt_small_gray">2020-01-07</p>
                   </div>
-                  <button type="button" id="enter" class="enter">이동</button>
-               </div>
 
-               <div class="group-box2 hd opacity" data-animation-effect="fadeInUp"
-                  data-effect-delay="900">
-                  <div class="profile profile03" href=""></div>
-                  <div class="group-txt2">
-                     <p class="mtxt_black">따뜻한 봄 뚝섬에서 자전거타고 저녁 먹으실분 구해요</p>
-                     <br />
-                     <p class="mtxt_gray3">30 여성입니다~ 주말에 뚝섬에서 자전거타고 건대에서 양꼬치 드실분?</p>
-                     <br />
-                     <p class="mtxt_small_blue">서울특별시 성동구 뚝섬로 273 (성수동)</p>
-                     <img class="m-arrow" src="./asset/images/blt_open.png" />
-                     <p class="mtxt_small_blue">건대입구역 1번출구</p>
-                     <br />
-                     <p class="mtxt_small_gray">2020-03-12</p>
+                  <div class="group-box2 hd opacity"
+                     data-animation-effect="fadeInUp" data-effect-delay="600">
+                     <div class="profile profile02"></div>
+                     <div class="group-txt2">
+                        <p class="mtxt_black">따릉이 애용자</p>
+                        <br />
+                        <p class="mtxt_gray3">따릉이 이용하는 분들~ 선유도에서 모여요 :)</p>
+                        <br />
+                        <p class="mtxt_small_blue">선유도역 4번출구 미니스톱</p>
+                        <img class="m-arrow" src="./asset/images/blt_open.png" />
+                        <p class="mtxt_small_blue">선유도역 1번출구</p>
+                        <br />
+                        <p class="mtxt_small_gray">2020-01-07</p>
+                     </div>
+                     <button type="button" id="enter" class="enter">이동</button>
                   </div>
-                  </a>
-                  <button type="button" id="enter" class="enter">이동</button>
-               </div>
 
-            </div>
+                  <div class="group-box2 hd opacity"
+                     data-animation-effect="fadeInUp" data-effect-delay="900">
+                     <div class="profile profile03"></div>
+                     <div class="group-txt2">
+                        <p class="mtxt_black">따뜻한 봄 뚝섬에서 자전거타고 저녁 먹으실분 구해요</p>
+                        <br />
+                        <p class="mtxt_gray3">30 여성입니다~ 주말에 뚝섬에서 자전거타고 건대에서 양꼬치 드실분?</p>
+                        <br />
+                        <p class="mtxt_small_blue">서울특별시 성동구 뚝섬로 273 (성수동)</p>
+                        <img class="m-arrow" src="./asset/images/blt_open.png" />
+                        <p class="mtxt_small_blue">건대입구역 1번출구</p>
+                        <br />
+                        <p class="mtxt_small_gray">2020-03-12</p>
+                     </div>
+                     <button type="button" id="enter" class="enter">이동</button>
+                  </div>
+               </div>
+            </a>
          </div>
       </div>
    </div>
@@ -181,6 +187,7 @@
          <div class="inbx">
             <div class="desc opacity" data-animation-effect="fadeInUp"
                data-effect-delay="300">캠페인</div>
+               
             <div class="part-bx opacity" data-animation-effect="fadeInUp"
                data-effect-delay="600">
                <div class="side-bx">
@@ -193,17 +200,16 @@
                            </tr>
                         </c:if>
                         <c:if test="${campaignArr !=null and not empty campaignArr }">
-                           <ul>
+                           <ul onclick="window.open('${campaign.campaign_url}')">
                               <c:forEach var="campaign" items="${campaignArr}" begin='0'
                                  end='14'>
-                                 <li class="copr"><img
-                                    src="resources/images/campaign/${campaign.campaign_image}">
+                                 <li class="copr">
+                                 <img src="resources/images/campaign/${campaign.campaign_image}">
                                     <div class="ul_back">
-                                    <span> ${campaign.campaign_start_date} ~
-                                       ${campaign.campaign_finish_date}</span>
-                                 </div>
+                                       <span> ${campaign.campaign_start_date} ~
+                                          ${campaign.campaign_finish_date}</span>
+                                    </div>
                                  </li>
-                                 
                               </c:forEach>
                            </ul>
                         </c:if>
@@ -222,19 +228,21 @@
                                  <li class="copr"><img
                                     src="resources/images/campaign/${campaign.campaign_image}">
                                     <div class="ul_back">
-                                    <span> ${campaign.campaign_start_date} ~
-                                       ${campaign.campaign_finish_date}</span>
-                                 </div>
-                                 </li>
-                                 
+                                       <span> ${campaign.campaign_start_date} ~
+                                          ${campaign.campaign_finish_date}</span>
+                                    </div></li>
+
                               </c:forEach>
                            </ul>
-                     </c:if>
+                        </c:if>
                      </div>
                   </div>
                </div>
-               <div class="pager"></div>
             </div>
-            <!-- /part-bx -->
          </div>
-         <c:import url="/foot" />
+         <div class="pager"></div>
+      </div>
+      <!-- /part-bx -->
+   </div>
+   </div>
+   <c:import url="/foot" />

@@ -18,7 +18,21 @@ $(document).ready(function() {
        $("#chatModal").modal();
     })
  });
+$('.menu_first').click(function(){
+    var submenu = $('>.menu_second',this)
 
+    if(submenu.is(":visible")){
+       submenu.slideUp(100)
+      $('>.li_pack',this)
+         .css('border','none')
+         .css('margin','0')
+    }else{
+      submenu.slideDown(100)
+      $('>.li_pack',this)
+          .css('border-bottom','1.5px #fff solid')
+          .css('margin-bottom','20px')
+    }
+})
 //채팅방 만들기 눌렀을 때 유효성 체크
 function message(str) {
       var obj = document.getElementById("msg");
@@ -75,11 +89,12 @@ function joinChat(tmp){
                      class="form-control col-md-9" placeholder="검색">
                   <button type="submit" id="" class="serchbtn-bl">검색</button>
                   </form>
+                  
                <button type="button" id="makeChat" class="btn btn-success col-12">채팅
                   만들기 +</button>
-               <p class="txt_blue">참여중인 채팅 목록</p><br>
+               <p class="txt_blue">참여중인 채팅 목록</p>
                <c:forEach var="chatList" items="${chatArr}">
-                  <a class="txt_black">${chatList.chat_title}</a><br>
+                  <a class="txt_black">${chatList.chat_title}</a>
                </c:forEach>
             </div>
 

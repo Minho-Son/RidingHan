@@ -22,7 +22,7 @@
 		 where user_id=#{user_id}		
 	</update>
 	<update id="quitMember" parameterType="int">
-		update member set state=2 where user_id=#{user_id}		
+		update member set state=-1 where user_no=#{user_no}		
 	</update>
 
 </mapper>

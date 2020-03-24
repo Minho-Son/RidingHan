@@ -42,5 +42,7 @@ public interface BoardMapper {
    int countReply(int board_idx);
 
    int delReply(ReplyVO replyVo);
+
+   ReplyVO selectReply(int reply_idx);
    
 }

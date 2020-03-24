@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	public MemberVO isLoginOk(String user_id, String pwd) throws NotUserException {
 		log.info("user_id=="+user_id);
 		MemberVO mv=this.memberChkByEmail(user_id);
-		if(mv==null||mv.getState()==2) throw new NotUserException("탈퇴한 회원이거나 등록된 회원이 아닙니다");
+		if(mv==null||mv.getState()==-1) throw new NotUserException("탈퇴한 회원이거나 등록된 회원이 아닙니다");
 		if(!mv.getPwd().contentEquals(pwd))
 			throw new NotUserException("비밀번호를 잘못 입력하셨습니다");
 		return mv;

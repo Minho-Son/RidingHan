@@ -203,11 +203,11 @@ public class BoardController {
          @RequestParam(defaultValue="") String board_title,
          HttpSession ses) {   
       log.info(board_idx);
-      MemberVO user_nick=(MemberVO)ses.getAttribute("user");
+      MemberVO user=(MemberVO)ses.getAttribute("user");
       
-      reply.setReply_wname(user_nick.getNickName());
+      reply.setReply_wname(user.getNickName());
       reply.setBoard_idx_fk(board_idx);
-      
+      reply.setReply_id(user.getUser_id());
       
       log.info(reply);
       
@@ -304,14 +304,17 @@ public class BoardController {
          @RequestParam(defaultValue="0") int board_idx) {
       BoardVO vo=boardService.selectBoardView(board_idx);
       MemberVO user=(MemberVO)ses.getAttribute("user");
+      ReplyVO replyVo=boardService.selectReply(reply_idx);
+      
       /*
+       * 
        * if(vo==null) { String str="존재하지 않는 게시글 입니다."; String loc="board";
        * model.addAttribute("msg", str); model.addAttribute("loc",loc); return
        * "message"; }
        */
       log.info("vo.getUser_nick() ="+vo);
       log.info("board_idx="+board_idx);
-      if(vo.getUser_nick().equals(user.getNickName())) {
+      if(replyVo.getReply_id().equals(user.getUser_id())) {
          int n=boardService.delReply(board_idx,reply_idx);
          if(n>0) {
             String str="삭제 성공";
@@ -322,7 +325,7 @@ public class BoardController {
          }
       }else{
          String str="작성자만 삭제할 수 있습니다.";
-         String loc="redirect:boardView?board_idx="+board_idx;
+         String loc="boardView?board_idx="+board_idx;
          model.addAttribute("msg",str);
          model.addAttribute("loc", loc);
          return "message";

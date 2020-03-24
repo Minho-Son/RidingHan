@@ -109,4 +109,9 @@ public class BoardServiceImpl implements BoardService {
       return boardMapper.delReply(replyVo);
 }
 
+	@Override
+	public ReplyVO selectReply(int reply_idx) {
+		return boardMapper.selectReply(reply_idx);
+}
+
 }

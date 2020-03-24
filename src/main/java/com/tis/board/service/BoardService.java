@@ -42,4 +42,6 @@ public interface BoardService {
 
    int delReply(int board_idx, int reply_idx);
 
+    ReplyVO selectReply(int reply_idx);
+
 }

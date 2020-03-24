@@ -3,10 +3,12 @@ package com.tis.ridinghan;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tis.common.CommonUtil;
+import com.tis.place.domain.PagingVO;
+import com.tis.place.domain.PlaceVO;
+import com.tis.place.service.PlaceService;
 import com.tis.user.model.MemberVO;
 import com.tis.user.model.NotUserException;
 import com.tis.user.service.UserService;
@@ -37,6 +42,9 @@ public class UserController {
 
 	@Inject
 	private UserService userService;
+	
+	@Autowired
+	   private PlaceService placeService;
 
 	///////////////////////// 회원가입
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -105,8 +113,26 @@ public class UserController {
 
 ////////////////////////즐겨찾기
 	@GetMapping("/mypage/favorite")
-	public String showMyFavorite(Model m, HttpSession ses) {
+	public String showMyFavorite(Model m, HttpSession ses,
+			@ModelAttribute PagingVO paging, HttpServletRequest req) {
+		int totalCount = placeService.getTotalPlaceCount();
+
+	      paging.setTotalCount(totalCount); // 총 장소 수 셋팅
+	      paging.init(); // 페이징 처리관련 연산 수행
+	      log.info("paging: " + paging);
+
+	      List<PlaceVO> pList = placeService.getAllPlaceList(paging);
+	      String myctx = req.getContextPath();
+
+	      // 페이지 네비 문자열 받아오기
+	      String pageNavi = paging.getPageNavi(myctx, "placeList");
+
+	      m.addAttribute("totalCount", totalCount);
+	      m.addAttribute("placeArr", pList);
+	      m.addAttribute("paging", paging);
+	      m.addAttribute("pageNavi", pageNavi);
 		return "mypage/favorite";
+		
 	}
 
 /////////////////////////회원정보 수정
@@ -187,8 +213,13 @@ public class UserController {
 			throw new NotUserException("비밀번호가 일치하지 않습니다.");
 		} else {
 			int n=userService.quitMember(user.getUser_no());
+			
+			if(n>0) {
+				ses.removeAttribute("user");
+			}
+			
 			String msg = (n > 0) ? "성공적으로 탈퇴되었습니다" : "오류 발생";
-			String loc = (n > 0) ? "myInfoEdit" : "javascript:history.back()";
+			String loc = (n > 0) ? "myInfo" : "javascript:history.back()";
 
 			m.addAttribute("msg", msg);
 			m.addAttribute("loc", loc);

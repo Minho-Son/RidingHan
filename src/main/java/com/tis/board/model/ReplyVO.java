@@ -16,6 +16,7 @@ public class ReplyVO implements Serializable {
    private String reply_wname; 
    private java.sql.Date wdate;
    private Integer board_idx_fk;
+   private String reply_id;
    
    
 }////////////////////////////////////////

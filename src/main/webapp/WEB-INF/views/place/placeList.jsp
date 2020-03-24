@@ -48,20 +48,20 @@
             <p class="picon">등록된 장소</p>
             <hr>
             <p class="texttt">
-               총 등록장소 <b class="mtxt_blue" style="display: inline-block">${totalCount}</b>개
+               총 장소 <b class="mtxt_blue" style="display: inline-block">${totalCount}</b>개
             
             <p>
                <br>
-            <div id="map" style="width: 100%; height: 300px;"></div>
+            <div id="map" style="width: 100%; height: 300px; z-index:0"></div>
             <br>
             <table class="table" style="font-size: 14px">
                <thead style="background-color: #F7F8F9">
                   <tr>
                      <th width="7%">번호</th>
-                     <th>장소이름</th>
-                     <th width="10%">위도</th>
-                     <th width="10%">경도</th>
-                     <th width="25%">도로명주소</th>
+                     <th width="25%">장소이름</th>
+                     <!-- <th width="10%">위도</th>
+                     <th width="10%">경도</th> -->
+                     <th width="35%">도로명주소</th>
                      <th colspan="2">지번주소</th>
                   </tr>
                </thead>
@@ -71,10 +71,10 @@
                      <tr>
                         <td>${place.place_no}</td>
                         <td>${place.title}</td>
-                        <td><fmt:formatNumber value="${place.latitude}"
+                        <%-- <td><fmt:formatNumber value="${place.latitude}"
                               pattern="###.#####" /></td>
                         <td><fmt:formatNumber value="${place.longitude}"
-                              pattern="###.#####" /></td>
+                              pattern="###.#####" /></td> --%>
                         <td>${place.road_address}</td>
                         <td>${place.jibun_address}</td>
                         <td width="7%">

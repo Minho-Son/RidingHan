@@ -91,7 +91,9 @@ background: #fff; margin-bottom:10px;line-height: 33px; border: 1px #337AF2 soli
 #modifybtn2,#cancelbtn{margin:40px 0;}
 
 /*즐겨찾기, 진행중인 여행*/
-#container .select-mcate{width:100%; height:76px; background-color: #F7F8F9; padding:20px; border-bottom: 1px #C9CDD2 solid}
+#container .select-mcate{width:100%; height:76px; 
+background-color: #F7F8F9; padding:15px 20px; 
+border-bottom: 1px #C9CDD2 solid}
 
 .group-box2{width:100%; height:140px; display: inline-block; border-bottom: 1px solid #D8D8D8; padding:  20px 0 20px 20px;}
 .profile2 {display: inline-block; width:100px; height:100px;  float:left; background-color:#015EC7; border-radius: 50%;}
@@ -256,7 +258,7 @@ border-left:1.2px #337AF2 solid; float:left; margin-right:20px; margin-top:3px}
 #map_search .search-bar input.icon{border: none; width: 48px;  opacity: 0.6; margin-left: -40px; cursor:pointer; padding:13px;}
 #map_search .search-bar:hover input.icon, #map_search.search-bar:active input.icon, #map_search.search-bar:focus input.icon{outline: none; border:none; opacity: 1;}
 
-#map_check {padding:20px; width: 300px; height:240px; background: white; position: fixed; left:0; top:200px; z-index:998; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);}
+#map_check {padding:20px; width: 300px; height:240px; background: white; position: fixed; left:0; top:126; z-index:998; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);}
 #map_check .departure::before
 {content: ''; width: 35px; height: 25px; display: inline-block; background:url('../images/start.png') 50% 50% no-repeat; vertical-align:-8px; margin-right:5px;}
 #map_check .arrival::before
@@ -485,9 +487,9 @@ body.ovf_hdn, .ovf_hdn{ overflow:hidden; height:100%;}
 .index02 .inbx .desc strong::before{ content: ''; width:100%; height: 1px; background-color:#111; position: absolute; bottom:10px; left:0;}
 .index02 .inbx .group {float:right; width: 800px; height: 150px;}
 .index02 .inbx .profile {display: inline-block; width:100px; height:100px;  float:left; border-radius: 50%;}
-.index02 .inbx .profile01 {background:#015EC7 url('../images/bike1.jpg') no-repeat center;}
-.index02 .inbx .profile02 {background:#015EC7 url('../images/bike2.jpg') no-repeat center;}
-.index02 .inbx .profile03 {background:#015EC7 url('../images/bike3.jpg') no-repeat center;}
+.index02 .inbx .profile01 {background:#015EC7 url('../images/user/bike1.jpg') no-repeat center;}
+.index02 .inbx .profile02 {background:#015EC7 url('../images/user/bike2.jpg') no-repeat center;}
+.index02 .inbx .profile03 {background:#015EC7 url('../images/user/bike3.jpg') no-repeat center;}
 .index02 .inbx .enter { font-size: 12px; display: inline-block; width:50px; height: 24px; border:#337AF2 1px solid; border-radius: 2px; text-align: center; color: #337AF2; margin: 40px 30px 0 0; float:right;}
 
 #indexwrap .index05.section .inner{ padding-bottom:0;}
