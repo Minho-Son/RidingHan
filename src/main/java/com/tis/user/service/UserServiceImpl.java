@@ -31,9 +31,9 @@ public class UserServiceImpl implements UserService {
 	public MemberVO isLoginOk(String user_id, String pwd) throws NotUserException {
 		log.info("user_id=="+user_id);
 		MemberVO mv=this.memberChkByEmail(user_id);
-		if(mv==null) throw new NotUserException("Á¸ÀçÇÏÁö ¾Ê´Â ¾ÆÀÌµğÀÔ´Ï´Ù");
+		if(mv==null||mv.getState()==2) throw new NotUserException("íƒˆí‡´í•œ íšŒì›ì´ê±°ë‚˜ ë“±ë¡ëœ íšŒì›ì´ ì•„ë‹™ë‹ˆë‹¤");
 		if(!mv.getPwd().contentEquals(pwd))
-			throw new NotUserException("ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê¾Æ¿ä");
+			throw new NotUserException("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤");
 		return mv;
 		}
 
@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int editMember(MemberVO vo) {		
 		return this.userMapper.editMember(vo);
+	}
+	
+	@Override
+	public int quitMember(int user_no) {
+		return this.userMapper.quitMember(user_no);
 	}
 
 }

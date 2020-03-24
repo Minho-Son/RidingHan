@@ -106,7 +106,7 @@
    
    function viewDirection() {
       $.ajax({
-         url : 'gpx/' + gpxfile,
+         url : '../gpx/' + gpxfile,
          dataType : 'xml',
          success : startDataLayer,
          error : function(e) {

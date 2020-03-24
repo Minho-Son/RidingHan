@@ -120,7 +120,7 @@ public class UserController {
 			@RequestParam String newPwd,
 			@RequestParam("mypfile") MultipartFile mypfile,
 			@RequestParam(defaultValue="") String old_mypfile,
-			@ModelAttribute MemberVO mv, Model m, HttpSession ses, HttpServletResponse res) throws NotUserException {
+			@ModelAttribute MemberVO mv, Model m, HttpSession ses) throws NotUserException {
 
 		ServletContext sc=ses.getServletContext();
 		String upDir=sc.getRealPath("/asset/images/user");
@@ -140,26 +140,28 @@ public class UserController {
 				mv.setPwd(user.getPwd());
 			}
 			mv.setUser_id(user.getUser_id());
-			
+			mv.setUser_img(old_mypfile);
 			//프로필 이미지 업로드
 			String user_img=mypfile.getOriginalFilename();
-			if(mypfile.isEmpty()&&old_mypfile.isEmpty()) {
-				mv.setUser_img("noimage.jpg");
-			}else {
+			if(!mypfile.isEmpty()||mypfile!=null) { //프로필 이미지 등록
 				try {
 					mypfile.transferTo(new File(upDir,user_img));
 					mv.setUser_img(user_img);	
 					
+					if(!old_mypfile.isEmpty()||old_mypfile!=null) { //예전 이미지는 삭제처리
 					File delF=new File(upDir,old_mypfile);
 					boolean b=delF.delete();
 					log.error("예전파일 "+old_mypfile+" 삭제 처리 여부 : "+b);
+					}
 				}catch(Exception e) {
 					log.error("파일 업로드 중 에러 : "+e.getMessage());
 				}
 			}
-			
 			int n = userService.editMember(mv);
 			System.out.println("mv = " + mv);
+			if(n>0) {
+				ses.setAttribute("user", mv);
+			}
 
 			String msg = (n > 0) ? "회원정보 수정 완료" : "회원정보 수정 실패";
 			String loc = (n > 0) ? "myInfo" : "javascript:history.back()";
@@ -169,5 +171,30 @@ public class UserController {
 
 			return "message";
 		}//else------------------------------------------------------
+	}
+	
+//////////////////회원 탈퇴
+	@RequestMapping(value = "/mypage/unregisterMember", method = RequestMethod.POST)
+	public String unregisterMember(
+			@RequestParam String newPwd,
+			@ModelAttribute MemberVO mv, Model m, HttpSession ses) throws NotUserException {
+	
+		////////비밀번호 체크
+		MemberVO user = (MemberVO) ses.getAttribute("user");
+		boolean pwdisCorrect = user.getPwd().equals(mv.getPwd());
+
+		if (pwdisCorrect == false) {
+			throw new NotUserException("비밀번호가 일치하지 않습니다.");
+		} else {
+			int n=userService.quitMember(user.getUser_no());
+			String msg = (n > 0) ? "성공적으로 탈퇴되었습니다" : "오류 발생";
+			String loc = (n > 0) ? "myInfoEdit" : "javascript:history.back()";
+
+			m.addAttribute("msg", msg);
+			m.addAttribute("loc", loc);
+
+			return "message";
+		}
+	
 	}
 }

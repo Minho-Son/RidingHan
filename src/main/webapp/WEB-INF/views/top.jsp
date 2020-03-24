@@ -122,8 +122,8 @@ $(document).ready(function(){
                      </div>
                      <ul class="menu_second">
                         <li><a href="<%=myctx%>/map">라이딩 검색</a></li>
-                        <li><a href="<%=myctx%>/placeList">등록된 장소</a></li>
-                        <li><a href="<%=myctx%>/directionList">등록된 라이딩</a></li>
+                        <li><a href="<%=myctx%>/map/placeList">등록된 장소</a></li>
+                        <li><a href="<%=myctx%>/map/directionList">등록된 라이딩</a></li>
                      </ul>
                   </li>
 

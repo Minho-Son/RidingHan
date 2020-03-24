@@ -184,17 +184,17 @@ public class ChatController {
 		Map<String,Integer> result=new HashMap<>();
 		
 		int n=chatService.quitChatMember(map);
-		log.info("삭제 됐냐 안됐냐 n = "+n);
+		//log.info("삭제 됐냐 안됐냐 n = "+n);
 		
 		if(n>0) {
 			Chat_MemberVO cmvo=chatService.chatMyInfo(map);
 			log.info("cmvo="+cmvo);
 			if(cmvo==null) {//멤버가 없을 경우 모든 채팅과 방을 삭제
-				log.info("삭제 됐냐 안됐냐222 n = "+result);
+				//log.info("삭제 됐냐 안됐냐222 n = "+result);
 				n=chatService.deleteChatRoom(room_code);
-				if(n>0) {
+				if(n>0) {	
 					result.put("result",1);
-					log.info("삭제 됐냐 안됐냐333 n = "+result);
+					//log.info("삭제 됐냐 안됐냐333 n = "+result);
 					return result;
 				}
 			}else {

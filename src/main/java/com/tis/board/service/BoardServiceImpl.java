@@ -101,4 +101,12 @@ public class BoardServiceImpl implements BoardService {
       return boardMapper.countReply(board_idx);
    }
 
+   @Override
+   public int delReply(int board_idx,int reply_idx) {
+      ReplyVO replyVo=new ReplyVO();
+      replyVo.setBoard_idx_fk(board_idx);
+      replyVo.setReply_idx(reply_idx);
+      return boardMapper.delReply(replyVo);
+}
+
 }

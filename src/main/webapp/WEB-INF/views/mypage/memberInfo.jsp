@@ -70,7 +70,17 @@
 		});//btnEdit-------------
 
 		$('#btnDelUser').click(function() {
-			alert('탈퇴 하시겠습니까');
+			if(confirm("달려라한강을 탈퇴하시겠습니까?")){
+				if (!$('#pwd').val()) {
+					var str = '※ 비밀번호를 입력해주세요';
+					message(str);
+					return;
+				}
+				$('#mf').attr('action', 'unregisterMember');
+				$('#mf').submit();
+			}else{
+				return;
+			}
 		});//btnDelUser-------------
 
 		$('#nickChk').click(function() {
@@ -165,7 +175,7 @@
 		<div class="form-inline">
 			<label class="mtxt_gray" style="margin: 0 70px 0 0">프로필 이미지 등록</label> 
             <input type="file" name="mypfile" id="mypfile" class="form-control col-md-6">
-            <input type="hidden" name="old_mypfile" id="old_mypfile" class="form-control col-md-6" value="${user.user_img}">
+            <input type="text" name="old_mypfile" id="old_mypfile" class="form-control col-md-6" value="${user.user_img}">
         </div>
 		<br>
 		<div class="form-inline">

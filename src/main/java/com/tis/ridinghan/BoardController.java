@@ -298,6 +298,39 @@ public class BoardController {
 
       return "message";
    }
+   @PostMapping("/delReply")
+   public String delReply(Model model,HttpSession ses,
+         @RequestParam(defaultValue="0")int reply_idx,
+         @RequestParam(defaultValue="0") int board_idx) {
+      BoardVO vo=boardService.selectBoardView(board_idx);
+      MemberVO user=(MemberVO)ses.getAttribute("user");
+      /*
+       * if(vo==null) { String str="존재하지 않는 게시글 입니다."; String loc="board";
+       * model.addAttribute("msg", str); model.addAttribute("loc",loc); return
+       * "message"; }
+       */
+      log.info("vo.getUser_nick() ="+vo);
+      log.info("board_idx="+board_idx);
+      if(vo.getUser_nick().equals(user.getNickName())) {
+         int n=boardService.delReply(board_idx,reply_idx);
+         if(n>0) {
+            String str="삭제 성공";
+            String loc="boardView?board_idx="+board_idx;
+            model.addAttribute("msg", str);
+            model.addAttribute("loc", loc);
+            return "message";
+         }
+      }else{
+         String str="작성자만 삭제할 수 있습니다.";
+         String loc="redirect:boardView?board_idx="+board_idx;
+         model.addAttribute("msg",str);
+         model.addAttribute("loc", loc);
+         return "message";
+      }
+      
+      return "redirect:boardView?board_idx="+board_idx;
+      
+   }
 
    @PostMapping("/boardDel")
    public String boardDel(Model model, @RequestParam(defaultValue = "0") int board_idx,

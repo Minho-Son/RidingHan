@@ -109,7 +109,7 @@
 
                   <!-- 리플 -->
                   <div class="panel-body">
-
+                           
                      <ul class="list-group">
                         <c:forEach var="reply" items="${replyArr}">
                            <li class="list-group-item">
@@ -118,12 +118,9 @@
                                  <div class="comment-text">${reply.reply_content }</div>
                               </div>
                               <div class="action">
-                                 <button type="button" class="comment_btn"
-                                    style="background-color: #337AF2" title="Edit">
-                                    <i class="material-icons"> edit </i>
-                                 </button>
-                                 <button type="button" class="comment_btn"
-                                    style="background-color: tomato" title="Delete">
+                                 
+                                 <button type="button" onclick="delReply('${reply.reply_idx}')" class="comment_btn"
+                                    style="background-color: #337AF2" title="Delete">
                                     <i class="material-icons"> delete_outline </i>
                                  </button>
                               </div>
@@ -131,7 +128,6 @@
 
                         </c:forEach>
                      </ul>
-
                   </div>
                   <!-- 댓글달기 ------------->
                   <form id="comment_form" action="boardReply" method="post">
@@ -151,10 +147,21 @@
          <br class="clear">
       </div>
    </div>
+   <form name="rp" method="post">
+      <input type="hidden" name="reply_idx" >
+      <input type="hidden" name="board_idx" value="${bi.board_idx}">
+   </form>
+   
 </div>
 
-
 <script>
+   function delReply(num){
+      //alert(num);
+      rp.reply_idx.value=num;
+      rp.action="delReply"
+      rp.submit();
+      
+   }
    function del() {
       if (!bf.board_pwd.value) {
          alert('비밀번호를 입력하세요');

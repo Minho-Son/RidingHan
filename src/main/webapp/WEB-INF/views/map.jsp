@@ -138,6 +138,8 @@
       let title;
       if(selectedPoints[0].title=="클릭한 지점") {
          title = prompt("등록지점 이름을 입력하세요","");
+         selectedPoints[0].title=title;
+         showPoints(selectedPoints[0], 1);
       } else {
          title = selectedPoints[0].title
       }
@@ -159,6 +161,8 @@
       let title;
       if(selectedPoints[1].title=="클릭한 지점") {
          title = prompt("등록지점 이름을 입력하세요","");
+         selectedPoints[1].title=title;
+         showPoints(selectedPoints[1], 2);
       } else {
          title = selectedPoints[1].title
       }
@@ -399,7 +403,7 @@
          alert("먼저 경로를 찾아 주세요.")
          return;
       } else {
-         $('#title3').val(point1_no + " => " + point2_no);
+         $('#title3').val(selectedPoints[0].title + " => " + selectedPoints[1].title);
          $('#place_from').val(point1_no);
          $('#place_to').val(point2_no);
          $('#distance').val(distance);

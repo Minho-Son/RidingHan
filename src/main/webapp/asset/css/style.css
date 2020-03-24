@@ -120,7 +120,7 @@ background: #fff; margin-bottom:10px;line-height: 33px; border: 1px #337AF2 soli
 #container .group-left{width: 22%; height: 800px; float: left; padding: 0 20px 30px 0; position: relative;}
 #container .clear{clear:both;}
 
-#container .gicon, .cicon, .micon{font-weight:400;font-size: 1.18rem; color:#1B1B1F; margin: 25px 0 10px 0; }
+#container .gicon, .cicon, .micon, .picon{font-weight:400;font-size: 1.18rem; color:#1B1B1F; margin: 25px 0 10px 0; }
 #container .gicon::before
 { content: ''; width: 35px; height: 30px; display: inline-block; background:url('../images/group.png') 50% 50% no-repeat; vertical-align: -7px; margin-right:5px;}
 #container .gicon .btn, #container .cicon .btn{margin-bottom:30px;}
@@ -244,9 +244,9 @@ border-left:1.2px #337AF2 solid; float:left; margin-right:20px; margin-top:3px}
 .footer-chat input *:-ms-input-placeholder {  color: #C0C0C0;  font-size: 13pt;}
 
 
-/*스타트 라이딩*/
+/*맵 메인페이지*/
 
-#map_search{padding:20px 20px 0 20px; height:125px; background: #337AF2; position: fixed; left:0; top:80px; width: 300px; z-index:999; box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);}
+#map_search{padding:20px 20px 0 20px; height:125px; background: #337AF2; position: fixed; left:0; top:0; width: 300px; z-index:999; box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);}
 #map_search>img{width:120px; margin:auto;}
 #map_search .logo>img{width:50px; margin-right: 14px;}
 #map_search .logo:hover{opacity: 0.6;}
@@ -268,11 +268,12 @@ border-left:1.2px #337AF2 solid; float:left; margin-right:20px; margin-top:3px}
 #map_check .addpathtxt{font-size: 14px; color:#337AF2;}
 #map_check .mappick{float: right;}
 #point1, #point2 {display:none;}
+#startPointInfo, #endPointInfo {height: 60px;font-size: 0.5em;}
 
 /*MAP Api 서치바*/
 
-.map_search #map_send { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
-
+.map_search #map_send { height:30px;line-height:30px;padding:0 10px;font-size:12px;
+border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
 
 /*왼쪽 메뉴바*/
 #lm{ position: fixed; left:-100%; top:0; width:250px; height: 100vh; 

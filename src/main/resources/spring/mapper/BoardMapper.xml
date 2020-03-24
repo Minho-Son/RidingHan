@@ -56,5 +56,8 @@
    <select id="countReply" parameterType="int" resultType="int">
     select count(board_idx_fk) from reply where board_idx_fk=#{board_idx}
    </select>
+   <update id="delReply" parameterType="Reply">
+   delete from reply where reply_idx=#{reply_idx} and board_idx_fk=#{board_idx_fk}
+   </update>
 
 </mapper>

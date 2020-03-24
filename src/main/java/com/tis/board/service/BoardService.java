@@ -40,4 +40,6 @@ public interface BoardService {
 
    int countReply(int board_idx);
 
+   int delReply(int board_idx, int reply_idx);
+
 }

@@ -21,5 +21,8 @@
 		update member set user_name=#{user_name}, pwd=#{pwd}, nickname=#{nickName}, user_img=#{user_img}
 		 where user_id=#{user_id}		
 	</update>
+	<update id="quitMember" parameterType="int">
+		update member set state=2 where user_id=#{user_id}		
+	</update>
 
 </mapper>

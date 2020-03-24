@@ -2,103 +2,120 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+   String myctx = request.getContextPath();
+%>
+
 <c:import url="/top" />
 
 <script type="text/javascript"
    src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
 
-<div><br></div>
-<div class="container">
-   <div class="row">
-      <div class="col-md-12 col-md-offset-0 table-responsive">
-         <h1 class="text-primary text-center">등록 장소 목록</h1>
-         <table class="table table-striped">
-            <tr class="success">
-               <th>번호</th>
-               <th>장소이름</th>
-               <th>위도</th>
-               <th>경도</th>
-               <th>도로명주소</th>
-               <th>지번주소</th>
-            </tr>
+
+<style>
+/* Map 플레이스 리스트 */
+.picon {
+   font-weight: 400;
+   font-size: 1.18rem;
+   color: #1B1B1F;
+   margin: 25px 0 10px 0;
+}
+
+#container .picon::before {
+   content: '';
+   width: 35px;
+   height: 30px;
+   display: inline-block;
+   background: url('<%=myctx%>/asset/images/mappick.png') 50% 50% no-repeat;
+   vertical-align: -7px;
+   margin-right: 5px;
+}
+
+.maplist-group {
+   width: 100%;
+   background-color: #fffff;
+   margin: auto;
+   padding: 16px 23px;
+}
+</style>
+
+
+<div id="container">
+   <div class="inbx">
+      <div class="inner3">
+         <div class="maplist-group"
+            style="background-color: #fff; padding: 16px 23px;">
+            <p class="picon">등록된 장소</p>
+            <hr>
+            <p class="texttt">
+               총 등록장소 <b class="mtxt_blue" style="display: inline-block">${totalCount}</b>개
+            
+            <p>
+               <br>
+            <div id="map" style="width: 100%; height: 300px;"></div>
+            <br>
+            <table class="table" style="font-size: 14px">
+               <thead style="background-color: #F7F8F9">
+                  <tr>
+                     <th width="7%">번호</th>
+                     <th>장소이름</th>
+                     <th width="10%">위도</th>
+                     <th width="10%">경도</th>
+                     <th width="25%">도로명주소</th>
+                     <th colspan="2">지번주소</th>
+                  </tr>
+               </thead>
+               <!-- --------------------------- -->
+               <tbody>
+                  <c:forEach var="place" items="${placeArr}">
+                     <tr>
+                        <td>${place.place_no}</td>
+                        <td>${place.title}</td>
+                        <td><fmt:formatNumber value="${place.latitude}"
+                              pattern="###.#####" /></td>
+                        <td><fmt:formatNumber value="${place.longitude}"
+                              pattern="###.#####" /></td>
+                        <td>${place.road_address}</td>
+                        <td>${place.jibun_address}</td>
+                        <td width="7%">
+                           <!-- href속성값에 자바스크립트 함수를 넣을 때는 반드시 함수 앞에 "javascript:" 접두어를 붙여주자 -->
+                           <a href="javascript:select('${place.place_no}')">선택</a>
+                        </td>
+                     </tr>
+                  </c:forEach>
+               </tbody>
+            </table>
             <!-- --------------------------- -->
-            <c:forEach var="place" items="${placeArr}">
+            <hr>
+            <table style="width: auto; margin: auto">
                <tr>
-                  <td>${place.place_no}</td>
-                  <td>${place.title}</td>
-                  <td>
-                     <fmt:formatNumber value="${place.latitude}" pattern="###.#####"/>
-                  </td>
-                  <td>
-                     <fmt:formatNumber value="${place.longitude}" pattern="###.#####"/>
-                  </td>
-                  <td>${place.road_address}</td>
-                  <td>${place.jibun_address}</td>
-                  <td>
-                     <!-- href속성값에 자바스크립트 함수를 넣을 때는 반드시 함수 앞에 "javascript:" 접두어를 붙여주자 -->
-                     <a href="javascript:select('${place.place_no}')">선택</a>
-                  </td>
+                  <td>${pageNavi}</td>
                </tr>
-            </c:forEach>
-            <!-- --------------------------- -->
-            <tr>
-               <td></td>
-               <td></td>
-               <td colspan="2" class="text-center">${pageNavi}</td>
-               <td colspan="2" class="text-right">
-                  총 등록 장소수 : <b>${totalCount} 개</b>
-               </td>
-            </tr>
-         </table>
+            </table>
+         </div>
       </div>
    </div>
-
-   <!-- 등록할 장소 처리시 사용할 form -->
-   <form name="frm" method="post">
-      <input type="hidden" name="place_no">
-      <!-- hidden data -->
-   </form>
-
-   <div id="wrap" class="section">
-      <!-- map 검색 -->
-      <div id="map" style="width: 100%; height: 600px;"></div>
-      <div id="map_search">
-         <a class="logo" href="index.html"> <img
-            src="../asset/images/RUN_LOGO.png"></a> <img
-            src="../asset/images/hangang_kor.png">
-         <p class="sub">마이 라이딩</p>
-      </div>
-      <div id="map_check">
-         <table>
-            <tr>
-               <td><span id="myPlace" class="myPlace">내 지점</span></td>
-               <td>
-                  <button id="myPoint" type="button" onclick="placeNearbyMap()"
-                     class="mappick">
-                  </button>
-               </td>
-            </tr>
-            <tr>
-               <td><span id="placeInfo" class="placeInfo">선정 지점</span></td>
-            </tr>
-            <tr>
-               <td style="text-align: center;"><input id="selectPoint"
-                  submit="selectPoint" type="button" value="선택확인" /></td>
-            </tr>
-         </table>
-      </div>
-   </div>
-
-   <!-- 장서 선택 관련 form start--------------------------------------------------- -->
-   <form name="place" id="place" method="POST" action="selectPlace">
-      <input type="hidden" name="title" id="title">
-      <input type="hidden" name="latitude" id="latitude"> 
-      <input type="hidden" name="longitude" id="longitude">
-      <input type="hidden" name="road_address" id="road_address">
-      <input type="hidden" name="jibun_address" id="jibun_address">
-   </form>
-   <!-- ----------------------------------------------------------------------- -->
 </div>
+
+
+
+<!-- 등록할 장소 처리시 사용할 form -->
+<form name="frm" method="post">
+   <input type="hidden" name="place_no">
+   <!-- hidden data -->
+</form>
+
+
+<!-- 장서 선택 관련 form start--------------------------------------------------- -->
+<form name="place" id="place" method="POST" action="selectPlace">
+   <input type="hidden" name="title" id="title"> <input
+      type="hidden" name="latitude" id="latitude"> <input
+      type="hidden" name="longitude" id="longitude"> <input
+      type="hidden" name="road_address" id="road_address"> <input
+      type="hidden" name="jibun_address" id="jibun_address">
+</form>
+<!-- ----------------------------------------------------------------------- -->
+
 
 
 <script>
@@ -113,7 +130,7 @@
          frm.submit();
       }
    }
-   
+
    var placeNearbyMap = function() {
       $('#latitude').val(latitude);
       $('#longitude').val(longitude);
@@ -137,7 +154,6 @@
       })
    }
 
-   
    var bicycleLayer = new naver.maps.BicycleLayer();
    var mapCenter = new naver.maps.LatLng(37.5349277, 126.9027279);
 
@@ -184,7 +200,7 @@
    });
 
    map.setCursor('pointer');
-   
+
    function searchCoordinateToAddress(latlng) {
 
       infoWindow.close();
@@ -321,7 +337,7 @@
       map.addListener('click', function(e) {
          searchCoordinateToAddress(e.coord);
       });
-      
+
       bicycleLayer.setMap(map);
    }
 
@@ -334,7 +350,7 @@
    var markerInfos = [];
 
    function makePlaceMatrix(resPlaces) {
-      alert("resPlaces : "+resPlaces);
+      alert("resPlaces : " + resPlaces);
       $.each(resPlaces, function(i, place) {
          var markerInfo = {
             title : "",
@@ -482,4 +498,3 @@
 
    naver.maps.onJSContentLoaded = initGeocoder;
 </script>
-
