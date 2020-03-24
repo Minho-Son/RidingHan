@@ -141,9 +141,9 @@ $(function(){
                      </div>
                      <ul class="menu_second">
                         <li><a href="<%=myctx%>/mypage/myInfo">회원정보수정</a></li>
-                        <li><a href="<%=myctx%>/mypage/favorite">내가 등록한 장소</a></li>
-                        <li><a href="<%=myctx%>/mypage/travelingList">진행중인 플랜</a></li>
-                        <li><a href="<%=myctx%>/mypage/travelingHistory">플랜 히스토리</a></li>
+                        <li><a href="<%=myctx%>/mypage/myPlace">내가 등록한 장소</a></li>
+                        <li><a href="<%=myctx%>/mypage/myDirection">나의 라이딩</a></li>
+                        <li><a href="<%=myctx%>/mypage/planList">라이딩플랜 관리</a></li>
                      </ul>
                   </li>
 

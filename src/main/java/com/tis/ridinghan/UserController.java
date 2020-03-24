@@ -99,40 +99,40 @@ public class UserController {
 
 	}
 
-////////////////////////진행중인 여행
-	@GetMapping("/mypage/travelingList")
-	public String showTravelingList(Model m, HttpSession ses) {
-		return "mypage/travelingList";
-	}
-
-////////////////////////여행 히스토리
-	@GetMapping("/mypage/travelingHistory")
-	public String showTravelingHistory(Model m, HttpSession ses) {
-		return "mypage/travelingHistory";
-	}
-
-////////////////////////즐겨찾기
-	@GetMapping("/mypage/favorite")
+////////////////////////내가 등록한 장소
+	@GetMapping("/mypage/myPlace")
 	public String showMyFavorite(Model m, HttpSession ses,
 			@ModelAttribute PagingVO paging, HttpServletRequest req) {
 		int totalCount = placeService.getTotalPlaceCount();
-
-	      paging.setTotalCount(totalCount); // 총 장소 수 셋팅
-	      paging.init(); // 페이징 처리관련 연산 수행
-	      log.info("paging: " + paging);
-
-	      List<PlaceVO> pList = placeService.getAllPlaceList(paging);
-	      String myctx = req.getContextPath();
-
-	      // 페이지 네비 문자열 받아오기
-	      String pageNavi = paging.getPageNavi(myctx, "placeList");
-
-	      m.addAttribute("totalCount", totalCount);
-	      m.addAttribute("placeArr", pList);
-	      m.addAttribute("paging", paging);
-	      m.addAttribute("pageNavi", pageNavi);
-		return "mypage/favorite";
 		
+		paging.setTotalCount(totalCount); // 총 장소 수 셋팅
+		paging.init(); // 페이징 처리관련 연산 수행
+		log.info("paging: " + paging);
+		
+		List<PlaceVO> pList = placeService.getAllPlaceList(paging);
+		String myctx = req.getContextPath();
+		
+		// 페이지 네비 문자열 받아오기
+		String pageNavi = paging.getPageNavi(myctx, "placeList");
+		
+		m.addAttribute("totalCount", totalCount);
+		m.addAttribute("placeArr", pList);
+		m.addAttribute("paging", paging);
+		m.addAttribute("pageNavi", pageNavi);
+		return "mypage/myPlace";
+		
+	}
+
+////////////////////////나의 라이딩
+	@GetMapping("/mypage/myDirection")
+	public String showTravelingHistory(Model m, HttpSession ses) {
+		return "mypage/myDirection";
+	}
+
+////////////////////////진행중인 여행
+	@GetMapping("/mypage/planList")
+	public String showTravelingList(Model m, HttpSession ses) {
+		return "mypage/planList";
 	}
 
 /////////////////////////회원정보 수정

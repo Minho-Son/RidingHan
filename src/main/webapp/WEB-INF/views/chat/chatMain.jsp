@@ -94,7 +94,7 @@ function joinChat(tmp){
                   만들기 +</button>
                <p class="txt_blue">참여중인 채팅 목록</p>
                <c:forEach var="chatList" items="${chatArr}">
-                  <a class="txt_black">${chatList.chat_title}</a>
+                  <a class="txt_black" ref="#${chatList.room_code}">${chatList.chat_title}</a>
                </c:forEach>
             </div>
 

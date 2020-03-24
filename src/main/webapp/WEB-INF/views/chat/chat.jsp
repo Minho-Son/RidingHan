@@ -31,10 +31,11 @@
 	var user_img="${user.user_img}";
 	var chat_title="${chatRoomInfo.chat_title}";
 	var room_code="${chatRoomInfo.room_code}";
-
+	
 	$(function(){
 		var arr={'room_code':room_code,
 				'user_no':user_no};
+		var main;
 		$('#exitChat').click(function(){
 			ws.send(300+"@!|"+room_code+"@!|"+nick);
 			if(confirm("그룹을 완전히 나가시겠습니까?")){
@@ -46,6 +47,7 @@
 					cache:false,
 					success:function(res){
 						alert(chat_title+'그룹에서 탈퇴했습니다.');
+						opener.location.replace('/RidingHan/chat');
 						window.close();
 					},
 					error:function(e){
@@ -115,11 +117,8 @@
 						break;
 					}
 				}//if---------------------
-				
 			}
 			/* ws.onclose=function(event){
-
-
 			} */
 			/* $(window).on('beforeunload', function(){
 				ws.send(300+"@!|"+room_code+"@!|"+nick);

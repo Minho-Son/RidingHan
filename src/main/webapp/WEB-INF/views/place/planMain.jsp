@@ -9,6 +9,10 @@ $(document).ready(function() {
     	$("#groupModal").modal();
     });
 });
+
+function bringData(){
+	alert('a');
+}
 	
 //플랜 생성 시 유효성 체크
 function message(str){
@@ -27,9 +31,10 @@ $(function(){
 			message(str);
 			return;
 		}
-		alert(plan_title.val());
-		alert(sharePlan.val());
-		//f.submit();
+		if($('#sharPlan').is(":checked")==true){
+			
+		}
+		pf.submit();
 	})
 })
 	
@@ -93,29 +98,29 @@ $(function(){
                   class="form-control" rows="1"></textarea>
                   <hr />
                   <h6 class="title">경로 또는 장소 추가
-                     <button type="button" href="">가져오기+</button>
+                     <button type="button" onclick="bringData">가져오기+</button>
                   </h6>
                   <hr />
                   <!-- if test로 불러올 것.... -->
-                  <span class="departure" style="margin-left:10px" name="place_direction_no" id="place_direction_no" >서울숲 => 뚝섬한강공원
-                  </span>
-                  <br/>
-                  <span class="departure" style="margin-left:10px" name="place_direction_no" id="place_direction_no" >국회의사당역 9호선
-                  </span>
-                  <br/>
-                  <span class="departure" style="margin-left:10px" name="place_direction_no" id="place_direction_no" >영등포역3번출구 => 가을단풍길(노량진공원길)	
-                  </span>
-                  <br/>
+                  <span class="departure" style="margin-left:10px" name="" id="" >
+                  	서울숲 => 뚝섬한강공원
+                  </span><br/>
+                  <span class="departure" style="margin-left:10px" name="" id="" >
+                  	국회의사당역 9호선
+                  </span><br/>
+                  <span class="departure" style="margin-left:10px" name="" id="" >
+                  	영등포역3번출구 => 가을단풍길(노량진공원길)	
+                  </span><br/>
                </div>
 
                <!-- Modal footer -->
                <div class="checks" style="margin-left:25px">
-					<input type="checkbox" id="sharePlan" value="sharePlan" />
+					<input type="checkbox" id="sharePlan" name="sharePlan"/>
 					<label for="sharePlan"> 그룹으로 공유하기</label>
+               	    <label id="msg" style="fontSize: 8pt; color: red; align:left;"></label>
 				</div>
                <div class="modal-footer">
-               	  <label id="msg" style="fontSize: 8pt; color: red;"></label>
-               	  <button type="button" class="btn btn-success" data-dismiss="modal" id="makePlan">플랜 만들기</button>
+               	  <button type="button" class="btn btn-success" id="makePlan">플랜 만들기</button>
                </div>
 
             </div>

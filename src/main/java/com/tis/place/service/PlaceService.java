@@ -6,6 +6,7 @@ import com.tis.place.domain.DirectionVO;
 import com.tis.place.domain.DirectionViewVO;
 import com.tis.place.domain.PagingVO;
 import com.tis.place.domain.PlaceVO;
+import com.tis.plan.model.PlanVO;
 
 public interface PlaceService {
    
@@ -23,5 +24,4 @@ public interface PlaceService {
    List<DirectionVO> getAllDirectionList(PagingVO paging);
    DirectionVO findDirectionByDirectionid(String direction_no);
    DirectionVO findDirectionByGpxfile(String gpxfile);
-   
 }
