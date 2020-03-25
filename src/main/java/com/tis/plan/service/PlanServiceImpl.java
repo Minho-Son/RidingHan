@@ -17,16 +17,27 @@ public class PlanServiceImpl implements PlanService {
 	private PlanMapper planMapper;
 	
 	@Override
-	public int createPlan(PlanVO pv) {
-		return planMapper.createPlan(pv);
+	public int createFirstPlan(PlanVO pv) {
+		return planMapper.createFirstPlan(pv);
+	}
+	public PlanVO planMyInfo(int user_no) {
+		return planMapper.planMyInfo(user_no);
 	}
 	@Override
-	public int getTotalCount() {
+	public int createPlanInfo(PlanVO pv) {
+		return planMapper.createPlanInfo(pv);
+	}
+	@Override
+	public int getTotalCount(PagingVO paging) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 	@Override
-	public List<PlanVO> getAllPlaceList(PagingVO paging) {
+	public List<PlanVO> showPlanList() {
+		return planMapper.showPlanList();
+	}
+	@Override
+	public List<PlanVO> showPlan(int plan_code) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -4,10 +4,32 @@
 <!-- 인터페이스명과 namespace를 동일하게 주어야 함 -->
 <mapper	
 	namespace="com.tis.plan.mapper.PlanMapper">
-	<insert id="createPlan" parameterType="Plan">
+	<insert id="createFirstPlan" parameterType="Plan">
 		insert into plan(plan_no, user_no, plan_title, plan_about,
-		place_no, direction_no, plan_wdate)
+		place_no, direction_no, plan_wdate, plan_code)
 		values(plan_seq.nextval,#{user_no},#{plan_title},#{plan_about},
-		#{place_no:NUMERIC},#{direction_no:NUMERIC},sysdate)
+		#{place_no:NUMERIC},#{direction_no:NUMERIC},sysdate, plan_code_seq.nextval)
 	</insert>
+	<!-- <insert id="createPlan" parameterType="Plan">
+		insert into plan(plan_no, user_no, plan_title, plan_about,
+		place_no, direction_no, plan_wdate, plan_code)
+		values(plan_seq.nextval,#{user_no},#{plan_title},#{plan_about},
+		#{place_no:NUMERIC},#{direction_no:NUMERIC},sysdate, #{plan_code})
+	</insert> -->
+	<select id="planMyInfo" parameterType="int" resultType="Plan">
+		select * from (select * from plan where user_no=#{user_no} order by plan_wdate desc) where rownum=1
+	</select>
+	<insert id="createPlanInfo" parameterType="Plan">
+		insert into plan_Info(plan_info_no, plan_code, user_no, plan_join, plan_quit)
+		values(plan_info_seq.nextval,#{plan_code},#{user_no},#{plan_wdate},null)
+	</insert>
+	<!-- <select id="getTotalCount" parameterType="int" resultType="int">
+      select count(*) distinct user_no, plan_code, plan_title, plan_about, to_char(plan_wdate,'yyyy-mm-dd') from plan
+   </select> -->
+   <select id="showPlan" parameterType="int" resultType="Plan">
+   		select * from plan where user_no=#{user_no} order by plan_wdate desc
+   </select>
+   <select id="showPlanList" resultType="Plan">
+   		select distinct user_no, plan_code, plan_title, plan_about, to_char(plan_wdate,'yyyy-mm-dd') plan_wdate from plan
+   </select>
 </mapper>

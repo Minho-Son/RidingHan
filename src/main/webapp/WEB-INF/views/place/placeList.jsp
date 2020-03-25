@@ -48,20 +48,20 @@
             <p class="picon">등록된 장소</p>
             <hr>
             <p class="texttt">
-               총 장소 <b class="mtxt_blue" style="display: inline-block">${totalCount}</b>개
+               총 등록장소 <b class="mtxt_blue" style="display: inline-block">${totalCount}</b>개
             
             <p>
                <br>
-            <div id="map" style="width: 100%; height: 300px; z-index:0"></div>
+            <div id="map" style="width: 100%; height: 300px;"></div>
             <br>
             <table class="table" style="font-size: 14px">
                <thead style="background-color: #F7F8F9">
                   <tr>
                      <th width="7%">번호</th>
-                     <th width="25%">장소이름</th>
-                     <!-- <th width="10%">위도</th>
-                     <th width="10%">경도</th> -->
-                     <th width="35%">도로명주소</th>
+                     <th>장소이름</th>
+                     <th width="10%">위도</th>
+                     <th width="10%">경도</th>
+                     <th width="25%">도로명주소</th>
                      <th colspan="2">지번주소</th>
                   </tr>
                </thead>
@@ -71,10 +71,10 @@
                      <tr>
                         <td>${place.place_no}</td>
                         <td>${place.title}</td>
-                        <%-- <td><fmt:formatNumber value="${place.latitude}"
+                        <td><fmt:formatNumber value="${place.latitude}"
                               pattern="###.#####" /></td>
                         <td><fmt:formatNumber value="${place.longitude}"
-                              pattern="###.#####" /></td> --%>
+                              pattern="###.#####" /></td>
                         <td>${place.road_address}</td>
                         <td>${place.jibun_address}</td>
                         <td width="7%">
@@ -100,14 +100,13 @@
 
 
 <!-- 등록할 장소 처리시 사용할 form -->
-<form name="frm" method="post">
-   <input type="hidden" name="place_no">
+<form name="frm" id="frm">
+   <input type="hidden" name="place_no" id="place_no">
    <!-- hidden data -->
 </form>
 
-
-<!-- 장서 선택 관련 form start--------------------------------------------------- -->
-<form name="place" id="place" method="POST" action="selectPlace">
+<!-- 내 주변 장소들 보여주기 form start--------------------------------------------------- -->
+<form name="myLocation" id="myLocation">
    <input type="hidden" name="title" id="title"> <input
       type="hidden" name="latitude" id="latitude"> <input
       type="hidden" name="longitude" id="longitude"> <input
@@ -116,26 +115,51 @@
 </form>
 <!-- ----------------------------------------------------------------------- -->
 
-
+<!-- 장소 선택 관련 form start--------------------------------------------------- -->
+<form name="place" id="place" >
+   <input type="hidden" name="title" id="title1"> <input
+      type="hidden" name="latitude" id="latitude1"> <input
+      type="hidden" name="longitude" id="longitude1"> <input
+      type="hidden" name="road_address" id="road_address1"> <input
+      type="hidden" name="jibun_address" id="jibun_address1">
+</form>
+<!-- ----------------------------------------------------------------------- -->
 
 <script>
    function select(place_no) {
       //정말 선택하시겠습니까 물어보기
       var yn = confirm(place_no + "번 장소를 선택하시겠습니까?");
       //frm폼의 place_no value값으로 place_no값을 넣어주자.
+      $('#place_no').val(place_no);
+      var params = $('#frm').serialize();
+      //alert(params);
       if (yn) {
-         frm.place_no.value = place_no;
-         frm.action = "selectPlace";
-         frm.method = 'post';
-         frm.submit();
+         $.ajax({
+            type : 'POST',
+            data : params,
+            url : 'selectPlace',
+            dataType : 'json',
+            cache : false,
+            success : function(res) {
+               //alert(res);
+               makePlaceMatrix(res);
+               viewMarkers()
+            },
+            error : function(err) {
+               alert(err.status)
+            }
+         })
       }
    }
 
+   var bicycleLayer = new naver.maps.BicycleLayer();
+   var mapCenter = new naver.maps.LatLng(37.5349277, 126.9027279);
+
    var placeNearbyMap = function() {
-      $('#latitude').val(latitude);
-      $('#longitude').val(longitude);
+      $('#latitude').val(mapCenter.y);
+      $('#longitude').val(mapCenter.x);
       var params = $('#myLocation').serialize();
-      alert(params);
+      //alert(params);
       $.ajax({
          type : 'POST',
          data : params,
@@ -143,19 +167,15 @@
          dataType : 'json',
          cache : false,
          success : function(res) {
-            alert(res);
+            //alert(res);
             makePlaceMatrix(res);
-            // 등록버튼 변경
-            // 등록버튼 비활성화
+            viewMarkers();
          },
          error : function(err) {
             alert(err.status)
          }
       })
    }
-
-   var bicycleLayer = new naver.maps.BicycleLayer();
-   var mapCenter = new naver.maps.LatLng(37.5349277, 126.9027279);
 
    function setMapCenter(center) {
       mapCenter = center;
@@ -334,10 +354,7 @@
    }
 
    function initGeocoder() {
-      map.addListener('click', function(e) {
-         searchCoordinateToAddress(e.coord);
-      });
-
+      placeNearbyMap();
       bicycleLayer.setMap(map);
    }
 
@@ -350,7 +367,7 @@
    var markerInfos = [];
 
    function makePlaceMatrix(resPlaces) {
-      alert("resPlaces : " + resPlaces);
+      // alert("resPlaces : " + resPlaces);
       $.each(resPlaces, function(i, place) {
          var markerInfo = {
             title : "",
@@ -359,7 +376,8 @@
             road : "",
             jibun : ""
          };
-         markerInfo.title = place.name;
+         markerInfo.no = place.place_no;
+         markerInfo.title = place.title;
          markerInfo.x = place.longitude;
          markerInfo.y = place.latitude;
          markerInfo.road = place.road_address;
@@ -403,11 +421,12 @@
       map.setCenter(mapCenter);
    }
 
-   function displayPointInfo(latlng, title, coordinate, road, jibun) {
+   function displayPointInfo(no, latlng, title, coordinate, road, jibun) {
+      //alert("place_no="+no);
       infoWindow.close();
       infoWindow.setContent([
             '<div style="padding:10px;min-width:200px;line-height:150%;">',
-            '<h3 style="text-align:center;" >:: 장소 정보::</h3>', '명칭:',
+            '<h3 style="text-align:center;" >:: ', no,'번 장소::</h3>', '명칭:',
             title, '<br>', coordinate, '<br>', road, '<br>', jibun, '<br>',
             '</div>' ].join('\n'));
       infoWindow.open(map, latlng);
@@ -446,7 +465,8 @@
             + markerInfos[seq].y;
       var road = markerInfos[seq].road;
       var jibun = markerInfos[seq].jibun;
-      displayPointInfo(markers[seq].position, title, coordinate, road, jibun);
+      displayPointInfo(markerInfos[seq].no, markers[seq].position, title, 
+            coordinate, road, jibun);
    }
 
    function onMouseOut(e) {

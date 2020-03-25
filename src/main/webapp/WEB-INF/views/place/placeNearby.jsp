@@ -7,7 +7,7 @@
    src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
 
 <!--자바스크립트 / CSS-->
-<link href="asset/css/style.css" rel="stylesheet">
+<link href="../asset/css/style.css" rel="stylesheet">
 
 <style type="text/css">
 #startPointInfo {
@@ -28,8 +28,8 @@
       <div id="map" style="width: 100%; height: 600px;"></div>
       <div id="map_search">
          <a class="logo" href="index.html"> <img
-            src="asset/images/RUN_LOGO.png"></a> <img
-            src="asset/images/hangang_kor.png">
+            src="../asset/images/RUN_LOGO.png"></a> <img
+            src="../asset/images/hangang_kor.png">
          <p class="sub">마이 라이딩</p>
       </div>
       <div id="map_check">
@@ -53,7 +53,7 @@
    </div>
    
    <!-- 내 주변 징서들 보여주기 form start--------------------------------------------------- -->
-   <form name="myLocation" id="myLocation" method="POST" action="map/findPlaceNearby">
+   <form name="myLocation" id="myLocation">
       <input type="hidden" name="title" id="title">
       <input type="hidden" name="latitude" id="latitude">
       <input type="hidden" name="longitude" id="longitude">
@@ -63,7 +63,7 @@
    <!-- ----------------------------------------------------------------------- -->
 
    <!-- 장서 선택 관련 form start--------------------------------------------------- -->
-   <form name="point1" id="point" method="POST" action="map/selectPlace">
+   <form name="point1" id="point">
       <input type="hidden" name="title" id="title2">
       <input type="hidden" name="latitude" id="latitude2"> 
       <input type="hidden" name="longitude" id="longitude2">
@@ -147,7 +147,8 @@
                         road : "",
                         jibun : ""
                      };
-                     markerInfo.title = "클릭한 지점";
+                     
+                     markerInfo.title = "내 위치";
                      markerInfo.x = latlng.x;
                      markerInfo.y = latlng.y;
 
@@ -282,7 +283,7 @@
       $('#latitude').val(selectMyPlace[0].y);
       $('#longitude').val(selectMyPlace[0].x);
       var params = $('#myLocation').serialize();
-      alert(params);
+      // alert(params);
       $.ajax({
          type : 'POST',
          data : params,
@@ -290,7 +291,7 @@
          dataType : 'json',
          cache : false,
          success : function(res) {
-            alert(res);
+            //alert(res);
             makePlaceMatrix(res);
             viewMarkers();
             // 등록버튼 변경
@@ -303,7 +304,7 @@
    }
    
    function makePlaceMatrix(places) {
-      alert("places : "+places[0].title);
+      // alert("places : "+places[0].title);
       for (var i = 0; i < places.length; i++) {
          var markerInfo = {
                title : "",
@@ -312,6 +313,7 @@
                road : "",
                jibun : ""
             };
+         markerInfo.no = places[i].place_no;
          markerInfo.title = places[i].name;
          markerInfo.x = places[i].longitude;
          markerInfo.y = places[i].latitude;
@@ -330,7 +332,7 @@
       }
       for (var i = 0, ii = markerInfos.length; i < ii; i++) {
          var icon = {
-            url : 'asset/images/sp_pins_spot_v3.png',
+            url : '../asset/images/sp_pins_spot_v3.png',
             size : new naver.maps.Size(24, 37),
             anchor : new naver.maps.Point(12, 37),
             origin : new naver.maps.Point(i * 29, 0)
@@ -356,16 +358,17 @@
       map.setCenter(mapCenter);
    }
 
-   function displayPointInfo(latlng, title, coordinate, road, jibun) {
+   function displayPointInfo(no, latlng, title, coordinate, road, jibun) {
+      //alert("place_no="+no);
       infoWindow.close();
       infoWindow.setContent([
             '<div style="padding:10px;min-width:200px;line-height:150%;">',
-            '<h3 style="text-align:center;" >:: 장소 정보::</h3>', '명칭:',
+            '<h3 style="text-align:center;" >:: ', no,'번 장소::</h3>', '명칭:',
             title, '<br>', coordinate, '<br>', road, '<br>', jibun, '<br>',
             '</div>' ].join('\n'));
       infoWindow.open(map, latlng);
    }
-
+   
    function showMyPoints(place) {
       var str = place.title + "<br>";
       if (place.road != null)
@@ -389,7 +392,7 @@
    function clickMouse(e) {
       var marker = e.overlay, seq = marker.get('seq');
       marker.setIcon({
-         url : 'asset/images/start.png',
+         url : '../asset/images/start.png',
          size : new naver.maps.Size(32, 20),
          origin : new naver.maps.Point(0, 0)
       });
@@ -406,7 +409,7 @@
    function onMouseOver(e) {
       var marker = e.overlay, seq = marker.get('seq');
       marker.setIcon({
-         url : 'asset/images/sp_pins_spot_v3_over.png',
+         url : '../asset/images/sp_pins_spot_v3_over.png',
          size : new naver.maps.Size(24, 37),
          anchor : new naver.maps.Point(12, 37),
          origin : new naver.maps.Point(seq * 29, 50)
@@ -416,13 +419,13 @@
             + markerInfos[seq].y;
       var road = markerInfos[seq].road;
       var jibun = markerInfos[seq].jibun;
-      displayPointInfo(markers[seq].position, title, coordinate, road, jibun);
+      displayPointInfo(markerInfos[seq].no, markers[seq].position, title, coordinate, road, jibun);
    }
 
    function onMouseOut(e) {
       var marker = e.overlay, seq = marker.get('seq');
       marker.setIcon({
-         url : 'asset/images/sp_pins_spot_v3.png',
+         url : '../asset/images/sp_pins_spot_v3.png',
          size : new naver.maps.Size(24, 37),
          anchor : new naver.maps.Point(12, 37),
          origin : new naver.maps.Point(seq * 29, 0)

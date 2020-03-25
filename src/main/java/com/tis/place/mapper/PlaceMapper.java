@@ -22,5 +22,10 @@ public interface PlaceMapper {
    List<DirectionVO> getAllDirectionList(PagingVO paging);
    DirectionVO findDirectionByDirectionid(String direction_no);
    DirectionVO findDirectionByGpxfile(String gpxfile);
+   List<PlaceVO> getMyPlaceList(PagingVO paging);
+   int getMyPlaceCount();
+   int getMyDirectionCount();
+   List<DirectionVO> getMyDirectionList(PagingVO paging);
+   
 
 }

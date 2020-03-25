@@ -13,6 +13,23 @@ $(document).ready(function() {
 function bringData(){
 	alert('a');
 }
+
+function joinPlan(tmp){
+	var val=tmp.name;
+	var w=window.open("about:blank","_blank","width=540, height=800, left=0, top=0");
+	$.ajax({
+		type:'GET',
+		url:'plan/planView?plan_code='+val,		
+		dataType:'html',
+		success:function(res){
+			w.location.href="/RidingHan/plan/planView";
+		},
+		error:function(e){
+	         alert('error: '+e.status);
+		}
+	})
+	
+}
 	
 //플랜 생성 시 유효성 체크
 function message(str){
@@ -37,7 +54,7 @@ $(function(){
 	
 </script>
  <div id="container">
-         <div class="inbx">
+         <div class="inbx" style="background-color:white">
             <div class="inner3">
                <div class="group-left">
                   <p class="gicon">라이딩 플랜</p>
@@ -46,30 +63,43 @@ $(function(){
                      <input type="button" class="searchbtn-bl btn-sm-1" value="수정" />
                   </form>
                   <button type="button" id="makegroup" class="btn btn-success col-12">플랜 만들기 +</button>
-                  <p class="txt_blue">나만의 플랜</p>
-                  <a class="txt_black">서울사이버대학교</a>
-                  <a class="txt_black">곰돌이 눈알붙이기 동아리</a>
-
-                  <a class="txt_blue">최근 그룹 플랜</a>
-                  <a class="txt_black">사이버대학 총학생회</a>
-                  <a class="txt_black">사이버대학 취업사관학교</a>
+                  <p class="txt_blue">최근 플랜 목록</p>
+                  <c:if test="${planArr==null || empty planArr}">
+	                  <tr>
+	                  <td colspan="5"><b>현재 플랜이 없습니다.</b></td>
+	               	</tr>
+               	  </c:if>
+               	  <c:if test="${planArr!=null || not empty planArr}">
+            			<hr>
+               	  	<c:forEach var="planList" items="${planArr}">
+                  		<a class="txt_black">${planList.plan_title}</a>
+                  	</c:forEach>
+                  </c:if>					
                </div>
-               <div class="group-right">
+               	   <div class="group-right">
+               	   <p>총 <b class="mtxt_blue"
+               	   style="display:inline-block">${totalCount}</b>개의 플랜이 있습니다<p>
+               <c:forEach var="planList2" items="${planArr}">
+              
                   <div class="group-box">
                      <div class="profile"></div>
                      <div class="group-txt">
-                        <span>잠실나루에서 홍대까지 가실 분 구합니다(3명)</span>
-                        <b>멤버 3명</b>
+                        <span>${planList2.plan_title}</span>
+                        <b>${planList2.plan_about}</b>
                      </div>
-                     <button type="button" class="enter">가입</button>
+                     <button type="button" class="enter" id="${planList2.plan_code}" name="${planList2.plan_code}" onclick="joinPlan(this)">참여</button>
                   </div>
-               </div>
+               
+               </c:forEach>
+               
                <br class="clear">
             </div>
          </div>
+         
+      </div>
       </div>
 
-      <hr />
+      
 
       <!--플랜추가 모달+--------------------------->
       <!-- The Modal -->
@@ -95,7 +125,7 @@ $(function(){
                   class="form-control" rows="1"></textarea>
                   <hr />
                   <h6 class="title">경로 또는 장소 추가
-                     <button type="button" onclick="bringData">가져오기+</button>
+                     <button type="button" onclick="bringData()">가져오기+</button>
                   </h6>
                   <hr />
                   <!-- if test로 불러올 것.... -->

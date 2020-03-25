@@ -20,8 +20,14 @@ public interface PlaceService {
    List<PlaceVO> findPlaceNearby(double latitude, double longitude);
    
    int registerDirection(DirectionVO direction);
-   int getTotalDirectionCount();
    List<DirectionVO> getAllDirectionList(PagingVO paging);
    DirectionVO findDirectionByDirectionid(String direction_no);
    DirectionVO findDirectionByGpxfile(String gpxfile);
+   List<PlaceVO> getMyPlaceList(PagingVO paging);
+   int getTotalDirectionCount();
+   int getMyPlaceCount();
+   int getMyDirectionCount();
+   List<DirectionVO> getMyDirectionList(PagingVO paging);
+   
+    
 }

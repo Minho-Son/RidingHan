@@ -209,7 +209,7 @@ public class BoardController {
       reply.setBoard_idx_fk(board_idx);
       reply.setReply_id(user.getUser_id());
       
-      log.info(reply);
+      log.info(reply); 
       
       int n=boardService.insertReply(reply);
       /*

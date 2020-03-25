@@ -86,4 +86,28 @@ public class PlaceServiceImpl implements PlaceService{
       return placeMapper.findDirectionByGpxfile(gpxfile);
    }
 
+   @Override
+   public List<PlaceVO> getMyPlaceList(PagingVO paging) {
+      return placeMapper.getMyPlaceList(paging);
+}
+
+   @Override
+   public int getMyPlaceCount() {
+      return placeMapper.getMyPlaceCount();
+   }
+
+   @Override
+   public int getMyDirectionCount() {
+      return placeMapper.getMyDirectionCount();
+   }
+
+   @Override
+   public List<DirectionVO> getMyDirectionList(PagingVO paging) {
+      return placeMapper.getMyDirectionList(paging);
+   }
+
+
+
+   
+
 }

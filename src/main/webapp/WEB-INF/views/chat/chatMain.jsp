@@ -13,26 +13,34 @@
 <title>채팅</title>
 <!--채팅방---------------------------------->
 <script>
+
+
 $(document).ready(function() {
+	
+	$('.menu_first').click(function(){
+	    var submenu = $('>.menu_second',this)
+
+	    if(submenu.is(":visible")){
+	       submenu.slideUp(100)
+	      $('>.li_pack',this)
+	         .css('border','none')
+	         .css('margin','0')
+	    }else{
+	      submenu.slideDown(100)
+	      $('>.li_pack',this)
+	          .css('border-bottom','1.5px #fff solid')
+	          .css('margin-bottom','20px')
+	    }
+	})
+	
+	
     $('#makeChat').click(function(){
        $("#chatModal").modal();
     })
  });
-$('.menu_first').click(function(){
-    var submenu = $('>.menu_second',this)
+ 
 
-    if(submenu.is(":visible")){
-       submenu.slideUp(100)
-      $('>.li_pack',this)
-         .css('border','none')
-         .css('margin','0')
-    }else{
-      submenu.slideDown(100)
-      $('>.li_pack',this)
-          .css('border-bottom','1.5px #fff solid')
-          .css('margin-bottom','20px')
-    }
-})
+
 //채팅방 만들기 눌렀을 때 유효성 체크
 function message(str) {
       var obj = document.getElementById("msg");
@@ -110,7 +118,8 @@ function joinChat(tmp){
                   <c:forEach var="chatList2" items="${chatArr}">
                      <div class="group-box">
                         <a href="#"> <img
-                           style="width: 70px; height: 70px; z-index: -1; display: inline-block; border-radius: 35px; float: left;"
+                           style="width: 70px; height: 70px; z-index: -1; 
+                           display: inline-block; border-radius: 35px; float: left;"
                            src="asset/images/chat/${chatList2.chat_img}">
                         </a>
 

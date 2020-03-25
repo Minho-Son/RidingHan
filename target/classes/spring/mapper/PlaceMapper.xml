@@ -11,7 +11,7 @@
          select place_seq.nextval from dual
       </selectKey>
       insert into place values(#{place_no},#{title},#{latitude},
-      #{longitude},#{road_address:VARCHAR},#{jibun_address:VARCHAR},1)
+      #{longitude},#{road_address:VARCHAR},#{jibun_address:VARCHAR},#{p_user_no})
    </insert>
    
    <!-- 장소 지우기 -->
@@ -31,7 +31,19 @@
       select row_number() over(order by place_no desc) rn, place.*
       from place ) where rn between #{start} and #{end}
    </select>
-
+   
+   <select id="getMyPlaceList" resultType="Place" parameterType="Paging">
+      select * from place where p_user_no=#{p_user_no}
+   </select>
+   
+    <select id="getMyDirectionList" resultType="Direction" parameterType="Paging">
+       select * from direction where d_user_no=#{p_user_no}
+    </select>
+   
+<!--    <select id="getMyDirectionList" resultType="Place" parameterType="Paging">
+      select * from direction where d_user_no=#{p_user_no}
+   </select>
+ -->
    <select id="findPlaceByTitle" parameterType="string"
       resultType="Place">
       select * from place where title=#{title}
@@ -62,7 +74,7 @@
          select direction_seq.nextval from dual
       </selectKey>
       insert into direction values(#{direction_no},#{title},#{place_from},
-      #{place_to},#{distance},#{gpxfile},1)
+      #{place_to},#{distance},#{gpxfile},#{d_user_no})
    </insert>
    
    <!-- 경로 지우기 -->
@@ -91,9 +103,14 @@
       resultType="Direction">
       select * from direction where gpxfile=#{gpxfile}
    </select>
-   
-   
-   
+  
+  <select id="getMyPlaceCount" resultType="int">
+     select count(place_no) from place where p_user_no=#{p_user_no}
+  </select>
+   <select id="getMyDirectionCount" resultType="int">
+      select count(direction_no) from direction where d_user_no=#{d_user_no}
+   </select> 
+  
    
 </mapper>
    

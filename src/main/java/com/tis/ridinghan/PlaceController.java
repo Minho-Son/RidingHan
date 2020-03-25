@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tis.place.domain.DirectionVO;
-import com.tis.place.domain.DirectionViewVO;
 import com.tis.place.domain.PagingVO;
 import com.tis.place.domain.PlaceVO;
 import com.tis.place.service.PlaceService;
+import com.tis.user.model.MemberVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -27,18 +28,21 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 //@RequestMapping(value="/map")
 public class PlaceController {
-	
-	@RequestMapping(value="/map", method=RequestMethod.GET)
-	public String showMap() {
-	      return "map";
-	}
-	
+   
+   @RequestMapping(value="/map", method=RequestMethod.GET)
+   public String showMap() {
+         return "map";
+   }
+   
    @Autowired
    private PlaceService placeService;
    
+   
    @RequestMapping(value = "/map/registerPlace", method = RequestMethod.POST)
-   public @ResponseBody Map<String, String> registerPlace(@ModelAttribute PlaceVO place) {
+   public @ResponseBody Map<String, String> registerPlace(@ModelAttribute PlaceVO place,HttpSession ses) {
       PlaceVO registered = placeService.findPlaceByCoordinate(place.getLatitude(), place.getLongitude());
+      MemberVO user=(MemberVO)ses.getAttribute("user");
+      place.setP_user_no(user.getUser_no());
       String str = null;
       String place_no = null;
       if (registered == null) {
@@ -147,10 +151,13 @@ public class PlaceController {
    } // ---------------------------------
 
    @RequestMapping(value = "/map/registerDirection", method = RequestMethod.POST)
-   public @ResponseBody Map<String, String> directionRegister(@ModelAttribute DirectionVO direction)
+   public @ResponseBody Map<String, String> directionRegister(@ModelAttribute DirectionVO direction,HttpSession ses)
          throws IOException {
       log.info("direction===" + direction);
-
+      
+      MemberVO user=(MemberVO)ses.getAttribute("user");
+      direction.setD_user_no(user.getUser_no());
+      
       DirectionVO registered = placeService.findDirectionByGpxfile(direction.getGpxfile());
       log.info("registered=" + registered);
       String str = null;
