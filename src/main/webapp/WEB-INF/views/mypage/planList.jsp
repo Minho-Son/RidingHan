@@ -9,7 +9,7 @@
 
 		<div class="mgroup-right">
 			<!-- 진행중인 여행 -->
-			<h6 class="mtitle">진행중인 여행</h6>
+			<h6 class="mtitle">나의 라이딩 관리</h6>
 			<div class="group-box2">
 				<a href="해당 그룹 화면으로 jsp이동 새창으로뜸" target="_blank">
 					<div class="profile2" href="${chat.chat_url}">
@@ -21,7 +21,7 @@
 						<p class="mtxt_gray3">진행중인 여행소개</p>
 						<br />
 						<p class="mtxt_small_blue">송파구 송파대로 맛있는 국밥집</p>
-						<img class="m-arrow" src="./asset/images/blt_open.png" />
+						<img class="m-arrow" src="../asset/images/blt_open.png" />
 						<p class="mtxt_small_blue">송파구 송파대로 345</p>
 						<br />
 						<p class="mtxt_small_gray">2020-02-24</p>

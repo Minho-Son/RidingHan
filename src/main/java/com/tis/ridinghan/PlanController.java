@@ -30,8 +30,10 @@ public class PlanController {
 		return "place/planMain";
 	}
 	
+	
+	
 	@RequestMapping(value="/plan/makePlan",method=RequestMethod.POST)
-	public String CreatePlan(@RequestParam("sharePlan")boolean sharePlan,
+	public String CreatePlan(
 			@ModelAttribute PlanVO pv, Model m, HttpServletRequest req, HttpSession ses){
 		MemberVO user=(MemberVO)ses.getAttribute("user");
 		log.info("vo = "+user);

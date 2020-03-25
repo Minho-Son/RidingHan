@@ -6,8 +6,8 @@
 	namespace="com.tis.plan.mapper.PlanMapper">
 	<insert id="createPlan" parameterType="Plan">
 		insert into plan(plan_no, user_no, plan_title, plan_about,
-		place_no, direction_no, plan_wtime)
+		place_no, direction_no, plan_wdate)
 		values(plan_seq.nextval,#{user_no},#{plan_title},#{plan_about},
-		#{place_no},#{direction_no},sysdate)
+		#{place_no:NUMERIC},#{direction_no:NUMERIC},sysdate)
 	</insert>
 </mapper>

@@ -31,9 +31,6 @@ $(function(){
 			message(str);
 			return;
 		}
-		if($('#sharPlan').is(":checked")==true){
-			
-		}
 		pf.submit();
 	})
 })

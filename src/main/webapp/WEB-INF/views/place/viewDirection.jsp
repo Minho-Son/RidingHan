@@ -106,7 +106,7 @@
    
    function viewDirection() {
       $.ajax({
-         url : '../gpx/' + gpxfile,
+         url : '../asset/gpx/' + gpxfile,
          dataType : 'xml',
          success : startDataLayer,
          error : function(e) {
@@ -200,7 +200,7 @@
       }
       for (var i = 0, ii = markerInfos.length; i < ii; i++) {
          var icon = {
-            url : 'asset/images/sp_pins_spot_v3.png',
+            url : '../asset/images/sp_pins_spot_v3.png',
             size : new naver.maps.Size(24, 37),
             anchor : new naver.maps.Point(12, 37),
             origin : new naver.maps.Point(i * 29, 0)
@@ -240,7 +240,7 @@
       var marker = e.overlay, seq = marker.get('seq');
 
       marker.setIcon({
-         url : 'asset/images/sp_pins_spot_v3_over.png',
+         url : '../asset/images/sp_pins_spot_v3_over.png',
          size : new naver.maps.Size(24, 37),
          anchor : new naver.maps.Point(12, 37),
          origin : new naver.maps.Point(seq * 29, 50)
@@ -257,7 +257,7 @@
       var marker = e.overlay, seq = marker.get('seq');
 
       marker.setIcon({
-         url : 'asset/images/sp_pins_spot_v3.png',
+         url : '../asset/images/sp_pins_spot_v3.png',
          size : new naver.maps.Size(24, 37),
          anchor : new naver.maps.Point(12, 37),
          origin : new naver.maps.Point(seq * 29, 0)

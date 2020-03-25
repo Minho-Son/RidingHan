@@ -80,7 +80,7 @@ public class Directions extends HttpServlet {
       gp.addTrack(track);
       
       try {
-         String file=this.getServletContext().getRealPath("/gpx");
+         String file=this.getServletContext().getRealPath("/asset/gpx");
          java.io.File dir=new java.io.File(file);
          if(!dir.exists()){
             dir.mkdirs();//업로드 디렉토리가 없다면 생성하기

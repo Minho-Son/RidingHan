@@ -23,7 +23,7 @@
 <link href="<%=myctx%>/asset/css/style.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="<%=myctx%>/asset/js/jquery.min.js"></script>
-<!-- <script src="https://ajax.googleapiscom/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="<%=myctx%>/asset/js/common.js"></script>
 <script src="<%=myctx%>/asset/js/custom.js"></script>
 
