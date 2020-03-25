@@ -121,7 +121,7 @@ public class PlanController {
 	 * }
 	 */
 	
-	@RequestMapping("/map/callPlaceList")
+	@RequestMapping("/plan/callPlaceList")
 	   public String placeList(@ModelAttribute com.tis.place.domain.PagingVO paging, HttpServletRequest req, Model m) {
 	      int totalCount = placeService.getTotalPlaceCount();
 
