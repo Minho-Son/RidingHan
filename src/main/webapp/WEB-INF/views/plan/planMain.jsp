@@ -10,8 +10,8 @@ $(document).ready(function() {
     });
 });
 
-function bringData(){
-	alert('a');
+function callList(){
+	window.open("plan/callPlaceList","_blank","width=540, height=800, left=0, top=0");
 }
 
 function joinPlan(tmp){
@@ -89,9 +89,13 @@ $(function(){
                      </div>
                      <button type="button" class="enter" id="${planList2.plan_code}" name="${planList2.plan_code}" onclick="joinPlan(this)">참여</button>
                   </div>
-               
                </c:forEach>
-               
+                 <hr>
+                  <table style="width:auto;margin:auto">
+                  <tr>
+                     <td>${pageNavi}</td>
+                  </tr>
+            	  </table>
                <br class="clear">
             </div>
          </div>
@@ -125,7 +129,7 @@ $(function(){
                   class="form-control" rows="1"></textarea>
                   <hr />
                   <h6 class="title">경로 또는 장소 추가
-                     <button type="button" onclick="bringData()">가져오기+</button>
+                     <button type="button" onclick="callList()">가져오기+</button>
                   </h6>
                   <hr />
                   <!-- if test로 불러올 것.... -->

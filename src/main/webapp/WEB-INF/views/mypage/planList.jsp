@@ -9,7 +9,7 @@
 
 		<div class="mgroup-right">
 			<!-- 진행중인 여행 -->
-			<h6 class="mtitle">나의 라이딩 관리</h6>
+			<h6 class="mtitle">라이딩 플랜 관리</h6>
 			<div class="group-box2">
 				<a href="해당 그룹 화면으로 jsp이동 새창으로뜸" target="_blank">
 					<div class="profile2" href="${chat.chat_url}">

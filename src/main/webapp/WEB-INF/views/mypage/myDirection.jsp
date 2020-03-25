@@ -18,8 +18,8 @@
 <div class="mgroup-right">
    <h6 class="mtitle" style="margin-bottom: 0">내가 등록한 경로</h6>
    <div class="select-mcate">
-       <input   type="button" onclick="location.href='<%=myctx%>/mypage/myPlace'" class="serchbtn-wh btn-sm-1" value="장소" />
-        <input type="button" onclick="location.href='<%=myctx%>/mypage/myDirection'" class="serchbtn-wh btn-sm-1" value="경로" />
+       <input type="button" onclick="location.href='<%=myctx%>/mypage/myPlace'" class="serchbtn-wh btn-sm-1" value="장소" />
+       <input type="button" onclick="location.href='<%=myctx%>/mypage/myDirection'" class="serchbtn-wh btn-sm-1" value="경로" />
    </div>
 
    <table class="table" style="font-size: 12px">

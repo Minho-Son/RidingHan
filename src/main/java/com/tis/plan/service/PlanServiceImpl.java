@@ -29,12 +29,11 @@ public class PlanServiceImpl implements PlanService {
 	}
 	@Override
 	public int getTotalCount(PagingVO paging) {
-		// TODO Auto-generated method stub
-		return 0;
+		return planMapper.getTotalCount(paging);
 	}
 	@Override
-	public List<PlanVO> showPlanList() {
-		return planMapper.showPlanList();
+	public List<PlanVO> showPlanList(PagingVO paging) {
+		return planMapper.showPlanList(paging);
 	}
 	@Override
 	public List<PlanVO> showPlan(int plan_code) {

@@ -15,5 +15,5 @@ public interface PlanService {
 	int createPlanInfo(PlanVO pv);
 	int getTotalCount(PagingVO paging);
 	List<PlanVO> showPlan(int plan_code);
-	List<PlanVO> showPlanList();
+	List<PlanVO> showPlanList(PagingVO paging);
 }

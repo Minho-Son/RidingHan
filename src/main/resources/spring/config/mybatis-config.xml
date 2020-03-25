@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.tis.place.domain.DirectionViewVO" alias="DirectionView"/>
 		<typeAlias type="com.tis.plan.model.PlanVO" alias="Plan"/>
 		<typeAlias type="com.tis.plan.model.Plan_InfoVO" alias="Plan_Info"/>
+		<typeAlias type="com.tis.plan.model.PagingVO" alias="Paging4"/>
 
 	</typeAliases>
 	<!-- 타입 별칭 지정=================== -->
