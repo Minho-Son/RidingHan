@@ -80,12 +80,13 @@ public class PlanController {
 						String room_code=new CreateRandomCode().createRandomCode();
 						ChatVO chat=new ChatVO();
 						chat.setChat_title(myInfo.getPlan_title());
-						chat.setChat_text("start");
+						chat.setChat_text("|start|");
 						chat.setChat_wtime(null);
 						chat.setChat_img("bikeicon.jpg");
 						chat.setChat_user_no(user.getUser_no());
 						chat.setRoom_code(room_code);
 						chat.setChat_info(myInfo.getPlan_about());
+						log.info("chat : "+chat);
 					n=chatService.createChat(chat, user);
 					}
 					String loc="../plan";
