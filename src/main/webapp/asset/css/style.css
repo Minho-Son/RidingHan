@@ -270,7 +270,7 @@ border-left:1.2px #337AF2 solid; float:left; margin-right:20px; margin-top:3px}
 #map_check .addpathtxt{font-size: 14px; color:#337AF2;}
 #map_check .mappick{float: right;}
 #point1, #point2 {display:none;}
-#startPointInfo, #endPointInfo {height: 60px;font-size: 0.5em;}
+#startPointInfo, #endPointInfo {height: 60px;font-size: 0.5em; float:left;}
 
 /*MAP Api 서치바*/
 

@@ -30,7 +30,7 @@
    		select * from plan where user_no=#{user_no} order by plan_wdate desc
    </select>
    <select id="showPlanList" parameterType="Paging4" resultType="Plan">
-   		select distinct user_no, plan_code, plan_title, plan_about, to_char(plan_wdate,'yy/mm/dd') plan_wdate 
+   		select distinct user_no, plan_code, plan_title, plan_about, to_char(plan_wdate,'yy-mm-dd') plan_wdateStr 
    		from plan where rownum between #{start} and #{end} order by plan_code desc 
    </select>
 </mapper>

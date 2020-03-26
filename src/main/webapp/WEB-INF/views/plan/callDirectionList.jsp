@@ -50,14 +50,18 @@
 
 <div id="container">
    <div class="inbx">
-      <div class="inner3">
-         <div class="maplist-group"
-            style="background-color: #fff; padding: 16px 23px;">
-            <p class="picon">등록된 장소</p>
-       			<input type="button" onclick="location.href='<%=myctx%>/plan/callPlaceList'" class="serchbtn-wh btn-sm-1" value="장소" />
-        		<input type="button" onclick="location.href='<%=myctx%>/plan/callDirectionList'" class="serchbtn-wh btn-sm-1" value="경로" />
-   			</div>
-            <hr>
+      <div class="inner">
+         <div class="maplist-group">
+            
+            <p class="picon">등록된 라이딩</p>
+            <input type="button" onclick="location.href='<%=myctx%>/plan/callDirectionList'" 
+        		class="serchbtn-wh btn-sm-1" value="경로" style="float:right"/>
+            <input type="button" onclick="location.href='<%=myctx%>/plan/callPlaceList'" 
+            class="serchbtn-wh btn-sm-1" value="장소" style="float:right"/>
+        		
+       			
+   			
+            
             <p class="texttt">
                총 라이딩 <b class="mtxt_blue" style="display: inline-block">${totalCount}</b>개
 
@@ -121,10 +125,7 @@
          var yn = confirm(direction_no + "번 경로를 선택 하시겠습니까?");
          //frm폼의 direction_no value값으로 direction_no값을 넣어주자.
          if (yn) {
-            frm.direction_no.value = direction_no;
-            frm.action = "viewDirection";
-            frm.method = 'post';
-            frm.submit();
+        	 alert("선택했음");
          }
       }
       

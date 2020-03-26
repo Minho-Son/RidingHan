@@ -13,6 +13,7 @@ public class PlanVO {
 	private int place_no;
 	private int direction_no;
 	private Date plan_wdate;
+	private String plan_wdateStr;
 	private Integer plan_code;
 	
 	private boolean sharePlan;

@@ -243,6 +243,8 @@
          <div class="pager"></div>
       </div>
       <!-- /part-bx -->
+        <c:import url="/foot" />
    </div>
    </div>
-   <c:import url="/foot" />
+   
+ 

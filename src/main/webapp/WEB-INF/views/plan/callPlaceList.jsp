@@ -50,15 +50,15 @@
 
 <div id="container">
    <div class="inbx">
-      <div class="inner3">
-         <div class="maplist-group"
-            style="background-color: #fff; padding: 16px 23px;">
-            <div class="select-mcate">
+      <div class="inner">
+         <div class="maplist-group">
+            
             <p class="picon">등록된 장소</p>
-       			<input type="button" onclick="location.href='<%=myctx%>/plan/callPlaceList'" class="serchbtn-wh btn-sm-1" value="장소" />
-        		<input type="button" onclick="location.href='<%=myctx%>/plan/callDirectionList'" class="serchbtn-wh btn-sm-1" value="경로" />
-   			</div>
-            <hr>
+            <input type="button" onclick="location.href='<%=myctx%>/plan/callDirectionList'" 
+        		class="serchbtn-wh btn-sm-1" value="경로" style="float:right"/>
+            <input type="button" onclick="location.href='<%=myctx%>/plan/callPlaceList'" 
+            class="serchbtn-wh btn-sm-1" value="장소" style="float:right"/>
+        
             <p class="texttt">
                총 등록장소 <b class="mtxt_blue" style="display: inline-block">${totalCount}</b>개
             
@@ -71,8 +71,8 @@
                   <tr>
                      <th width="7%">번호</th>
                      <th>장소이름</th>
-                     <th width="10%">위도</th>
-                     <th width="10%">경도</th>
+                     <!-- <th width="10%">위도</th>
+                     <th width="10%">경도</th> -->
                      <th width="25%">도로명주소</th>
                      <th colspan="2">지번주소</th>
                   </tr>
@@ -83,10 +83,10 @@
                      <tr>
                         <td>${place.place_no}</td>
                         <td>${place.title}</td>
-                        <td><fmt:formatNumber value="${place.latitude}"
+                        <%-- <td><fmt:formatNumber value="${place.latitude}"
                               pattern="###.#####" /></td>
                         <td><fmt:formatNumber value="${place.longitude}"
-                              pattern="###.#####" /></td>
+                              pattern="###.#####" /></td> --%>
                         <td>${place.road_address}</td>
                         <td>${place.jibun_address}</td>
                         <td width="7%">
@@ -146,21 +146,7 @@
       var params = $('#frm').serialize();
       //alert(params);
       if (yn) {
-         $.ajax({
-            type : 'POST',
-            data : params,
-            url : 'selectPlace',
-            dataType : 'json',
-            cache : false,
-            success : function(res) {
-               //alert(res);
-               makePlaceMatrix(res);
-               viewMarkers()
-            },
-            error : function(err) {
-               alert(err.status)
-            }
-         })
+         alert("선택했음");
       }
    }
 
@@ -175,7 +161,7 @@
       $.ajax({
          type : 'POST',
          data : params,
-         url : 'placeNearbyMap',
+         url : '../map/placeNearbyMap',
          dataType : 'json',
          cache : false,
          success : function(res) {

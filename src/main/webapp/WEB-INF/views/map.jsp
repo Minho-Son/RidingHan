@@ -43,7 +43,7 @@
          <a class="logo" href="index"> <img
             src="asset/images/RUN_LOGO.png"></a> <img
             src="asset/images/hangang_kor.png">
-         <p class="sub">마이 라이딩</p>
+         <p class="sub">라이딩 검색</p>
          <div class="search-bar">
             <input type="search" id="searchingPlace" placeholder="장소 검색"
                value="당산역" /> <input id="map_submit" class="icon" type="image"
@@ -51,35 +51,33 @@
          </div>
       </div>
       <div id="map_check">
-         <table>
-            <tr>
-               <td><span id="startPointInfo" class="departure">출발지</span></td>
-               <td>
-                  <button id="startPoint" type="button" onclick="registerPoint1()"
-                     class="mappick">
-                     <img src="asset/images/mappick.png" alt="chooseAdress">
-                  </button>
-               </td>
-            </tr>
-            <tr>
-               <td><span id="endPointInfo" class="arrival">도착지</span></td>
-               <td>
-                  <button id="endPoint" type="button" onclick="registerPoint2()"
-                     class="mappick">
-                     <img src="asset/images/mappick.png" alt="chooseAdress">
-                  </button>
-               </td>
-            </tr>
-            <tr>
-               <td style="text-align: center;"><input id="searchRoot"
-                  submit="findDirection" type="button" value="경로 찾기" /></td>
-               <td style="text-align: center;"><input id="registerDirection"
-                  submit="registerDirection" type="button" value="경로 추가" /></td>
-            </tr>
-         </table>
+         <div style="width: 100%; height: 20px;">
+            <span id="startPointInfo" class="departure" style="width:80%">출발지</span>
+            <button id="startPoint" type="button" onclick="registerPoint1()"
+               class="mappick">
+               <img src="asset/images/mappick.png" alt="chooseAdress">
+            </button>
+         </div>
+         <br> <br> <br>
+         <div style="width: 100%; height: 20px;">
+            <span id="endPointInfo" class="arrival" style="width:80%">도착지</span>
+            <button id="endPoint" type="button" onclick="registerPoint2()"
+               class="mappick">
+               <img src="asset/images/mappick.png" alt="chooseAdress">
+            </button>
+         </div>
+         <br><br><br>
+         
+         <div style="float: left;">
+            <input id="searchRoot" submit="findDirection" type="button"
+               value="경로 찾기" style="border:1px solid #337AF2"/>
+         </div>
+         <div style="float: right">
+            <input id="registerDirection" submit="registerDirection"
+               type="button" value="경로 추가" style="border:1px solid #337AF2"/>
+         </div>
       </div>
    </div>
-
    <!-- 1지점 등록관련 form start--------------------------------------------------- -->
    <form name="point1" id="point1">
       <input type="hidden" name="title" id="title"> <input type="hidden"

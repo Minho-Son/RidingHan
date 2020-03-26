@@ -11,7 +11,7 @@ $(document).ready(function() {
 });
 
 function callList(){
-	window.open("plan/callPlaceList","_blank","width=540, height=800, left=0, top=0");
+	window.open("plan/callPlaceList","_blank","width=850, height=1000, left=0, top=0");
 }
 
 function joinPlan(tmp){
@@ -60,7 +60,7 @@ $(function(){
                   <p class="gicon">라이딩 플랜</p>
                   <form class="form-inline">
                      <input type="text" name="search" id="search" class="form-control col-md-9" placeholder="검색">
-                     <input type="button" class="searchbtn-bl btn-sm-1" value="수정" />
+                     <input type="button" class="serchbtn-bl" value="검색" />
                   </form>
                   <button type="button" id="makegroup" class="btn btn-success col-12">플랜 만들기 +</button>
                   <p class="txt_blue">최근 플랜 목록</p>
@@ -82,8 +82,12 @@ $(function(){
                <c:forEach var="planList2" items="${planArr}">
               
                   <div class="group-box">
-                     <div class="profile"></div>
-                     <div class="group-txt">
+                  <a href="#"> <img
+                           style="width: 70px; height: 70px; z-index: -1; 
+                           display: inline-block; float: left;"
+                           src="asset/images/bikeicon.jpg">
+                  </a>
+                <div class="group-txt">
                         <span>${planList2.plan_title}</span>
                         <b>${planList2.plan_about}</b>
                      </div>

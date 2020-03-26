@@ -53,7 +53,7 @@ public class PlanController {
 	      log.info("planArr = "+arr);
 	      
 	      String myctx = req.getContextPath();
-	      String pageNavi = paging.getPageNavi(myctx, "chat");
+	      String pageNavi = paging.getPageNavi(myctx, "plan");
 	      
 	      m.addAttribute("totalCount", totalCount);
 	      m.addAttribute("paging", paging);
@@ -82,7 +82,7 @@ public class PlanController {
 						chat.setChat_title(myInfo.getPlan_title());
 						chat.setChat_text("start");
 						chat.setChat_wtime(null);
-						chat.setChat_img("noimage.jpg");
+						chat.setChat_img("bikeicon.jpg");
 						chat.setChat_user_no(user.getUser_no());
 						chat.setRoom_code(room_code);
 						chat.setChat_info(myInfo.getPlan_about());

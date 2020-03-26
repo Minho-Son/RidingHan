@@ -101,7 +101,7 @@ public class ChatController {
       
       String chat_img=myfile.getOriginalFilename();
       if(myfile.isEmpty()) {
-         cv.setChat_img("noimage.jpg");
+         cv.setChat_img("bikeicon.jpg");
       }else {
          try {
             myfile.transferTo(new File(upDir, chat_img));

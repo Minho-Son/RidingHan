@@ -175,7 +175,7 @@
 		<div class="form-inline">
 			<label class="mtxt_gray" style="margin: 0 70px 0 0">프로필 이미지 등록</label> 
             <input type="file" name="mypfile" id="mypfile" class="form-control col-md-6">
-            <input type="text" name="old_mypfile" id="old_mypfile" class="form-control col-md-6" value="${user.user_img}">
+            <input type="hidden" name="old_mypfile" id="old_mypfile" class="form-control col-md-6" value="${user.user_img}">
         </div>
 		<br>
 		<div class="form-inline">
