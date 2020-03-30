@@ -44,7 +44,7 @@ public class PlanController {
    public String showPlanList(@ModelAttribute PagingVO paging,
          HttpServletRequest req, Model m) {
       
-       //플랜리스트 페이징////////////////////////
+       //�뵆�옖由ъ뒪�듃 �럹�씠吏�////////////////////////
          int totalCount=planService.getTotalCount(paging);
          paging.setTotalCount(totalCount);
          paging.setPageSize(10);
@@ -70,11 +70,10 @@ public class PlanController {
    public String CreatePlan(@RequestParam("sharePlan") boolean sharePlan,
          @ModelAttribute PlanVO pv, Model m, HttpServletRequest req, HttpSession ses){
       MemberVO user=(MemberVO)ses.getAttribute("user");
-      log.info("vo = "+user);
       pv.setUser_no(user.getUser_no());
       log.info("pv = "+pv);
       
-      int n=planService.createFirstPlan(pv); //이때 플랜번호가 생기는디...
+      int n=planService.createFirstPlan(pv);
       if(n>0) {
          PlanVO myInfo=planService.planMyInfo(user.getUser_no());
          n=planService.createPlanInfo(myInfo);
@@ -97,7 +96,7 @@ public class PlanController {
                   
                   return "message";
                }
-               String msg="플랜 만들기에 실패하였습니다..";
+               String msg="플랜 생성에 실패함...";
                String loc="javascript:history.back()";
                
                m.addAttribute("msg", msg);
@@ -105,7 +104,7 @@ public class PlanController {
                
                return "message";
          }
-         String msg="플랜 만들기에 실패하였습니다..";
+         String msg="플랜 생성에 실패함...";
          String loc="javascript:history.back()";
          
          m.addAttribute("msg", msg);
@@ -115,10 +114,12 @@ public class PlanController {
       }
 	/*
 	 * @RequestMapping(value="/plan/planCode",method=RequestMethod.GET)
-	 * 
-	 * @ResponseBody public List<PlanVO> checkPlanCode(@RequestParam("val") int
-	 * plan_code) throws Exception{ List<PlanVO>
-	 * arr=planService.showPlan(plan_code); log.info("planVO = "+arr); return arr; }
+	 * @ResponseBody public List<PlanVO> checkPlanCode(@RequestParam("val") int plan_code) 
+	 * throws Exception{
+	 * List<PlanVO> arr=planService.showPlan(plan_code);
+	 * log.info("planVO = "+arr);
+	 * return arr; 
+	 * }
 	 */
    @RequestMapping(value="/plan/planView",method=RequestMethod.GET)
    public String showPlan(@RequestParam("plan_code") int plan_code,
@@ -132,14 +133,13 @@ public class PlanController {
       public String placeList(@ModelAttribute com.tis.place.domain.PagingVO paging, HttpServletRequest req, Model m) {
          int totalCount = placeService.getTotalPlaceCount();
 
-         paging.setTotalCount(totalCount); // 총 장소 수 셋팅
-         paging.init(); // 페이징 처리관련 연산 수행
+         paging.setTotalCount(totalCount);
+         paging.init();
          log.info("paging: " + paging);
 
          List<PlaceVO> pList = placeService.getAllPlaceList(paging);
          String myctx = req.getContextPath();
 
-         // 페이지 네비 문자열 받아오기
          String pageNavi = paging.getPageNavi(myctx, "placeList");
 
          m.addAttribute("totalCount", totalCount);
@@ -148,21 +148,20 @@ public class PlanController {
          m.addAttribute("pageNavi", pageNavi);
 
          return "plan/callPlaceList";
-         // "WEB-INF/views/place/placeLiset.jsp"
+         // "WEB-INF/views/place/placeList.jsp"
       } // ---------------------------------
    
     @RequestMapping("/plan/callDirectionList")
       public String directionList(@ModelAttribute com.tis.place.domain.PagingVO paging, HttpServletRequest req, Model m) {
          int totalCount = placeService.getTotalDirectionCount();
 
-         paging.setTotalCount(totalCount); // 총 장소 수 셋팅
-         paging.init(); // 페이징 처리관련 연산 수행
+         paging.setTotalCount(totalCount);
+         paging.init(); 
          log.info("paging: " + paging);
 
          List<DirectionVO> dList = placeService.getAllDirectionList(paging);
          String myctx = req.getContextPath();
 
-         // 페이지 네비 문자열 받아오기
          String pageNavi = paging.getPageNavi(myctx, "directionList");
 
          m.addAttribute("totalCount", totalCount);
@@ -174,7 +173,25 @@ public class PlanController {
          // "WEB-INF/views/place/directionList.jsp"
       } // ---------------------------------
     
-      
-
-   
+    @RequestMapping(value="/plan/addPlan")
+    @ResponseBody
+    public Map<String,Object> addPlan(@RequestParam(value="place_no", defaultValue="", required=false) int place_no,
+    		@RequestParam(value="title", defaultValue="", required=false) String place_title,
+    		@ModelAttribute HttpSession ses)
+    		throws Exception{
+    	log.info("어디까지 왔나ㅡㅡ");
+    	Map<String,Object> map=new HashMap<>();
+    	PlanVO pv=new PlanVO();
+    	MemberVO user=(MemberVO)ses.getAttribute("user");
+    	log.info("또 어디 숨었나");
+        pv.setUser_no(user.getUser_no());
+        //pv.setPlace_no(place_no);
+        pv.setPlace_title(place_title);
+        planService.addPlace(pv);
+        log.info("pv : "+pv);
+        
+    	map.put("pv","애않되ㅡㅡ");
+        return map;
+    }
+ 
    }

@@ -10,6 +10,11 @@
 		values(plan_seq.nextval,#{user_no},#{plan_title},#{plan_about},
 		#{place_no:NUMERIC},#{direction_no:NUMERIC},sysdate, plan_code_seq.nextval)
 	</insert>
+	<insert id="addPlace" parameterType="Plan">
+		insert into plan(plan_no, user_no, place_no, direction_no)
+		values(plan_seq.nextval,#{user_no},
+		#{place_no:NUMERIC},#{direction_no:NUMERIC})
+	</insert>
 	<!-- <insert id="createPlan" parameterType="Plan">
 		insert into plan(plan_no, user_no, plan_title, plan_about,
 		place_no, direction_no, plan_wdate, plan_code)

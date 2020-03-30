@@ -16,5 +16,8 @@ public class PlanVO {
 	private String plan_wdateStr;
 	private Integer plan_code;
 	
+	private String place_title;
+	private String direction_title;	
 	private boolean sharePlan;
+	
 }

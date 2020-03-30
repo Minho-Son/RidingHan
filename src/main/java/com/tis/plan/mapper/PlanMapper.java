@@ -7,11 +7,12 @@ import com.tis.plan.model.PlanVO;
 
 public interface PlanMapper {
 	
-	int createFirstPlan(PlanVO pv);
+	int addPlace(PlanVO pv);
 	PlanVO planMyInfo(int user_no);
 	int createPlanInfo(PlanVO pv);
 	int getTotalCount(PagingVO paging);
 	List<PlanVO> showPlan(int plan_code);
 	List<PlanVO> showPlanList(PagingVO paging);
+	int createFirstPlan(PlanVO pv);
 
 }

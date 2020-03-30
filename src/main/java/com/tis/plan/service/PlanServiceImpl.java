@@ -17,8 +17,8 @@ public class PlanServiceImpl implements PlanService {
 	private PlanMapper planMapper;
 	
 	@Override
-	public int createFirstPlan(PlanVO pv) {
-		return planMapper.createFirstPlan(pv);
+	public int addPlace(PlanVO pv) {
+		return planMapper.addPlace(pv);
 	}
 	public PlanVO planMyInfo(int user_no) {
 		return planMapper.planMyInfo(user_no);
@@ -37,7 +37,9 @@ public class PlanServiceImpl implements PlanService {
 	}
 	@Override
 	public List<PlanVO> showPlan(int plan_code) {
-		// TODO Auto-generated method stub
-		return null;
+		return planMapper.showPlan(plan_code);
+	}
+	public int createFirstPlan(PlanVO pv) {
+		return planMapper.createFirstPlan(pv);
 	}
 }

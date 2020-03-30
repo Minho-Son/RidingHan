@@ -143,15 +143,22 @@ $(function(){
                   </h6>
                   <hr />
                   <!-- if test로 불러올 것.... -->
-                  <span class="departure" style="margin-left:10px" name="" id="" >
-                     서울숲 => 뚝섬한강공원
-                  </span><br/>
-                  <span class="departure" style="margin-left:10px" name="" id="" >
-                     국회의사당역 9호선
-                  </span><br/>
-                  <span class="departure" style="margin-left:10px" name="" id="" >
-                     영등포역3번출구 => 가을단풍길(노량진공원길)   
-                  </span><br/>
+                  <span class="departure" style="margin:12px" id="" >
+                     	서울숲 => 뚝섬한강공원
+                  </span>
+                  <button type="button" onclick="" class="comment_btn" style="background-color:red;float:right;margin-top:10px;margin-right:8px" title="Delete">
+                  <i class="material-icons"> delete_outline </i></button><br/>
+                  <span class="departure" style="margin:12px" id="" >
+                     	국회의사당역 9호선
+                  </span>
+					<button type="button" onclick="" class="comment_btn" style="background-color:red;float:right;margin-top:10px;margin-right:8px" title="Delete">
+                  <i class="material-icons"> delete_outline </i></button><br/>
+                  <span class="departure" style="margin:12px" id="" >
+                     	영등포역3번출구 => 가을단풍길(노량진공원길) 
+                  </span>
+                  <button type="button" onclick="" class="comment_btn" style="background-color:red;float:right;margin-top:10px;margin-right:8px" title="Delete">
+                  <i class="material-icons"> delete_outline </i></button><br/>
+                 
                </div>
 
                <!-- Modal footer -->

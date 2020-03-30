@@ -22,6 +22,7 @@
 
 <style>
 /* Map 플레이스 리스트 */
+
 .picon {
    font-weight: 400;
    font-size: 1.18rem;
@@ -48,7 +49,7 @@
 </style>
 
 
-<div id="container">
+<div id="container" style="height:100%">
    <div class="inbx">
       <div class="inner">
          <div class="maplist-group">
@@ -91,7 +92,7 @@
                         <td>${place.jibun_address}</td>
                         <td width="7%">
                            <!-- href속성값에 자바스크립트 함수를 넣을 때는 반드시 함수 앞에 "javascript:" 접두어를 붙여주자 -->
-                           <a href="javascript:select('${place.place_no}')">선택</a>
+                           <a href="javascript:select('${place.place_no}','${place.title}')">선택</a>
                         </td>
                      </tr>
                   </c:forEach>
@@ -138,16 +139,20 @@
 <!-- ----------------------------------------------------------------------- -->
 
 <script>
-   function select(place_no) {
-      //정말 선택하시겠습니까 물어보기
-      var yn = confirm(place_no + "번 장소를 선택하시겠습니까?");
-      //frm폼의 place_no value값으로 place_no값을 넣어주자.
-      $('#place_no').val(place_no);
-      var params = $('#frm').serialize();
-      //alert(params);
-      if (yn) {
-         alert("선택했음");
-      }
+   function select(place_no,title) {
+	   var arr={'place_no':place_no,
+			   'place_title':title};
+      $.ajax({
+    	  type:'GET',
+    	  url:'/RidingHan/plan/addPlan',
+    	  data:arr,
+    	  success:function(res){
+    		  alert('보냄'+res);
+    	  },
+    	  error:function(request,status,error){
+              alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+      	}
+   })
    }
 
    var bicycleLayer = new naver.maps.BicycleLayer();
