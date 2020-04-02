@@ -4,13 +4,20 @@
 <%
    String myctx = request.getContextPath();
 %>
+<!--자바스크립트 / CSS-->
+<link href="<%=myctx%>/asset/css/style.css" rel="stylesheet">
+<script src="<%=myctx%>/asset/js/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapiscom/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+<script src="<%=myctx%>/asset/js/common.js"></script>
+<script src="<%=myctx%>/asset/js/custom.js"></script>
 
-<c:import url="/top" />
-<script type="text/javascript"
-   src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
+<!--부트스트랩-->
+<link rel="stylesheet" href="<%=myctx%>/asset/css/bootstrap.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
+<style type="text/css">
 
-<style>
 /* Map 플레이스 리스트 */
 .picon {
    font-weight: 400;

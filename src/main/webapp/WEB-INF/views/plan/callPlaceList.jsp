@@ -144,14 +144,14 @@
 			   'place_title':title};
       $.ajax({
     	  type:'GET',
-    	  url:'/RidingHan/plan/addPlan',
+    	  url:'/RidingHan/plan/callPlace',
     	  data:arr,
     	  success:function(res){
-    		  alert('보냄'+res);
-    	  },
-    	  error:function(request,status,error){
-              alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-      	}
+    		  opener.location.reload('/RidingHan/plan');
+    		  window.close();
+    	  },error:function(e){
+              alert('error: '+e.status);
+          }
    })
    }
 

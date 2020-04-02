@@ -96,7 +96,7 @@
                         <%-- <td>${direction.gpxfile}</td> --%>
                         <td>
                            <!-- href속성값에 자바스크립트 함수를 넣을 때는 반드시 함수 앞에 "javascript:" 접두어를 붙여주자 -->
-                           <a href="javascript:select('${direction.direction_no}')">선택</a>
+                           <a href="javascript:select('${direction.direction_no}','${direction.title}')">선택</a>
                         </td>
                      </tr>
                   </c:forEach>
@@ -120,14 +120,21 @@
       </form>
    </div>
    <script>
-      function select(direction_no) {
-         //정말 등록하시겠습니까 물어보기
-         var yn = confirm(direction_no + "번 경로를 선택 하시겠습니까?");
-         //frm폼의 direction_no value값으로 direction_no값을 넣어주자.
-         if (yn) {
-        	 alert("선택했음");
-         }
-      }
+   function select(direction_no,title) {
+	   var arr={'direction_no':direction_no,
+			   'direction_title':title};
+      $.ajax({
+    	  type:'GET',
+    	  url:'/RidingHan/plan/callDirection',
+    	  data:arr,
+    	  success:function(res){
+    		  opener.location.reload('/RidingHan/plan');
+    		  window.close();
+    	  },error:function(e){
+              alert('error: '+e.status);
+          }
+   })
+   }
       
       var placeNearbyMap = function() {
           $('#latitude').val(latitude);

@@ -10,16 +10,12 @@ import com.tis.plan.mapper.PlanMapper;
 import com.tis.plan.model.PagingVO;
 import com.tis.plan.model.PlanVO;
 
-@Service(value="planServiceImpl")
+@Service(value="planServiceImpl") 
 public class PlanServiceImpl implements PlanService {
 	
 	@Inject
 	private PlanMapper planMapper;
 	
-	@Override
-	public int addPlace(PlanVO pv) {
-		return planMapper.addPlace(pv);
-	}
 	public PlanVO planMyInfo(int user_no) {
 		return planMapper.planMyInfo(user_no);
 	}
@@ -36,10 +32,10 @@ public class PlanServiceImpl implements PlanService {
 		return planMapper.showPlanList(paging);
 	}
 	@Override
-	public List<PlanVO> showPlan(int plan_code) {
+	public List<PlanVO> showPlan(String plan_code) {
 		return planMapper.showPlan(plan_code);
 	}
-	public int createFirstPlan(PlanVO pv) {
-		return planMapper.createFirstPlan(pv);
+	public int createPlan(PlanVO pv) {
+		return planMapper.createPlan(pv);
 	}
 }

@@ -14,10 +14,10 @@ public class PlanVO {
 	private int direction_no;
 	private Date plan_wdate;
 	private String plan_wdateStr;
-	private Integer plan_code;
+	private String plan_code;
 	
 	private String place_title;
 	private String direction_title;	
-	private boolean sharePlan;
+	private int share_ornot;
 	
 }

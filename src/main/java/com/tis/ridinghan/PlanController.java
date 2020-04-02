@@ -1,8 +1,8 @@
 package com.tis.ridinghan;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -40,11 +40,12 @@ public class PlanController {
    @Inject
    private PlaceService placeService;
    
+   ArrayList<PlanVO> placesList=new ArrayList<PlanVO>();
+   
    @RequestMapping(value="/plan",method=RequestMethod.GET)
    public String showPlanList(@ModelAttribute PagingVO paging,
          HttpServletRequest req, Model m) {
       
-       //�뵆�옖由ъ뒪�듃 �럹�씠吏�////////////////////////
          int totalCount=planService.getTotalCount(paging);
          paging.setTotalCount(totalCount);
          paging.setPageSize(10);
@@ -53,7 +54,7 @@ public class PlanController {
          
          List<PlanVO> arr=planService.showPlanList(paging);
          m.addAttribute("planArr",arr);
-         log.info("planArr = "+arr);
+         //log.info("planArr = "+arr);
          
          String myctx = req.getContextPath();
          String pageNavi = paging.getPageNavi(myctx, "plan");
@@ -67,32 +68,41 @@ public class PlanController {
    }      
    
    @RequestMapping(value="/plan/makePlan",method=RequestMethod.POST)
-   public String CreatePlan(@RequestParam("sharePlan") boolean sharePlan,
-         @ModelAttribute PlanVO pv, Model m, HttpServletRequest req, HttpSession ses){
+   public String CreatePlan(@RequestParam("share_ornot") int share_ornot,
+         @ModelAttribute PlanVO pv, Model m, HttpSession ses)throws Exception{
       MemberVO user=(MemberVO)ses.getAttribute("user");
-      pv.setUser_no(user.getUser_no());
-      log.info("pv = "+pv);
+      log.info("share_ornot 대체 값이 뭐야 : "+share_ornot);
+      int n = 0;
+      String code=new CreateRandomCode().createRandomCode();
       
-      int n=planService.createFirstPlan(pv);
+      ArrayList<PlanVO> placesList2=(ArrayList<PlanVO>) ses.getAttribute("placesArr");
+      for(PlanVO plan:placesList2) {
+    	  plan.setPlan_title(pv.getPlan_title());
+    	  plan.setPlan_about(pv.getPlan_about());
+    	  plan.setPlan_code(code);
+    	  n=planService.createPlan(plan);
+      }
       if(n>0) {
          PlanVO myInfo=planService.planMyInfo(user.getUser_no());
+         myInfo.setShare_ornot(share_ornot);
          n=planService.createPlanInfo(myInfo);
             if(n>0) {
-               if(sharePlan==true) {
-                  String room_code=new CreateRandomCode().createRandomCode();
+               if(share_ornot==1) {
                   ChatVO chat=new ChatVO();
                   chat.setChat_title(myInfo.getPlan_title());
                   chat.setChat_text("|start|");
                   chat.setChat_wtime(null);
                   chat.setChat_img("bikeicon.jpg");
                   chat.setChat_user_no(user.getUser_no());
-                  chat.setRoom_code(room_code);
+                  chat.setRoom_code(code);
                   chat.setChat_info(myInfo.getPlan_about());
                   log.info("chat : "+chat);
                n=chatService.createChat(chat, user);
                }
-               String loc="../plan";
-               m.addAttribute("loc", loc); 
+	               placesList.clear();
+	           	   ses.removeAttribute("placesArr");
+	               String loc="../plan";
+	               m.addAttribute("loc", loc); 
                   
                   return "message";
                }
@@ -112,18 +122,11 @@ public class PlanController {
          
          return "message";
       }
-	/*
-	 * @RequestMapping(value="/plan/planCode",method=RequestMethod.GET)
-	 * @ResponseBody public List<PlanVO> checkPlanCode(@RequestParam("val") int plan_code) 
-	 * throws Exception{
-	 * List<PlanVO> arr=planService.showPlan(plan_code);
-	 * log.info("planVO = "+arr);
-	 * return arr; 
-	 * }
-	 */
+
    @RequestMapping(value="/plan/planView",method=RequestMethod.GET)
-   public String showPlan(@RequestParam("plan_code") int plan_code,
-		   @ModelAttribute Model m) {
+   public String showPlan(@RequestParam("plan_code") String plan_code, Model m
+		   //@ModelAttribute Model m 하면 안됨
+		   ) {
        List<PlanVO> arr=planService.showPlan(plan_code);
        m.addAttribute("planArr", arr);
        return "plan/planView";
@@ -135,7 +138,7 @@ public class PlanController {
 
          paging.setTotalCount(totalCount);
          paging.init();
-         log.info("paging: " + paging);
+         //log.info("paging: " + paging);
 
          List<PlaceVO> pList = placeService.getAllPlaceList(paging);
          String myctx = req.getContextPath();
@@ -157,7 +160,7 @@ public class PlanController {
 
          paging.setTotalCount(totalCount);
          paging.init(); 
-         log.info("paging: " + paging);
+         //log.info("paging: " + paging);
 
          List<DirectionVO> dList = placeService.getAllDirectionList(paging);
          String myctx = req.getContextPath();
@@ -173,25 +176,85 @@ public class PlanController {
          // "WEB-INF/views/place/directionList.jsp"
       } // ---------------------------------
     
-    @RequestMapping(value="/plan/addPlan")
-    @ResponseBody
-    public Map<String,Object> addPlan(@RequestParam(value="place_no", defaultValue="", required=false) int place_no,
-    		@RequestParam(value="title", defaultValue="", required=false) String place_title,
-    		@ModelAttribute HttpSession ses)
+    @RequestMapping(value="/plan/callPlace", method = RequestMethod.GET)
+    public @ResponseBody PlanVO addPlace(@RequestParam("place_no") int place_no,
+    		@RequestParam("place_title") String place_title, HttpSession ses)
+    		//@ModelAttribute HttpSession ses로 했다가 고생함
     		throws Exception{
-    	log.info("어디까지 왔나ㅡㅡ");
-    	Map<String,Object> map=new HashMap<>();
     	PlanVO pv=new PlanVO();
     	MemberVO user=(MemberVO)ses.getAttribute("user");
-    	log.info("또 어디 숨었나");
         pv.setUser_no(user.getUser_no());
-        //pv.setPlace_no(place_no);
+        pv.setPlace_no(place_no);
         pv.setPlace_title(place_title);
-        planService.addPlace(pv);
-        log.info("pv : "+pv);
+        //planService.addPlace(pv);
         
-    	map.put("pv","애않되ㅡㅡ");
+        placesList.add(pv);
+        ses.setAttribute("placesArr", placesList);
+        log.info("placesArr : "+placesList);
+        
+        return pv;
+    }//-------------------------------------
+    
+    @RequestMapping(value="/plan/callDirection", method = RequestMethod.GET)
+    public @ResponseBody PlanVO addDirection(@RequestParam("direction_no") int direction_no,
+    		@RequestParam("direction_title") String direction_title, HttpSession ses)
+    		//@ModelAttribute HttpSession ses로 했다가 고생함
+    		throws Exception{
+    	PlanVO pv=new PlanVO();
+    	MemberVO user=(MemberVO)ses.getAttribute("user");
+        pv.setUser_no(user.getUser_no());
+        pv.setDirection_no(direction_no);
+        pv.setDirection_title(direction_title);
+        //planService.addPlace(pv);
+        
+        placesList.add(pv);
+        ses.setAttribute("placesArr", placesList);
+        log.info("placesArr : "+placesList);
+        
+        return pv;
+    }//--------------------------------------
+    
+    @RequestMapping(value="/plan/deletePlace", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<PlanVO> deletePlace(@RequestParam("place_no") int place_no,
+    		HttpSession ses) throws Exception{
+    	ArrayList<PlanVO> placesList2=(ArrayList<PlanVO>) ses.getAttribute("placesArr");
+    	
+    	for(int i=0;i<placesList2.size();i++) {
+    		if((placesList2.get(i)).getPlace_no()==place_no) {
+    			placesList2.remove(i);
+    		}
+    	}
+    	log.info("placesArr 삭제 후 : "+placesList2);
+    	ses.setAttribute("placesArr", placesList2);
+
+        return placesList2;
+    }
+    
+    @RequestMapping(value="/plan/deleteDirection", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<PlanVO> deleteDirection(@RequestParam("Direction_no") int Direction_no,
+    		HttpSession ses) throws Exception{
+    	ArrayList<PlanVO> placesList2=(ArrayList<PlanVO>) ses.getAttribute("placesArr");
+    	
+    	for(int i=0;i<placesList2.size();i++) {
+    		if((placesList2.get(i)).getDirection_no()==Direction_no) {
+    			placesList2.remove(i);
+    		}
+    	}
+    	log.info("placesArr 삭제 후 : "+placesList2);
+    	ses.setAttribute("placesArr", placesList2);
+
+        return placesList2;
+    }
+    
+    @RequestMapping(value="/plan/clearPlace", method = RequestMethod.GET)
+    public @ResponseBody HashMap<String,Integer> deletePlace(
+    		HttpSession ses) throws Exception{
+    	
+    	placesList.clear();
+    	ses.removeAttribute("placesArr");
+    	
+    	HashMap<String, Integer> map=new HashMap<>();
+        map.put("clearPlaceOk",1);
         return map;
     }
- 
    }

@@ -6,57 +6,78 @@
 <script type="text/javascript">   
 $(document).ready(function() {
    $("#makegroup").click(function() {
-       $("#groupModal").modal();
+       $("#groupModal").modal(function(){
+    	   
+       });
     });
 });
+$(function(){
+	   $('#makePlan').click(function(){
+	      if (!$('#plan_title').val()){
+	         var str = '※ 플랜의 제목을 입력해주세요';
+	         message(str);
+	         return;
+	      }
+	      if(!$('#plan_about').val()){
+	         var str = '※ 플랜 소개를 입력해주세요';
+	         message(str);
+	         return;
+	      }
+	      pf.submit();
+	   })
+})
 
-function callList(){
-   window.open("plan/callPlaceList","_blank","width=850, height=1000, left=0, top=0");
-}
-function joinPlan(tmp){
-   var url="/RidingHan/plan/planView?plan_code="+tmp;
-   window.open(url,"aaa","width=500, height=500")
-}
-function joinPlan_old(tmp){
-   var val=tmp.name;
-   var w=window.open("about:blank","_blank","width=540, height=800, left=0, top=0");
-   $.ajax({
-      type:'GET',
-      url:'plan/planCode',
-      dataType:'JSON',
-      data:{'val':val},
-      success:function(res){
-         alert(res);
-         w.location.href="/RidingHan/plan/planView";
-      },
-      error:function(e){
-            alert('error: '+e.status);
-      }
-   })
-   
-}
-   
 //플랜 생성 시 유효성 체크
 function message(str){
    var obj=document.getElementById("msg");
    obj.innerHTML=str;
    }
-$(function(){
-   $('#makePlan').click(function(){
-      if (!$('#plan_title').val()){
-         var str = '※ 플랜의 제목을 입력해주세요';
-         message(str);
-         return;
-      }
-      if(!$('#plan_about').val()){
-         var str = '※ 플랜 소개를 입력해주세요';
-         message(str);
-         return;
-      }
-      pf.submit();
-   })
-})
-   
+function callList(){
+   window.open("plan/callPlaceList","_blank","width=850, height=1000, left=0, top=0");
+}
+function joinPlan(tmp){ //굳이 에이작스 안쓰고 이렇게 파라미터 보낼 수 이씀 힝
+   var url="/RidingHan/plan/planView?plan_code="+tmp;
+   window.open(url,"aaa","width=500, height=500")
+}
+
+function deletePlace(place_no){
+	$.ajax({
+		type:'GET',
+		url:'/RidingHan/plan/deletePlace',
+		data:{'place_no':place_no},
+		success:function(res){
+			window.location.reload('/RidingHan/plan');
+			$('#groupModal').removeData();
+		},error:function(e){
+			alert('error: '+e.status);
+		}
+	})
+}
+function deleteDirection(direction_no){
+	$.ajax({
+		type:'GET',
+		url:'/RidingHan/plan/deleteDirection',
+		data:{'Direction_no':Direction_no},
+		success:function(res){
+			//alert(res);
+			window.location.reload('/RidingHan/plan');
+			$('#pList').empty();
+		},error:function(e){
+			alert('error: '+e.status);
+		}
+	})
+}
+function clearPlace(){
+	$.ajax({
+		type:'GET',
+		url:'/RidingHan/plan/clearPlace',
+		success:function(res){
+			window.location.reload('/RidingHan/plan');
+		},error:function(e){
+			alert('error: '+e.status);
+		}
+	})
+}
 </script>
  <div id="container">
          <div class="inbx" style="background-color:white">
@@ -113,8 +134,6 @@ $(function(){
       </div>
       </div>
 
-      
-
       <!--플랜추가 모달+--------------------------->
       <!-- The Modal -->
       <form id="pf" method="POST" action="plan/makePlan">
@@ -125,7 +144,7 @@ $(function(){
                <!-- Modal Header -->
                <div class="modal-header">
                   <h6 class="modal-title">플랜 만들기+</h6>
-                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <button type="button" class="close" data-dismiss="modal" onclick="clearPlace()">×</button>
                </div>
 
                <!-- Modal body -->
@@ -142,31 +161,37 @@ $(function(){
                      <button type="button" onclick="callList()">가져오기+</button>
                   </h6>
                   <hr />
-                  <!-- if test로 불러올 것.... -->
-                  <span class="departure" style="margin:12px" id="" >
-                     	서울숲 => 뚝섬한강공원
-                  </span>
-                  <button type="button" onclick="" class="comment_btn" style="background-color:red;float:right;margin-top:10px;margin-right:8px" title="Delete">
-                  <i class="material-icons"> delete_outline </i></button><br/>
-                  <span class="departure" style="margin:12px" id="" >
-                     	국회의사당역 9호선
-                  </span>
-					<button type="button" onclick="" class="comment_btn" style="background-color:red;float:right;margin-top:10px;margin-right:8px" title="Delete">
-                  <i class="material-icons"> delete_outline </i></button><br/>
-                  <span class="departure" style="margin:12px" id="" >
-                     	영등포역3번출구 => 가을단풍길(노량진공원길) 
-                  </span>
-                  <button type="button" onclick="" class="comment_btn" style="background-color:red;float:right;margin-top:10px;margin-right:8px" title="Delete">
-                  <i class="material-icons"> delete_outline </i></button><br/>
-                 
+                  <div id="pList" name="pList">
+                  <c:if test="${placesArr!=null||not empty placesArr}">
+                  <c:forEach var="placesList" items="${placesArr}">
+                  	<c:choose>
+	                  	<c:when test="${placesList.place_no!=0 && placesList.direction_no==0}">
+			                  <span class="departure" style="margin:12px" id="" >
+			                     	${placesList.place_title}
+			                  </span>
+			                  <button type='button' onclick="deletePlace(${placesList.place_no})" class="comment_btn" style="background-color:red;float:right;margin-top:10px;margin-right:8px" title="Delete">
+			                  <i class="material-icons"> delete_outline </i></button><br/>
+			            </c:when>
+			          	<c:when test="${placesList.direction_no!=0 && placesList.place_no==0}">
+			          		  <span class="departure" style="margin:12px" id="" >
+			                     	${placesList.direction_title}
+			                  </span>
+			                  <button type='button' onclick="deleteDirection(${placesList.direction_no})" class="comment_btn" style="background-color:red;float:right;margin-top:10px;margin-right:8px" title="Delete">
+			                  <i class="material-icons"> delete_outline </i></button><br/>
+						</c:when>	
+					</c:choose>	          	
+                  </c:forEach>
+                  </c:if>
+                  </div>                 
                </div>
 
                <!-- Modal footer -->
                <div class="checks" style="margin-left:25px">
-               <input type="checkbox" id="sharePlan" name="sharePlan"/>
-               <label for="sharePlan"> 그룹으로 공유하기</label>
-                      <label id="msg" style="fontSize: 8pt; color: red; align:left;"></label>
+               <input type="hidden" name="share_ornot" value="0"/>
+               <input type="checkbox" name="share_ornot" id="share_ornot" value="1"/>
+               <label for="share_ornot"> 그룹으로 공유하기</label>      
             </div>
+            	<label id="msg" style="fontSize: 8pt; color: red; align:left;"></label>
                <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="makePlan">플랜 만들기</button>
                </div>
