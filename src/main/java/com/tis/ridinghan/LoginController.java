@@ -48,7 +48,7 @@ public class LoginController {
 			ses.setAttribute("userMode", user.getState());
 		} // -------------------------
 
-		return "redirect:mypage";
+		return "redirect:index";
 
 	}// ---------------------------
 

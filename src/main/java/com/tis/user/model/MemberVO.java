@@ -15,5 +15,6 @@ public class MemberVO implements Serializable {
 	private String nickName;
 	private int state;
 	private java.sql.Timestamp joinDate;
+	private String user_img;
 	
 }

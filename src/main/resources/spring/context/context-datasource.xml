@@ -47,10 +47,12 @@
    
    <!-- [4] mybatis-spring:scan 설정 -->
    <mybatis-spring:scan base-package="com.tis.user.mapper"/>
-   <mybatis-spring:scan base-package="com.tis.group.mapper"/>
+   <mybatis-spring:scan base-package="com.tis.chat.mapper"/>
    <mybatis-spring:scan base-package="com.tis.board.mapper"/>
    <mybatis-spring:scan base-package="com.tis.place.mapper"/>
    <mybatis-spring:scan base-package="com.tis.campaign.mapper"/>
+   <mybatis-spring:scan base-package="com.tis.place.mapper"/>
+   <mybatis-spring:scan base-package="com.tis.plan.mapper"/>
    
 </beans>
 

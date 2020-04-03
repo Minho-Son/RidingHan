@@ -41,6 +41,7 @@
     	<interceptor>
     		<mapping path="/mypage/**"/>
     		<mapping path="/chat/**"/>
+    		<mapping path="/plan/**"/>
     		<beans:bean class="com.tis.common.LoginCheckInterceptor"></beans:bean>
     	</interceptor>
     </interceptors>

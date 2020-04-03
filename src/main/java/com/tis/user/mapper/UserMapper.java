@@ -8,4 +8,5 @@ public interface UserMapper {
 	
 	int createMember(MemberVO vo);
 	int editMember(MemberVO vo);
+	int quitMember(int user_no);
 }

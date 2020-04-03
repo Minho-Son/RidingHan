@@ -4,8 +4,6 @@
 
 <c:import url="/top" />
 <c:import url="/mypageTop" />
-
-<script src="../asset/js/jquery.min.js"></script>
 <script type="text/javascript">
 	var flag = false;
 
@@ -13,7 +11,6 @@
 		var obj = document.getElementById("msg");
 		obj.innerHTML = str;
 	}
-
 	$(function() {
 
 		$('#btnEdit').click(function() {
@@ -70,7 +67,17 @@
 		});//btnEdit-------------
 
 		$('#btnDelUser').click(function() {
-			alert('탈퇴 하시겠습니까');
+			if(confirm("달려라한강을 탈퇴하시겠습니까?")){
+				if (!$('#pwd').val()) {
+					var str = '※ 비밀번호를 입력해주세요';
+					message(str);
+					return;
+				}
+				$('#mf').attr('action', 'unregisterMember');
+				$('#mf').submit();
+			}else{
+				return;
+			}
 		});//btnDelUser-------------
 
 		$('#nickChk').click(function() {
@@ -134,10 +141,10 @@
 	<h6 class="mtitle">회원정보수정</h6>
 	<p class="txt_black">기본정보</p>
 	<hr />
-	<form class="modifyform" id="mf" action="myInfoEdit" method="POST">
+	<form class="modifyform" id="mf" action="myInfoEdit" method="POST" enctype="multipart/form-data">
 		<div class="form-group">
-			<label class="mtxt_gray" style="margin: 0 150px 0 0">아이디</label> <label
-				class="mtxt_black" id="user_id" name="user_id">${user.user_id}</label>
+			<label class="mtxt_gray" style="margin: 0 150px 0 0">아이디</label>
+			<label class="mtxt_black" id="user_id" name="user_id">${user.user_id}</label>
 		</div>
 		<div class="form-inline">
 			<label class="mtxt_gray" for="user_name" style="margin: 0 167px 0 0">이름</label>
@@ -146,26 +153,27 @@
 		</div>
 		<div class="form-inline">
 			<label class="mtxt_gray" for="modify-nickname"
-				style="margin: 0 154px 0 0">닉네임</label> <input type="text"
-				id="nickName" name="nickName" class="form-control col-sm-4"
-				value="${user.nickName}"> <input type="button"
-				class="modifybtn" id="nickChk" value="중복확인" />
+				style="margin: 0 154px 0 0">닉네임</label>
+				<input type="text" id="nickName" name="nickName" class="form-control col-sm-4" value="${user.nickName}">
+				<input type="button" class="modifybtn" id="nickChk" value="중복확인" />
 		</div>
 		<div class="form-inline">
-			<label class="mtxt_gray" for="pwd" style="margin: 0 105px 0 0">이전
-				비밀번호</label> <input type="password" id="pwd" name="pwd"
-				class="form-control col-md-6">
+			<label class="mtxt_gray" for="pwd" style="margin: 0 99px 0 0"> 비밀번호(필수)</label>
+			<input type="password" id="pwd" name="pwd" class="form-control col-md-6">
 		</div>
 		<div class="form-inline">
-			<label class="mtxt_gray" for="newPwd" style="margin: 0 119px 0 0">새
-				비밀번호</label> <input type="password" id="newPwd" name="newPwd"
-				class="form-control col-md-6">
+			<label class="mtxt_gray" for="newPwd" style="margin: 0 119px 0 0">새 비밀번호</label>
+			<input type="password" id="newPwd" name="newPwd" class="form-control col-md-6">
 		</div>
 		<div class="form-inline">
-			<label class="mtxt_gray" for="newPwd2" style="margin: 0 85px 0 0">새
-				비밀번호 확인</label> <input type="password" id="newPwd2" name="newPwd2"
-				class="form-control col-md-6">
+			<label class="mtxt_gray" for="newPwd2" style="margin: 0 85px 0 0">새 비밀번호 확인</label>
+			<input type="password" id="newPwd2" name="newPwd2" class="form-control col-md-6">
 		</div>
+		<div class="form-inline">
+			<label class="mtxt_gray" style="margin: 0 70px 0 0">프로필 이미지 등록</label> 
+            <input type="file" name="mypfile" id="mypfile" class="form-control col-md-6">
+            <input type="hidden" name="old_mypfile" id="old_mypfile" class="form-control col-md-6" value="${user.user_img}">
+        </div>
 		<br>
 		<div class="form-inline">
 			<p class="mtxt_gray2">본인인증</p>
@@ -181,7 +189,5 @@
 	</form>
 </div>
 <br class="clear">
-</div>
-</div>
-</div>
+
 <c:import url="/foot" />

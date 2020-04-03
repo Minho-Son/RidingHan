@@ -7,15 +7,20 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 타입 별칭 지정=================== -->
 	<typeAliases>
 		<typeAlias type="com.tis.user.model.MemberVO" alias="Member"/>
-		<typeAlias type="com.tis.group.model.ChatVO" alias="Chat"/>
-		<typeAlias type="com.tis.group.model.Chat_MemberVO" alias="Chat_Member"/>
-		<typeAlias type="com.tis.group.model.PagingVO" alias="Paging"/>
+		<typeAlias type="com.tis.campaign.model.CampaignVO" alias="Campaign"/>
+		<typeAlias type="com.tis.chat.model.ChatVO" alias="Chat"/>
+		<typeAlias type="com.tis.chat.model.Chat_MemberVO" alias="Chat_Member"/>
+		<typeAlias type="com.tis.chat.model.PagingVO" alias="Paging"/>
 		<typeAlias type="com.tis.board.model.BoardVO" alias="Board"/>
+		<typeAlias type="com.tis.board.model.ReplyVO" alias="Reply"/>
 		<typeAlias type="com.tis.board.model.PagingVO" alias="Paging2"/>
 		<typeAlias type="com.tis.place.domain.PagingVO" alias="Paging3"/>
 		<typeAlias type="com.tis.place.domain.PlaceVO" alias="Place"/>
 		<typeAlias type="com.tis.place.domain.DirectionVO" alias="Direction"/>
-		<typeAlias type="com.tis.campaign.model.CampaignVO" alias="Campaign"/>
+		<typeAlias type="com.tis.place.domain.DirectionViewVO" alias="DirectionView"/>
+		<typeAlias type="com.tis.plan.model.PlanVO" alias="Plan"/>
+		<typeAlias type="com.tis.plan.model.Plan_InfoVO" alias="Plan_Info"/>
+		<typeAlias type="com.tis.plan.model.PagingVO" alias="Paging4"/>
 
 	</typeAliases>
 	<!-- 타입 별칭 지정=================== -->
@@ -26,5 +31,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="spring/mapper/DirectionMapper.xml"/>
 		<mapper resource="spring/mapper/PlaceMapper.xml"/>
 		<mapper resource="spring/mapper/CampaignMapper.xml"/>
+		<mapper resource="spring/mapper/PlanMapper.xml"/>
+		
 	</mappers>
 </configuration>

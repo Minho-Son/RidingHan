@@ -44,7 +44,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 		if(user!=null) return true; //false를 반환하면 Controller까지 못감
 		
 		req.setAttribute("msg", "로그인 해야 이용 가능합니다.");
-		req.setAttribute("loc", req.getContextPath()+"/index");
+		req.setAttribute("loc", req.getContextPath()+"/login");
 		
 		String viewName="/WEB-INF/views/message.jsp";
 		RequestDispatcher disp=req.getRequestDispatcher(viewName);

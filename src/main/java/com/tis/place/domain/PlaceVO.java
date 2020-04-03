@@ -11,5 +11,6 @@ public class PlaceVO {
 	private double longitude;
 	private String road_address;
 	private String jibun_address;
+	private int p_user_no;
 
 }
