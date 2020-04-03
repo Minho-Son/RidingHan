@@ -33,7 +33,7 @@
             <strong>위치기반 자전거 라이딩과 실시간 채팅을 한번에</strong> <span>심심했던 라이딩, 오늘
                나랑 같이 달릴래?</span>
          </div>
-         <c:if test="${user eq null}">
+         <c:if test="${user eq null||empty user}">
             <div class="bt-area opacity" data-animation-effect="fadeInUp"
                data-effect-delay="2000">
                <a href="<%=myctx%>/signup" class="down" style="color: white">회원가입</a>

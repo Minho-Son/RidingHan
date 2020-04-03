@@ -5,42 +5,17 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:import url="/top"/>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/asset/css/bootstrap.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>채팅</title>
 <!--채팅방---------------------------------->
 <script>
 
 
 $(document).ready(function() {
-	
-	$('.menu_first').click(function(){
-	    var submenu = $('>.menu_second',this)
-
-	    if(submenu.is(":visible")){
-	       submenu.slideUp(100)
-	      $('>.li_pack',this)
-	         .css('border','none')
-	         .css('margin','0')
-	    }else{
-	      submenu.slideDown(100)
-	      $('>.li_pack',this)
-	          .css('border-bottom','1.5px #fff solid')
-	          .css('margin-bottom','20px')
-	    }
-	})
-	
-	
     $('#makeChat').click(function(){
        $("#chatModal").modal();
     })
  });
  
-
-
 //채팅방 만들기 눌렀을 때 유효성 체크
 function message(str) {
       var obj = document.getElementById("msg");
@@ -92,7 +67,7 @@ function joinChat(tmp){
          <div class="inner3">
             <div class="group-left">
                <p class="cicon">채팅</p>
-                <form class="form-inline" name="findKeyword" action="searchChat">
+                <form class="form-inline" action="searchChat">
                         <input type="text" name="findKeyword" id="findKeyword"
                      class="form-control col-md-9" placeholder="검색">
                   <button type="submit" id="" class="serchbtn-bl">검색</button>

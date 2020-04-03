@@ -13,6 +13,11 @@ $(document).ready(function() {
 });
 $(function(){
 	   $('#makePlan').click(function(){
+		  if($('#share_ornot').is(":checked")){
+			$('#share_ornot').val(1);
+	      }else{
+		    $('#share_ornot').val(0);
+		  }
 	      if (!$('#plan_title').val()){
 	         var str = '※ 플랜의 제목을 입력해주세요';
 	         message(str);
@@ -23,6 +28,7 @@ $(function(){
 	         message(str);
 	         return;
 	      }
+	      alert($('#share_ornot').val())
 	      pf.submit();
 	   })
 })
@@ -37,7 +43,7 @@ function callList(){
 }
 function joinPlan(tmp){ //굳이 에이작스 안쓰고 이렇게 파라미터 보낼 수 이씀 힝
    var url="/RidingHan/plan/planView?plan_code="+tmp;
-   window.open(url,"aaa","width=500, height=500")
+   window.open(url,"aaa","width=500, height=550")
 }
 
 function deletePlace(place_no){
@@ -47,7 +53,6 @@ function deletePlace(place_no){
 		data:{'place_no':place_no},
 		success:function(res){
 			window.location.reload('/RidingHan/plan');
-			$('#groupModal').removeData();
 		},error:function(e){
 			alert('error: '+e.status);
 		}
@@ -61,7 +66,6 @@ function deleteDirection(direction_no){
 		success:function(res){
 			//alert(res);
 			window.location.reload('/RidingHan/plan');
-			$('#pList').empty();
 		},error:function(e){
 			alert('error: '+e.status);
 		}
@@ -84,9 +88,9 @@ function clearPlace(){
             <div class="inner3">
                <div class="group-left">
                   <p class="gicon">라이딩 플랜</p>
-                  <form class="form-inline">
-                     <input type="text" name="search" id="search" class="form-control col-md-9" placeholder="검색">
-                     <input type="button" class="serchbtn-bl" value="검색" />
+                  <form class="form-inline" action="searchPlan">
+                     <input type="text" name="findKeyword" id="findKeyword" class="form-control col-md-9" placeholder="검색">
+                     <button type="submit" class="serchbtn-bl" >검색</button>
                   </form>
                   <button type="button" id="makegroup" class="btn btn-success col-12">플랜 만들기 +</button>
                   <p class="txt_blue">최근 플랜 목록</p>
@@ -98,13 +102,13 @@ function clearPlace(){
                     <c:if test="${planArr!=null || not empty planArr}">
                      <hr>
                        <c:forEach var="planList" items="${planArr}">
-                        <a class="txt_black">${planList.plan_title}</a>
+                        <a class="txt_black" onclick="joinPlan('${planList.plan_code}')">${planList.plan_title}</a>
                      </c:forEach>
                   </c:if>               
                </div>
                      <div class="group-right">
                      <p>총 <b class="mtxt_blue"
-                     style="display:inline-block">${totalCount}</b>개의 플랜이 있습니다<p>
+                     style="display:inline-block">${totalCount}</b>개의 그룹 플랜이 있습니다<p>
                <c:forEach var="planList2" items="${planArr}">
               
                   <div class="group-box">
@@ -118,7 +122,7 @@ function clearPlace(){
                         <b>${planList2.plan_about}</b>
                      </div>
                      <button type="button" class="enter" id="${planList2.plan_code}" name="${planList2.plan_code}" 
-                     onclick="joinPlan('${planList2.plan_code}')">참여</button>
+                     onclick="joinPlan('${planList2.plan_code}')">보기</button>
                   </div>
                </c:forEach>
                  <hr>
@@ -187,8 +191,7 @@ function clearPlace(){
 
                <!-- Modal footer -->
                <div class="checks" style="margin-left:25px">
-               <input type="hidden" name="share_ornot" value="0"/>
-               <input type="checkbox" name="share_ornot" id="share_ornot" value="1"/>
+               <input type="checkbox" name="share_ornot" id="share_ornot"/>
                <label for="share_ornot"> 그룹으로 공유하기</label>      
             </div>
             	<label id="msg" style="fontSize: 8pt; color: red; align:left;"></label>

@@ -67,41 +67,40 @@ public class PagingVO {
 
    /** 페이징 네비게이션 문자열을 반환하는 메소드 */
    public String getPageNavi(String myctx, String loc) {
-      // myctx: 컨텍스트명. Spring03Web
-      // loc : 경로 /board/list
-      // qStr: query string (검색시 필요-검색유형, 키워드)
-      findType = (findType == null) ? "" : findType;
-      findKeyword = (findKeyword == null) ? "" : findKeyword;
+	      // myctx: 컨텍스트명. Spring03Web
+	      // loc : 경로 /board/list
+	      // qStr: query string (검색시 필요-검색유형, 키워드)
+	      //findType = (findType == null) ? "" : findType;
+	      //findKeyword = (findKeyword == null) ? "" : findKeyword;
 
-      String qStr = "?findType=" + findType + "&findKeyword=" + findKeyword;
-      // String의 불변성 때문에 StringBuffer 또는 StringBuilder를
-      // 이용하자.
-      StringBuffer buf = new StringBuffer() // 문자열 편집하는 클래스
-            .append("<ul class='pagination pagination-sm'>");
+	      //String qStr = "?findType=" + findType + "&findKeyword=" + findKeyword;
+	      // String의 불변성 때문에 StringBuffer 또는 StringBuilder를
+	      // 이용하자.
+	      StringBuffer buf = new StringBuffer() // 문자열 편집하는 클래스
+	            .append("<ul class='pagination pagination-sm text-center'>");
 
-      if (prevBlock > 0) {// 이전 5개
-         buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + prevBlock + "'>");
-         buf.append("Prev</a></li>");
-      }
-      for (int i = prevBlock + 1; i <= nextBlock - 1 && i <= pageCount; i++) {
+	      if (prevBlock > 0) {// 이전 5개
+	         buf.append("<li class='page-item'><a class='page-link' href='" + myctx + "/" + loc + "?cpage=" + prevBlock + "'>");
+	         buf.append("Prev</a></li>");
+	      }
+	      for (int i = prevBlock + 1; i <= nextBlock - 1 && i <= pageCount; i++) {
 
-         if (i == cpage) {
-            buf.append("<li class='active'><a href='#'>").append(i + "</a></li>");
-         } else {
-            buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + i + "'>");
-            buf.append(i + "</a></li>");
-         }
+	         if (i == cpage) {
+	            buf.append("<li class='page-item active'><a class='page-link' href='#'>").append(i + "</a></li>");
+	         } else {
+	            buf.append("<li class='page-item'><a class='page-link' href='" + myctx + "/" + loc + "?cpage=" + i + "'>");
+	            buf.append(i + "</a></li>");
+	         }
 
-      }
-      if (nextBlock <= pageCount) {// 이후 5개
-         buf.append("<li><a href='" + myctx + "/" + loc + qStr + "&cpage=" + nextBlock + "'>");
-         buf.append("Next</a></li>");
-      }
+	      }
+	      if (nextBlock <= pageCount) {// 이후 5개
+	         buf.append("<li class='page-item'><a class='page-link' href='" + myctx + "/" + loc + "?cpage=" + nextBlock + "'>");
+	         buf.append("Next</a></li>");
+	      }
 
-      buf.append("</ul>");
-      String str = buf.toString();
-      
-      return str;
-   }
-
-}//////////////////////////////////////////////////////
+	      buf.append("</ul>");
+	      String str = buf.toString();
+	      // System.out.println(str);
+	      return str;
+	   }
+	}

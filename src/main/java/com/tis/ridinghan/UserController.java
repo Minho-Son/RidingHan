@@ -121,7 +121,7 @@ public class UserController {
       String myctx = req.getContextPath();
       
       // 페이지 네비 문자열 받아오기
-      String pageNavi = paging.getPageNavi(myctx, "placeList");
+      String pageNavi = paging.getPageNavi(myctx, "mypage/myPlace");
       log.info("paging!!!"+paging);
       log.info("place!!!"+place);
       
@@ -155,7 +155,7 @@ public class UserController {
       String myctx = req.getContextPath();
       
       // 페이지 네비 문자열 받아오기
-      String pageNavi = paging.getPageNavi(myctx, "placeList");
+      String pageNavi = paging.getPageNavi(myctx, "mypage/myDirection");
       
       log.info("direction!!!"+direction);
       

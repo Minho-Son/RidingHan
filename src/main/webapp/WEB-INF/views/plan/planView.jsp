@@ -7,7 +7,6 @@
 <!--자바스크립트 / CSS-->
 <link href="<%=myctx%>/asset/css/style.css" rel="stylesheet">
 <script src="<%=myctx%>/asset/js/jquery.min.js"></script>
-<!-- <script src="https://ajax.googleapiscom/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
 <script src="<%=myctx%>/asset/js/common.js"></script>
 <script src="<%=myctx%>/asset/js/custom.js"></script>
 
@@ -15,77 +14,97 @@
 <link rel="stylesheet" href="<%=myctx%>/asset/css/bootstrap.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
 
+var user_no="${user.user_no}";
+var plan_code="${planInfo.plan_code}";
+
+$(function(){
+	var arr={'plan_code':plan_code,
+			'user_no':user_no};
+	$('#joinPlan').click(function(){
+		alert('${planInfo.plan_title} 플랜에 참여합니다');
+		$.ajax({
+			type:'POST',
+			url:'/RidingHan/plan/joinPlan',
+			data:arr,
+			dataType:'json',
+			cache:false,
+			success:function(res){
+				window.close();
+			},
+			error:function(e){
+				alert('error: '+e.status);
+			}
+		})
+	});
+	$('#closePlan').click(function(){
+		window.close();
+	})
+})
+
+</script>
 <style type="text/css">
-
-/* Map 플레이스 리스트 */
-.picon {
-   font-weight: 400;
-   font-size: 1.18rem;
-   color: #1B1B1F;
-   margin: 25px 0 10px 0;
-}
-
-#container .picon::before {
-   content: '';
-   width: 35px;
-   height: 30px;
-   display: inline-block;
-   background: url('<%=myctx%>/asset/images/mappick.png') 50% 50% no-repeat;
-   vertical-align: -7px;
-   margin-right: 5px;
-}
-
-.maplist-group {
-   width: 100%;
-   background-color: #fffff;
-   margin: auto;
-   padding: 16px 23px;
-}
+	body {
+		line-height:2.3;
+	}
+	.ms-hr {
+		border: solid 1px rgba(0, 0, 0, .1);
+	}
+	.content {
+		font-size: 11pt;
+		color: #343a40;
+	}
+	.departure::before {
+		content: '';
+		width: 50px;
+		height: 25px;
+		display: inline-block;
+		background: url('../asset/images/start.png') 50% 50% no-repeat;
+		vertical-align: -8px;
+		margin-right: 5px;
+	}
+	.box{
+		margin-top:30px;
+	}
+	#closePlan{
+		opacity: .5;
+		font-size: 1.7em;
+		font-weight: 500;
+		margin-bottom:20px;
+	}
+	#joinPlan{
+		margin-left:167px;
+		margin-top:40px;
+	}
 </style>
- 
- 
- <form id="pf" method="POST" action="plan/makePlan">
-      <div class="modal fade" id="groupModal">
-         <div class="modal-dialog">
-            <div class="modal-content">
-
-               <!-- Modal Header -->
-               <div class="modal-header">
-                  <h6 class="modal-title">${planList.plan_title}</h6>
-                  <button type="button" class="close" data-dismiss="modal"></button>
+      <div style="padding:0px 23px 23px 23px">
+         <div>
+               <button type="button" class="close" id="closePlan">x</button>
+            <div class="box">
+               <div class="planTitle">
+                  <h6 style="color:#337AF2;fontSize:13px">${planInfo.plan_title}</h6>      
                </div>
-
-               <!-- Modal body -->
-               <div class="modal-body">
-               <c:forEach var="planList" items="${planArr}">
-                  <h6 class="title">플랜 소개</h6>
-                  <input type="Gname" name="plan_title" id="plan_title" value="${planList.plan_about}" class="form-control">
+               <hr class="ms-hr"/>
+               <div>
+                  <h6>플랜 소개</h6>
+                  <span id="plan_about" class="content">${planInfo.plan_about}</span><hr/>
                   <h6 class="title">플랜 멤버</h6>
-                  <textarea type="Gcomment" name="plan_about" id="plan_about" value="${planList.user_no}"
-                  class="form-control" rows="1"></textarea>
-                  <hr />
-                  <h6 class="title">경로 또는 장소
-                  </h6>
-                  <hr />
-                  <!-- if test로 불러올 것.... -->
-                  <span class="departure" style="margin-left:10px" name="" id="" >
-                  	서울숲 => 뚝섬한강공원
-                  </span><br/>
-                  <span class="departure" style="margin-left:10px" name="" id="" >
-                  	국회의사당역 9호선
-                  </span><br/>
-                  <span class="departure" style="margin-left:10px" name="" id="" >
-                  	영등포역3번출구 => 가을단풍길(노량진공원길)	
-                  </span><br/>
-			   </c:forEach>
+                   <c:forEach var="planMem" items="${planMember}">
+			         <span id="plan_member" class="content">${planMem.nickName}</span><br/>
+                  </c:forEach>
+                  <hr/>
+                  <h6 class="title">경로 또는 장소</h6>
+               	  <c:forEach var="placesList" items="${planArr}">
+			         <span class="departure" style="margin:12px" id="" >
+			            ${placesList.place_title}
+			         </span><br/> 	
+                  </c:forEach>
                </div>
-               <!-- Modal footer -->
-               <div class="modal-footer">
-               	  <button type="button" class="btn btn-success" id="close">닫기</button>
+               <div>
+                  <hr/>
+               	  <button type="button" class="btn btn-success" id="joinPlan">참여하기</button>
                </div>
-
             </div>
          </div>
       </div>
-      </form>

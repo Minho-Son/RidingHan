@@ -13,4 +13,6 @@ public class Plan_InfoVO {
 	private Date plan_quit;
 	private Integer share_ornot;
 	
+	private String nickName;
+	
 }

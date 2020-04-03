@@ -2,15 +2,11 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:import url="/top" />
 <%
    String myctx = request.getContextPath();
 %>
-
-<c:import url="/top" />
-
-<script type="text/javascript"
-   src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
-
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=n2rwg8ji5r&amp;submodules=geocoder"></script>
 
 <style>
 /* Map 플레이스 리스트 */
@@ -87,7 +83,7 @@
             </table>
             <!-- --------------------------- -->
             <hr>
-            <table style="width: auto; margin: auto">
+            <table style="width:auto;margin:auto">
                <tr>
                   <td>${pageNavi}</td>
                </tr>

@@ -4,8 +4,6 @@
 
 <c:import url="/top" />
 <c:import url="/mypageTop" />
-
-<script src="../asset/js/jquery.min.js"></script>
 <script type="text/javascript">
 	var flag = false;
 
@@ -13,7 +11,6 @@
 		var obj = document.getElementById("msg");
 		obj.innerHTML = str;
 	}
-
 	$(function() {
 
 		$('#btnEdit').click(function() {
@@ -192,7 +189,5 @@
 	</form>
 </div>
 <br class="clear">
-</div>
-</div>
-</div>
+
 <c:import url="/foot" />

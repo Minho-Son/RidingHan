@@ -77,13 +77,14 @@ public class PlaceController {
 
       paging.setTotalCount(totalCount); // 총 장소 수 셋팅
       paging.init(); // 페이징 처리관련 연산 수행
+      
       log.info("paging: " + paging);
 
       List<PlaceVO> pList = placeService.getAllPlaceList(paging);
       String myctx = req.getContextPath();
 
       // 페이지 네비 문자열 받아오기
-      String pageNavi = paging.getPageNavi(myctx, "placeList");
+      String pageNavi = paging.getPageNavi(myctx, "map/placeList");
 
       m.addAttribute("totalCount", totalCount);
       m.addAttribute("placeArr", pList);
@@ -199,7 +200,7 @@ public class PlaceController {
       String myctx = req.getContextPath();
 
       // 페이지 네비 문자열 받아오기
-      String pageNavi = paging.getPageNavi(myctx, "directionList");
+      String pageNavi = paging.getPageNavi(myctx, "map/directionList");
 
       m.addAttribute("totalCount", totalCount);
       m.addAttribute("directionArr", dList);

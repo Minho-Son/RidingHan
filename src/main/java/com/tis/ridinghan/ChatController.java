@@ -141,14 +141,14 @@ public class ChatController {
          @RequestParam(value="room_code", defaultValue="", required=false) String room_code,
           Model m, HttpSession ses) {
       MemberVO vo=(MemberVO)ses.getAttribute("user");
-      int user_no=vo.getUser_no();
-      
+
       Map<String,Object> map=new HashMap<>();
-      map.put("user_no", user_no);
+      map.put("user_no", vo.getUser_no());
       map.put("room_code", room_code);
       
       Chat_MemberVO cmvo=chatService.chatMyInfo(map);//멤버가 방에 있는지 없는지 확인
-      if(cmvo==null) {
+      log.info("cmvo :"+cmvo);
+      if(cmvo==null) {//방에 없는 경우
          int n=chatService.addChatMember(map);//Chat_Member에 추가
          if(n<0) {
             String msg="멤버 추가 실패";
@@ -170,8 +170,7 @@ public class ChatController {
    }
    
    @RequestMapping(value="/chat/quitChat")
-   @ResponseBody
-   public Map<String,Integer> quitChat(@RequestParam ("room_code") String room_code,
+   public @ResponseBody Map<String,Integer> quitChat(@RequestParam ("room_code") String room_code,
                   @RequestParam ("user_no") int user_no) throws Exception{
       Map<String,Object> map=new HashMap<>();
       
@@ -181,11 +180,9 @@ public class ChatController {
       map.put("room_code", room_code);
       Map<String,Integer> result=new HashMap<>();
       
-      int n=chatService.quitChatMember(map);
-      log.info("삭제 됐냐 안됐냐 n = "+n);
-      
+      int n=chatService.quitChatMember(map);   
       if(n>0) {
-         Chat_MemberVO cmvo=chatService.chatMyInfo(map);
+         List<Chat_MemberVO> cmvo=chatService.chatMemberList(room_code);
          log.info("cmvo="+cmvo);
          if(cmvo==null) {//멤버가 없을 경우 모든 채팅과 방을 삭제
             log.info("삭제 됐냐 안됐냐222 n = "+result);

@@ -3,6 +3,7 @@ package com.tis.ridinghan;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import com.tis.place.domain.PlaceVO;
 import com.tis.place.service.PlaceService;
 import com.tis.plan.model.PagingVO;
 import com.tis.plan.model.PlanVO;
+import com.tis.plan.model.Plan_InfoVO;
 import com.tis.plan.service.PlanService;
 import com.tis.user.model.MemberVO;
 
@@ -65,13 +67,39 @@ public class PlanController {
          m.addAttribute("findKeyword",req.getParameter("findKeyword"));
       
       return "plan/planMain";
-   }      
+   }
+   @RequestMapping("/searchPlan")
+   public String searchPlan(@ModelAttribute PagingVO paging, HttpServletRequest req, Model model) {
+      log.info(paging);
+      int totalCount = planService.getTotalCount(paging);
+
+      paging.setTotalCount(totalCount);
+      paging.setPageSize(10);  
+      paging.setPagingBlock(5); 
+      paging.init(); 
+
+      List<PlanVO> pList = planService.getSearchList(paging);
+
+      log.info(totalCount);
+      log.info(pList);
+      String myctx = req.getContextPath();
+      // 페이지 네비 문자열 받아오기
+      String pageNavi = paging.getPageNavi(myctx, "chat");
+
+      model.addAttribute("totalCount", totalCount);
+      model.addAttribute("planArr", pList);
+      model.addAttribute("paging", paging);
+      model.addAttribute("pageNavi", pageNavi);
+      model.addAttribute("findKeyword",req.getParameter("findKeyword"));
+
+      return "plan";
+   }
    
    @RequestMapping(value="/plan/makePlan",method=RequestMethod.POST)
-   public String CreatePlan(@RequestParam("share_ornot") int share_ornot,
-         @ModelAttribute PlanVO pv, Model m, HttpSession ses)throws Exception{
+   public String CreatePlan(@ModelAttribute PlanVO pv, Model m, HttpSession ses)throws Exception{
       MemberVO user=(MemberVO)ses.getAttribute("user");
-      log.info("share_ornot 대체 값이 뭐야 : "+share_ornot);
+      log.info("share_ornot 대체 값이 뭐야 : "+pv.getShare_ornot());
+      int share_ornot=pv.getShare_ornot();
       int n = 0;
       String code=new CreateRandomCode().createRandomCode();
       
@@ -127,9 +155,43 @@ public class PlanController {
    public String showPlan(@RequestParam("plan_code") String plan_code, Model m
 		   //@ModelAttribute Model m 하면 안됨
 		   ) {
+	   PlanVO pv=planService.showOnePlan(plan_code);
        List<PlanVO> arr=planService.showPlan(plan_code);
+       List<Plan_InfoVO> arr2=planService.planMemberList(plan_code);
+       m.addAttribute("planInfo", pv);
        m.addAttribute("planArr", arr);
+       m.addAttribute("planMember", arr2);
+       log.info(arr);
        return "plan/planView";
+   }
+   
+   @RequestMapping(value="plan/joinPlan")
+   public @ResponseBody Map<String,Integer>joinPlan(@RequestParam ("plan_code") String plan_code,
+           @RequestParam ("user_no") int user_no) throws Exception{
+	   Map<String,Object> map=new HashMap<>(); 
+
+	   map.put("user_no", user_no);
+	   map.put("plan_code", plan_code);
+	   Map<String,Integer> result=new HashMap<>();
+	 
+	   int n=planService.joinPlan(map);
+	   if(n>0) {
+		   Map<String,Object> map2=new HashMap<>();
+		   map2.put("user_no", user_no);
+		   map2.put("room_code", plan_code);
+		   n=chatService.addChatMember(map2);
+		   if(n>0) {
+			   result.put("result",1);
+			   return result;
+		   }else {
+			   result.put("result",0);
+			   return result;
+		   }
+	   }else {
+		   result.put("result",0);
+		   return result;
+	   }
+
    }
 
    @RequestMapping("/plan/callPlaceList")
@@ -143,7 +205,7 @@ public class PlanController {
          List<PlaceVO> pList = placeService.getAllPlaceList(paging);
          String myctx = req.getContextPath();
 
-         String pageNavi = paging.getPageNavi(myctx, "placeList");
+         String pageNavi = paging.getPageNavi(myctx, "plan/callPlaceList");
 
          m.addAttribute("totalCount", totalCount);
          m.addAttribute("placeArr", pList);
@@ -165,7 +227,7 @@ public class PlanController {
          List<DirectionVO> dList = placeService.getAllDirectionList(paging);
          String myctx = req.getContextPath();
 
-         String pageNavi = paging.getPageNavi(myctx, "directionList");
+         String pageNavi = paging.getPageNavi(myctx, "plan/callDirectionList");
 
          m.addAttribute("totalCount", totalCount);
          m.addAttribute("directionArr", dList);
